@@ -1,0 +1,500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: transition   Transition.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584795.47" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584795.47" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584795.47"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584795.47"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_transition.html" title="transition">transition</a>
+	               		
+	               		 <span class="gt"></span> Transition.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Transition module</span>
+<span class="cm"> * @module transition</span>
+<span class="cm"> */</span>
+
+<span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Transition constructor.&lt;br/&gt;</span>
+<span class="cm"> * The new view is positioned relative to the current position of the old (currently visible) view.</span>
+<span class="cm"> * @class Transition</span>
+<span class="cm"> * @constructor </span>
+<span class="cm"> * @param inView {HTMLElement} The element to transition in</span>
+<span class="cm"> * @param outView {HTMLElement} The element to transition out</span>
+<span class="cm"> * @param options {Object} Transition options</span>
+<span class="cm"> * 	type, duration, reverse, onComplete, onCancel</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">Transition</span><span class="p">(</span><span class="nx">inView</span><span class="p">,</span> <span class="nx">outView</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span>
+<span class="p">{</span>	
+	<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">inView</span> <span class="o">!==</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Transition: inView parameter must be an HTMLElement&#39;</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">outView</span> <span class="o">!==</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Transition: outView parameter must be an HTMLElement&#39;</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="k">this</span><span class="p">.</span><span class="nx">inView</span> <span class="o">=</span> <span class="nx">inView</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">=</span> <span class="nx">outView</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">backupTimer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    
+	<span class="k">this</span><span class="p">.</span><span class="nx">_setup</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="cm">/*************************************************************</span>
+<span class="cm"> * Transition Constants</span>
+<span class="cm"> ************************************************************/</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Transition type: push</span>
+<span class="cm"> * @property TYPE_PUSH</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_PUSH</span> <span class="o">=</span> <span class="s1">&#39;push&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Transition type: slide</span>
+<span class="cm"> * @property TYPE_SLIDE</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_SLIDE</span> <span class="o">=</span> <span class="s1">&#39;slide&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Transition type: fade</span>
+<span class="cm"> * @property TYPE_FADE</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FADE</span> <span class="o">=</span> <span class="s1">&#39;fade&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Transition type: flip</span>
+<span class="cm"> * @property TYPE_FLIP</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FLIP</span> <span class="o">=</span> <span class="s1">&#39;flip&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Direction: right-to-left</span>
+<span class="cm"> * @property DIR_RIGHT_TO_LEFT</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_RIGHT_TO_LEFT</span> <span class="o">=</span> <span class="s1">&#39;right-to-left&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Direction: left-to-right</span>
+<span class="cm"> * @property DIR_LEFT_TO_RIGHT</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_LEFT_TO_RIGHT</span> <span class="o">=</span> <span class="s1">&#39;left-to-right&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Direction: top-to-bottom</span>
+<span class="cm"> * @property DIR_TOP_TO_BOTTOM</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_TOP_TO_BOTTOM</span> <span class="o">=</span> <span class="s1">&#39;top-to-bottom&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Direction: bottom-to-top</span>
+<span class="cm"> * @property DIR_BOTTOM_TO_TOP</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_BOTTOM_TO_TOP</span> <span class="o">=</span> <span class="s1">&#39;bottom-to-top&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Default settings for transition durations</span>
+<span class="cm"> * @property DURATIONS</span>
+<span class="cm"> * @type Object</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">DURATIONS</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="nx">push</span><span class="o">:</span> <span class="mi">350</span><span class="p">,</span>
+	<span class="nx">fade</span><span class="o">:</span> <span class="mi">800</span><span class="p">,</span>
+	<span class="nx">slide</span><span class="o">:</span> <span class="mi">400</span><span class="p">,</span>
+	<span class="nx">flip</span><span class="o">:</span> <span class="mi">650</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Set the transition properties of the elements</span>
+<span class="cm"> * @method _setTransitionProperties</span>
+<span class="cm"> * @param properties {Array} Array of CSS property names</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_setTransitionProperties</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">properties</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">inS</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">,</span> <span class="nx">outS</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">;</span>
+	
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionProperty</span> 		<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionProperty</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> 	<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">timing</span><span class="p">;</span>
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> 		<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span><span class="o">+</span><span class="s1">&#39;ms&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Remove the transition properties from the elements</span>
+<span class="cm"> * @method _removeTransitionProperties</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_removeTransitionProperties</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">inS</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">,</span> <span class="nx">outS</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">;</span>
+        
+    <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+	
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	<span class="nx">outS</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionProperty</span> 		<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionProperty</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> 	<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	<span class="nx">inS</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> 		<span class="o">=</span> <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+	
+	<span class="nx">outS</span><span class="p">.</span><span class="nx">webkitBackfaceVisibility</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="nx">outS</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * WebkitTransitionEnd callback</span>
+<span class="cm"> * @method _transitionEnd</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_transitionEnd</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">backupTimer</span><span class="p">){</span> <span class="nx">clearTimeout</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">backupTimer</span><span class="p">);</span> <span class="k">this</span><span class="p">.</span><span class="nx">backupTimer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span> <span class="k">return</span><span class="p">;</span> <span class="p">}</span>
+    
+	<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">onComplete</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">onComplete</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">_removeTransitionProperties</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Set the translation values for a given element</span>
+<span class="cm"> * @method _translate</span>
+<span class="cm"> * @param el {HTMLElement} The element to translate</span>
+<span class="cm"> * @param x {String} The string value for x translation (i.e, &#39;320px&#39; or &#39;100%&#39;)</span>
+<span class="cm"> * @param y {String} The string value for y translation (i.e, &#39;320px&#39; or &#39;100%&#39;)</span>
+<span class="cm"> * @param z {String} The string value for z translation (i.e, &#39;320px&#39; or &#39;100%&#39;)</span>
+<span class="cm"> * @param duration {Number} (Optional) If duration is specified, a transition will occur</span>
+<span class="cm"> * @param cb {Function} (Optional) Optional callback once transition ends, if duration is passed</span>
+<span class="cm"> * @return {HTMLElement} The translated element</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_translate</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">,</span> <span class="nx">duration</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">UA</span><span class="p">.</span><span class="nx">Apple</span> <span class="o">?</span> <span class="s1">&#39;translate3d(&#39;</span><span class="o">+</span><span class="p">(</span><span class="nx">x</span><span class="o">||</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span><span class="p">(</span><span class="nx">y</span><span class="o">||</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span><span class="p">(</span><span class="nx">z</span><span class="o">||</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;)&#39;</span> <span class="o">:</span> <span class="s1">&#39;translate(&#39;</span><span class="o">+</span><span class="p">(</span><span class="nx">x</span><span class="o">||</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span><span class="p">(</span><span class="nx">y</span><span class="o">||</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="nx">duration</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> <span class="o">=</span> <span class="s1">&#39;ease-in-out&#39;</span><span class="p">;</span>
+		<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionProperty</span> <span class="o">=</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="p">;</span>
+		<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="nx">duration</span><span class="o">+</span><span class="s1">&#39;ms&#39;</span><span class="p">;</span>
+		
+		<span class="nx">mui</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionTimingFunction</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+			<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionTimingProperty</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+			<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+			<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">cb</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="nx">cb</span><span class="p">();</span>
+		<span class="p">});</span>
+	<span class="p">}</span>
+	<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="nx">translate</span><span class="p">;</span>	
+	<span class="k">return</span> <span class="nx">el</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Setup the elements for the transition</span>
+<span class="cm"> * @method setup</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_setup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">parentNode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+    
+	<span class="c1">// Set position on parent container</span>
+	<span class="k">if</span><span class="p">(</span><span class="nx">parentNode</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="s1">&#39;relative&#39;</span><span class="p">;</span>
+	
+	<span class="c1">// Set defaults</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span> <span class="o">||</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_PUSH</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span> <span class="o">=</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span> <span class="o">!=</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span> <span class="o">:</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DURATIONS</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span><span class="p">];</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_SLIDE</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">direction</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">direction</span> <span class="o">||</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_LEFT_TO_RIGHT</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="c1">// Position incoming view</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">position</span> <span class="o">=</span> <span class="s1">&#39;absolute&#39;</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="s1">&#39;100%&#39;</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+    
+	<span class="c1">// Setup the correct animation</span>
+	<span class="k">switch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// Flip</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FLIP</span><span class="o">:</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">timing</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">;</span>
+						
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitPerspective</span> <span class="o">=</span> <span class="s1">&#39;500px&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransformStyle</span> <span class="o">=</span> <span class="s1">&#39;preserve-3d&#39;</span><span class="p">;</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitBackfaceVisibility</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitBackfaceVisibility</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="s1">&#39;rotateY(180deg)&#39;</span> <span class="o">:</span> <span class="s1">&#39;rotateY(-180deg)&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;rotateY(0)&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+			
+			<span class="nx">setTimeout</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+			     <span class="c1">// using this timer to prevent the inView to start transforming before execute is called.</span>
+			     <span class="c1">// looks like a bug in the browser, removing the transition properties does not work.</span>
+			     <span class="k">this</span><span class="p">.</span><span class="nx">_setTransitionProperties</span><span class="p">([</span><span class="s1">&#39;-webkit-transform&#39;</span><span class="p">]);</span>
+			<span class="p">},</span> <span class="k">this</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+			
+			<span class="k">break</span><span class="p">;</span>
+			
+		<span class="c1">// Slide</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_SLIDE</span><span class="o">:</span>
+            <span class="nx">scrollTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">timing</span> <span class="o">=</span> <span class="s1">&#39;ease-in-out&#39;</span><span class="p">;</span>
+			
+			<span class="k">switch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">direction</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_BOTTOM_TO_TOP</span><span class="o">:</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+					<span class="k">break</span><span class="p">;</span>				
+				<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_TOP_TO_BOTTOM</span><span class="o">:</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+					<span class="k">break</span><span class="p">;</span>				
+				<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_RIGHT_TO_LEFT</span><span class="o">:</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+					<span class="k">break</span><span class="p">;</span>
+				<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_LEFT_TO_RIGHT</span><span class="o">:</span>
+				<span class="k">default</span><span class="o">:</span>
+					<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+			<span class="p">}</span>
+			
+			<span class="k">break</span><span class="p">;</span>
+			
+		<span class="c1">// Fade</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FADE</span><span class="o">:</span>
+		    <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">timing</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">_setTransitionProperties</span><span class="p">([</span><span class="s1">&#39;opacity&#39;</span><span class="p">]);</span>
+			<span class="k">break</span><span class="p">;</span>
+			
+		<span class="c1">// Push (default)</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_PUSH</span><span class="o">:</span>
+		<span class="k">default</span><span class="o">:</span>
+		    <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">timing</span> <span class="o">=</span> <span class="s1">&#39;ease-in-out&#39;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span> <span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Execute the transition</span>
+<span class="cm"> * @method execute</span>
+<span class="cm"> */</span>
+<span class="nx">Transition</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">execute</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>	
+	<span class="k">switch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// Slide</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_SLIDE</span><span class="o">:</span>
+			<span class="nx">setTimeout</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+				<span class="kd">var</span> <span class="nx">xy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">];</span>
+				<span class="k">switch</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">direction</span><span class="p">)</span>
+				<span class="p">{</span>
+					<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_BOTTOM_TO_TOP</span><span class="o">:</span>
+						<span class="nx">xy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+						<span class="k">break</span><span class="p">;</span>
+					<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_TOP_TO_BOTTOM</span><span class="o">:</span>
+						<span class="nx">xy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+						<span class="k">break</span><span class="p">;</span>						
+					<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_RIGHT_TO_LEFT</span><span class="o">:</span>
+						<span class="nx">xy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="p">[</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+						<span class="k">break</span><span class="p">;</span>			
+					<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">DIR_LEFT_TO_RIGHT</span><span class="o">:</span>
+					<span class="k">default</span><span class="o">:</span>
+						<span class="nx">xy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="p">[</span><span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+						<span class="k">break</span><span class="p">;</span>	
+				<span class="p">}</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">outView</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="nx">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="nx">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span><span class="p">,</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
+			<span class="p">},</span> <span class="k">this</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		
+		<span class="c1">// Flip</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FLIP</span><span class="o">:</span>
+			<span class="nx">setTimeout</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">mui</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span>  <span class="s1">&#39;rotateY(-180deg)&#39;</span> <span class="o">:</span> <span class="s1">&#39;rotateY(180deg)&#39;</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;rotateY(0deg)&#39;</span><span class="p">;</span>
+			<span class="p">},</span> <span class="k">this</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		
+		<span class="c1">// Fade</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_FADE</span><span class="o">:</span>
+			<span class="nx">setTimeout</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="nx">mui</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="p">,</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">;</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>
+			<span class="p">},</span> <span class="k">this</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+			<span class="k">break</span><span class="p">;</span>
+		
+		<span class="c1">// Push (default)</span>
+		<span class="k">case</span> <span class="nx">Transition</span><span class="p">.</span><span class="nx">TYPE_PUSH</span><span class="o">:</span>
+		<span class="k">default</span><span class="o">:</span>
+			<span class="c1">// setTimeout(mui.bind(function() {</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outView</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">reverse</span> <span class="o">?</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span> <span class="o">:</span> <span class="o">-</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">_translate</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inView</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span><span class="p">,</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="k">this</span><span class="p">));</span>
+				
+			<span class="c1">// }, this), 0);</span>
+	<span class="p">}</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">backupTimer</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_transitionEnd</span><span class="p">,</span> <span class="k">this</span><span class="p">),</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">duration</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span> <span class="p">);</span>
+<span class="p">};</span>
+
+
+<span class="nx">mui</span><span class="p">.</span><span class="nx">Transition</span> <span class="o">=</span> <span class="nx">Transition</span><span class="p">;</span>
+	
+<span class="p">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_test.html" title="test">test</a></li>
+                                <li class="selected"><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class=""><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="Transition.html" title="Transition">Transition</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="Transition.js.html" title="Transition.js">Transition.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Transition.html#property_DIR_BOTTOM_TO_TOP", "access": "", "host": "Transition", "type": "property", "name": "DIR_BOTTOM_TO_TOP"}, {"url": "Transition.html#property_DIR_LEFT_TO_RIGHT", "access": "", "host": "Transition", "type": "property", "name": "DIR_LEFT_TO_RIGHT"}, {"url": "Transition.html#property_DIR_RIGHT_TO_LEFT", "access": "", "host": "Transition", "type": "property", "name": "DIR_RIGHT_TO_LEFT"}, {"url": "Transition.html#property_DIR_TOP_TO_BOTTOM", "access": "", "host": "Transition", "type": "property", "name": "DIR_TOP_TO_BOTTOM"}, {"url": "Transition.html#property_DURATIONS", "access": "", "host": "Transition", "type": "property", "name": "DURATIONS"}, {"url": "Transition.html#method_execute", "access": "", "host": "Transition", "type": "method", "name": "execute"}, {"url": "Transition.html#method__removeTransitionProperties", "access": "private", "host": "Transition", "type": "method", "name": "_removeTransitionProperties"}, {"url": "Transition.html#method__setTransitionProperties", "access": "private", "host": "Transition", "type": "method", "name": "_setTransitionProperties"}, {"url": "Transition.html#method_setup", "access": "private", "host": "Transition", "type": "method", "name": "setup"}, {"url": "Transition.html#method__transitionEnd", "access": "private", "host": "Transition", "type": "method", "name": "_transitionEnd"}, {"url": "Transition.html#method__translate", "access": "private", "host": "Transition", "type": "method", "name": "_translate"}, {"url": "Transition.html#property_TYPE_FADE", "access": "", "host": "Transition", "type": "property", "name": "TYPE_FADE"}, {"url": "Transition.html#property_TYPE_FLIP", "access": "", "host": "Transition", "type": "property", "name": "TYPE_FLIP"}, {"url": "Transition.html#property_TYPE_PUSH", "access": "", "host": "Transition", "type": "property", "name": "TYPE_PUSH"}, {"url": "Transition.html#property_TYPE_SLIDE", "access": "", "host": "Transition", "type": "property", "name": "TYPE_SLIDE"}];
+</script>
+</body>
+</html>

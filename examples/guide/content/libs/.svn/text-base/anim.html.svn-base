@@ -1,0 +1,28 @@
+<h1>Animation</h1> 
+ 
+<p>mui's Animation module lets you easily take advantage of browser-native animation capabilities. Any CSS property can be animated, from <code class="inline">border-width</code> to <code class="inline">background-color</code> to <code class="inline">position</code>. Under the hood, these animations utilize Webkit's transition and transformation functions, so they're going to be fast, smooth, and hardware-accelerated (where the device supports it).  Note that only animations of the -webkit-transform and opacity properties are hardware-accelerated, and only in iPhone OS.  When animating top, left, right or bottom properties, the mui animation utility will automatically convert these to equivalent transform functions.</p> 
+ 
+<p>A simple example might involve animating an element to move diagonally 100 pixels down and to the right. All you'd have to do is something like this:</p> 
+ 
+<pre><code>mui.animate('#my-animated-element', {
+  properties: {
+    /* Any CSS properties can be used in here. 
+       We just happen to be animating position */
+    top: '100px',
+    left: '100px' 
+  },
+  duration: '0.5s' // How long the animation should take to complete
+});
+</code></pre> 
+ 
+<p>And that's all you need to do to animate CSS properties.</p> 
+ 
+<p>Note: to animate an element's position, you don't need to worry about whether there is already a position style property set--the library will handle that for you.</p> 
+ 
+<p>Note also that in this instance, we went ahead and took advantage of the fact that any method in mui that takes an element as an argument will also take a selector.</p>
+
+<div class="example">
+	<h4 class="heading">Example 1 <span class="description">Animation using mui.animate()</span></h4>
+	<div id="animate-me" clicked="animateMe">Click me!</div>
+	</div>
+</div>

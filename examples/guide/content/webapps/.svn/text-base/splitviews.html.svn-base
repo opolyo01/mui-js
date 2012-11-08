@@ -1,0 +1,71 @@
+<h1>Split Views</h1>
+
+<p>
+	If you are considering support for iPad, then you should take a look at the split view behavior support in mui.  Due to the increased real estate available
+	on the screen, this affords you the opportunity to present a master/detail view interface.  For instance, in the iPad Mail application, the master view
+	presents a list of messages, and a detail view shows the currently selected message.  Support for this dual-layout view is available in mui.
+</p>
+
+<h4>Setup</h4>
+
+<p>
+	The first step in setting up a split view layout is to define an application configuration attribute. 
+	<pre><code>splitViews: { 
+    layout: 'default'
+}</code></pre>
+
+	When this attribute is passed to the ApplicationController constructor, it expects you to define a master/detail relationship between the navigation controllers
+	you register. To do so, define the navigation controller which you would like to designate as the master controller:
+	<pre><code>var masterViewController = new mui.NavigationController({
+    NAME: 'master',
+    viewControllers: [ ... ]
+});</code></pre>
+
+	And your detail view controller:
+	<pre><code>var detailViewController = new mui.NavigationController({
+    NAME: 'detail',
+    viewControllers: [ ... ]
+});</code></pre>
+	
+	And finally, establish the relationship:
+	<pre><code>masterViewController.setDetailViewController(detailViewController);</code></pre>
+
+	Now you are setup to use split views in your app.
+</p>
+
+<h4>Loading the Detail View</h4>
+
+<p>
+	You might not want to load the detail view controller's view for every user navigation.  To determine when the Detail View Controller's loadView sequence
+	will be triggered, you can override the <code class="inline">shouldLoadDetailViewController</code> method in your Master View Controller.  The argument 
+	passed to this method consists of a <code class="inline">request</code> object which contains information about the current request.  Returning true or false
+	in this method will dictate how the Application Controller attempts to load the Detail View Controller's view.  A sample implementation of this method might look like:
+	<pre><code>/*
+    request =>
+    {
+        "navigationController": #&lt;mui.NavigationController&gt;,
+        "viewController": #&lt;mui.ViewController&gt;,
+        "params": #&lt;Object&gt;
+    }
+*/
+masterViewController.shouldLoadDetailViewController = function(request) {
+    if(request.viewController.NAME == detailViewController.NAME) return true;
+    return false;
+};</code></pre>
+</p>
+
+<h4>Presenting the Master View Controller</h4>
+
+<p>
+	When the app is viewed in portrait mode, the master view controller is automatically hidden to allow the detail view to take up the full screen.  Your Detail View Controller 
+	is notified when this event occurs, by calling the <code class="inline">willHideMasterViewController</code> method.  This method is passed 2 arguments, the Master View Controller, and
+	a Button object which can be placed in the Detail View Controller's navigation bar to show a Popover element containing the master view.  Likewise, a notification is passed to the 
+	Detail View Controller when the rotation back to landscape occurs.  For example, in detailViewController:
+	<pre><code>willShowMasterViewController: function() {
+    this.setNavigationItem('leftBarItem', null);
+},
+
+willHideMasterViewController: function(masterViewController, button) {
+    this.setNavigationItem('leftBarItem', button);
+}</code></pre>
+</p>

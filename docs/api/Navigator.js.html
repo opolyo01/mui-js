@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: navigator   Navigator.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584796.03" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584796.03" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584796.03"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584796.03"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_navigator.html" title="navigator">navigator</a>
+	               		
+	               		 <span class="gt"></span> Navigator.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Navigator module</span>
+<span class="cm"> * @module navigator</span>
+<span class="cm"> */</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * The Navigator class provides the ability to map the hash part of the URL</span>
+<span class="cm"> * to a particular view. The view must be a DOM element. If the DOM element </span>
+<span class="cm"> * has a x-mui-href attribute, that content will be loaded over XHR.</span>
+<span class="cm"> * @class Navigator</span>
+<span class="cm"> * @constructor</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">Navigator</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="c1">// Initialize properties</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span> <span class="o">=</span> <span class="p">{};</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">_regExpCache</span> <span class="o">=</span> <span class="p">{};</span>
+	
+	<span class="c1">// Initialize window</span>
+	<span class="nx">setInterval</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_checkWindow</span><span class="p">,</span> <span class="k">this</span><span class="p">),</span> <span class="mi">100</span><span class="p">);</span>
+<span class="p">}</span>
+	
+<span class="nx">Navigator</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Store the current location (hash)</span>
+<span class="cm">	 * @param _hash</span>
+<span class="cm">	 * @type String</span>
+<span class="cm">	 * @private</span>
+<span class="cm">	 */</span>
+	<span class="nx">_hash</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+	
+	
+    <span class="cm">/**</span>
+<span class="cm">     * Store history urls to detect forward/back button </span>
+<span class="cm">     * @private</span>
+<span class="cm">     */</span>
+	<span class="nx">_history</span><span class="o">:</span> <span class="p">[],</span>
+	<span class="nx">_historyIdx</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+	<span class="nx">_historyLength</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">     * @method _manageHistory</span>
+<span class="cm">     * @private</span>
+<span class="cm">     */</span>
+	<span class="nx">_manageHistory</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">url</span> <span class="p">){</span>
+	    <span class="kd">var</span> <span class="nx">urlIndex</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_history</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span> <span class="nx">url</span> <span class="p">),</span> <span class="nx">urlFound</span> <span class="o">=</span> <span class="p">(</span><span class="nx">urlIndex</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+	        <span class="nx">historyLength</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_history</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+	    
+        
+	    <span class="k">if</span> <span class="p">(</span><span class="nx">urlFound</span> <span class="o">&amp;&amp;</span> <span class="nx">urlIndex</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nb">window</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyLength</span><span class="p">){</span> <span class="c1">//  back button</span>
+	        <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">=</span> <span class="nx">urlIndex</span><span class="p">;</span>
+	        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+	        
+	    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">urlFound</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">&lt;</span> <span class="nx">historyLength</span> <span class="o">&amp;&amp;</span> <span class="nx">urlIndex</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span><span class="p">){</span> <span class="c1">// forward button</span>
+	        <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">=</span> <span class="nx">urlIndex</span><span class="p">;</span>
+	        
+	    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="c1">// push new view</span>
+	        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">&amp;&amp;</span> <span class="nx">historyLength</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	           <span class="k">this</span><span class="p">.</span><span class="nx">_history</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">historyLength</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span><span class="p">);</span>  <span class="c1">// remove elements </span>
+	           <span class="nx">historyLength</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_history</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+	        <span class="p">}</span>
+	        
+	        <span class="k">this</span><span class="p">.</span><span class="nx">_historyIdx</span> <span class="o">=</span> <span class="nx">historyLength</span><span class="p">;</span>
+	        <span class="k">this</span><span class="p">.</span><span class="nx">_history</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+	    <span class="p">}</span>
+	    
+        <span class="k">this</span><span class="p">.</span><span class="nx">_historyLength</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+        
+	    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Check the window location against the current location</span>
+<span class="cm">	 * @method _checkWindow</span>
+<span class="cm">	 * @private</span>
+<span class="cm">	 */</span>
+	<span class="nx">_checkWindow</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">!==</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+		<span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">openUrl</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_hash</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * XHR Transaction success handler.</span>
+<span class="cm">	 * @method _ioSuccess</span>
+<span class="cm">	 * @param o {XMLHttpRequest} The XHR object</span>
+<span class="cm">	 * @param newPage {HTMLElement} The DOM element for the showing view</span>
+<span class="cm">	 */</span>
+	<span class="nx">_ioSuccess</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">newPage</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="nx">newPage</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">o</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * XHR Transaction failure handler.</span>
+<span class="cm">	 * @method _ioFailure</span>
+<span class="cm">	 * @param o {XMLHttpRequest} The XHR object</span>
+<span class="cm">	 * @param newPage {HTMLElement} The DOM element for the showing view</span>
+<span class="cm">	 */</span>
+	<span class="nx">_ioFailure</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">o</span><span class="p">,</span> <span class="nx">newPage</span><span class="p">)</span> 
+	<span class="p">{</span>
+		<span class="c1">// @TODO</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Open a URL</span>
+<span class="cm">	 * @method openUrl</span>
+<span class="cm">	 * @param url {String} The url to open</span>
+<span class="cm">	 * @param quiet {Boolean} (Optional) If true, then this method only changes the URL hash and does nothing else.	</span>
+<span class="cm">	 * @return {Navigator} The navigator instance</span>
+<span class="cm">	 */</span>
+	<span class="nx">openUrl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">quiet</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// Quiet mode</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">quiet</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+			<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Declare local variables</span>
+		<span class="kd">var</span> <span class="nx">newPage</span><span class="p">,</span> <span class="nx">oldPage</span><span class="p">,</span> <span class="nx">paramStr</span><span class="p">,</span> <span class="nx">paramSpl</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">ioUrl</span> <span class="o">=</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">backButton</span><span class="p">;</span>		
+		
+		<span class="c1">// Check if we need to set the location of the window</span>
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">!==</span> <span class="nx">url</span><span class="p">)</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_hash</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="nx">url</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>		
+
+        <span class="nx">backButton</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_manageHistory</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+        
+		<span class="c1">// Check if parameters are in the URL</span>
+		<span class="c1">// paramStr = /\?(.*)/g.exec(url);</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">_regExpCache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">_regExpCache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=</span> <span class="sr">/\?(.*)/g</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="nx">paramStr</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_regExpCache</span><span class="p">[</span><span class="nx">url</span><span class="p">];</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">paramStr</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="nx">params</span> <span class="o">=</span> <span class="p">{};</span>
+			<span class="nx">paramStr</span> <span class="o">=</span> <span class="nx">paramStr</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+			<span class="nx">url</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">));</span>
+			<span class="nx">paramSpl</span> <span class="o">=</span> <span class="nx">paramStr</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">);</span>
+			<span class="nx">mui</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">paramSpl</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ps</span><span class="p">)</span> <span class="p">{</span>
+				<span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">ps</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">);</span>
+				<span class="nx">params</span><span class="p">[</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+			<span class="p">});</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Get new and old pages</span>
+		<span class="nx">newPage</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+		<span class="nx">oldPage</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;*[x-mui-showing=true]&#39;</span><span class="p">);</span>
+
+		<span class="c1">// Hide old page</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">oldPage</span> <span class="o">&amp;&amp;</span> <span class="nx">newPage</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="nx">oldPage</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="p">);</span>
+			<span class="nx">oldPage</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
+		<span class="p">}</span>		
+		
+		<span class="c1">// Show new page</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">newPage</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="nx">newPage</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="p">,</span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
+			<span class="nx">newPage</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;block&#39;</span><span class="p">;</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">newPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-href&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">newPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-loaded&#39;</span><span class="p">))</span>
+			<span class="p">{</span>
+				<span class="nx">ioUrl</span> <span class="o">=</span> <span class="nx">newPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-href&#39;</span><span class="p">);</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">paramStr</span><span class="p">)</span> <span class="nx">ioUrl</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="nx">paramStr</span><span class="p">;</span>
+				<span class="nx">newPage</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-loaded&#39;</span><span class="p">,</span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
+				<span class="nx">mui</span><span class="p">.</span><span class="nx">io</span><span class="p">(</span><span class="nx">ioUrl</span><span class="p">,</span> <span class="p">{</span>
+					<span class="nx">callback</span><span class="o">:</span> <span class="p">{</span>
+						<span class="nx">success</span><span class="o">:</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_ioSuccess</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">newPage</span><span class="p">),</span>
+						<span class="nx">failure</span><span class="o">:</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_ioFailure</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">newPage</span><span class="p">)</span>
+					<span class="p">}</span>
+				<span class="p">});</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="c1">// Check if any callback is mapped to this URL</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="nx">url</span><span class="p">])</span>
+		<span class="p">{</span>
+			<span class="nx">mui</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="nx">url</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">backButton</span><span class="p">);</span> <span class="p">});</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+		<span class="p">{</span>
+			<span class="nx">mui</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">params</span><span class="p">,</span> <span class="nx">backButton</span><span class="p">);</span> <span class="p">});</span>
+		<span class="p">}</span>
+		
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Map a URL path to a callback function</span>
+<span class="cm">	 * @method mapUrl</span>
+<span class="cm">	 * @param url {String} The url to map from</span>
+<span class="cm">	 * @param callback {Function} The function to map the URL to</span>
+<span class="cm">	 * @return {Navigator} The Navigator instance</span>
+<span class="cm">	 */</span>
+	<span class="nx">mapUrl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">||</span> <span class="p">[];</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">_mappings</span><span class="p">[</span><span class="nx">url</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">mui</span><span class="p">.</span><span class="nx">Navigator</span> <span class="o">=</span> <span class="nx">Navigator</span><span class="p">;</span>
+
+<span class="p">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class="selected"><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_test.html" title="test">test</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class=""><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="NavigationBar.html" title="NavigationBar">NavigationBar</a></li>
+                                <li class=""><a href="Navigator.html" title="Navigator">Navigator</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="NavigationBar.js.html" title="NavigationBar.js">NavigationBar.js</a></li>
+                                <li class="selected"><a href="Navigator.js.html" title="Navigator.js">Navigator.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Navigator.html#method__checkWindow", "access": "private", "host": "Navigator", "type": "method", "name": "_checkWindow"}, {"url": "NavigationBar.html#property_element", "access": "", "host": "NavigationBar", "type": "property", "name": "element"}, {"url": "NavigationBar.html#method_handleEvent", "access": "private", "host": "NavigationBar", "type": "method", "name": "handleEvent"}, {"url": "Navigator.html#property__hash", "access": "private", "host": "Navigator", "type": "property", "name": "_hash"}, {"url": "NavigationBar.html#method_hide", "access": "", "host": "NavigationBar", "type": "method", "name": "hide"}, {"url": "Navigator.html#property__history", "access": "private", "host": "Navigator", "type": "property", "name": "_history"}, {"url": "NavigationBar.html#method_initialize", "access": "", "host": "NavigationBar", "type": "method", "name": "initialize"}, {"url": "Navigator.html#method__ioFailure", "access": "", "host": "Navigator", "type": "method", "name": "_ioFailure"}, {"url": "Navigator.html#method__ioSuccess", "access": "", "host": "Navigator", "type": "method", "name": "_ioSuccess"}, {"url": "NavigationBar.html#property_items", "access": "", "host": "NavigationBar", "type": "property", "name": "items"}, {"url": "NavigationBar.html#property_itemsContainer", "access": "", "host": "NavigationBar", "type": "property", "name": "itemsContainer"}, {"url": "Navigator.html#method__manageHistory", "access": "private", "host": "Navigator", "type": "method", "name": "_manageHistory"}, {"url": "Navigator.html#method_mapUrl", "access": "", "host": "Navigator", "type": "method", "name": "mapUrl"}, {"url": "Navigator.html#method_openUrl", "access": "", "host": "Navigator", "type": "method", "name": "openUrl"}, {"url": "NavigationBar.html#method_setBack", "access": "", "host": "NavigationBar", "type": "method", "name": "setBack"}, {"url": "NavigationBar.html#method_setItems", "access": "", "host": "NavigationBar", "type": "method", "name": "setItems"}, {"url": "NavigationBar.html#method_setItemsWithAnimation", "access": "", "host": "NavigationBar", "type": "method", "name": "setItemsWithAnimation"}, {"url": "NavigationBar.html#method_setLeftBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setLeftBarItem"}, {"url": "NavigationBar.html#method_setRightBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setRightBarItem"}, {"url": "NavigationBar.html#method_setTintColor", "access": "", "host": "NavigationBar", "type": "method", "name": "setTintColor"}, {"url": "NavigationBar.html#method_setTitle", "access": "", "host": "NavigationBar", "type": "method", "name": "setTitle"}, {"url": "NavigationBar.html#method_show", "access": "", "host": "NavigationBar", "type": "method", "name": "show"}, {"url": "NavigationBar.html#property_tintColor", "access": "", "host": "NavigationBar", "type": "property", "name": "tintColor"}];
+</script>
+</body>
+</html>

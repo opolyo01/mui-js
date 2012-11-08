@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MuiWebAppProperties">
+
+    <!-- Default Library Version Build -->
+    <property name="mui.version" value="1"/>
+    <property name="component.logger.regex" value="^.*?(?:logger|mui.log|mui.trace|mui.debug|mui.error|mui.wran).*?(?:;|\).*;|(?:\r?\n.*?)*?\).*;).*;?.*?\r?\n" />
+
+    <import file="${builddir}/shared/properties.xml" description="Properties common to mui" />
+
+    <import file="${targets}" description="Build Targets" />
+</project>

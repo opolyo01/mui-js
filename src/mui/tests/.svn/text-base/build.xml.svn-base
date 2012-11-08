@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- ant build file to run tests on remote selenium server -->
+<project name="MUITest" default="test" basedir=".">
+
+  <target name="prepare">
+    <echo>preparing</echo>
+    <tstamp/>
+    <mkdir dir="../../../reports"/>
+    <mkdir dir="../../../coverage"/>
+    <delete>
+      <fileset dir="../../../reports" includes="**/*"/>
+      <fileset dir="../../../coverage" includes="**/*"/>
+    </delete>
+
+		<echo>Instrumenting Code</echo>
+		<java jar="selenium/yuitest-coverage-0.5.2.jar" fork="true">
+			<arg line="-o instrumented_code/mui.js ../js/mui.js" />
+		</java>
+  </target>
+
+  <target name="test" depends="prepare">
+    <echo>copying files to test server</echo>
+    <exec executable="scp">
+      <arg line="-r -i /home/y/var/buildmob/.ssh/selenium-client-identity ../../../../trunk buildmob@gavegrayhome-lm.corp.yahoo.com:/tmp/mui_${DSTAMP}_${TSTAMP}"/>
+    </exec>
+    
+    <echo>creating symlink to latest build</echo>
+    <exec executable="ssh">
+      <arg line="-i /home/y/var/buildmob/.ssh/selenium-client-identity buildmob@gavegrayhome-lm.corp.yahoo.com rm -rf /tmp/muiunit_latest"/>
+    </exec>
+    <exec executable="ssh">
+      <arg line="-i /home/y/var/buildmob/.ssh/selenium-client-identity buildmob@gavegrayhome-lm.corp.yahoo.com ln -s -f /tmp/mui_${DSTAMP}_${TSTAMP} /tmp/muiunit_latest"/>
+    </exec>
+		
+    <echo>running unit tests</echo>
+    <java jar="selenium/yuitest-selenium-driver-0.5.2.jar" fork="true">
+      <arg line="--host gavegrayhome-lm.corp.yahoo.com --conf selenium/selenium.properties file:///tmp/mui_${DSTAMP}_${TSTAMP}/src/mui/tests/mui_core_tests.html"/>
+    </java>
+    
+    <echo>running smoke tests</echo>
+    <java jar="selenium/yuitest-selenium-driver-0.5.2.jar" fork="true">
+      <arg line="--host gavegrayhome-lm.corp.yahoo.com --conf selenium/selenium.properties file:///tmp/mui_${DSTAMP}_${TSTAMP}/src/mui/tests/mui_smoke_tests.html"/>
+    </java>
+  </target>
+
+	<target name="phpcs" description="check coding style" depends="prepare">
+		<echo>Checking JS Style</echo>
+
+		<exec command="/home/y/bin/phpcs --config-set rhino_path `pwd`/js.jar"/>
+		<exec command="/home/y/bin/phpcs --config-set jslint_path `pwd`/jslint.js"/>
+    <exec command="cat /dev/null > ../../../reports/checkstyle.xml" passthru="true"/>
+    <exec command="/home/y/bin/phpcs --report=checkstyle --report-file=../../../reports/checkstyle.xml ../.."/>
+	</target>
+
+</project>

@@ -1,0 +1,15 @@
+PRODUCT_NAME = ymobile_web_mui
+VERSION = 0.0.1 
+SHORT_DESC = Mobile UI Library
+LONG_DESC = `cat ./ymobile_web_mui.README`
+PERM = 0444
+OWNER = root
+GROUP = wheel
+CUSTODIAN = moai-devel@yahoo-inc.com http://mobile.devel.corp.yahoo.com/
+PACKAGE_OS_SPECIFIC = no
+SRCDIRS = ../src/main
+
+find - - - share/htdocs/mui/src/ ../src -type f  ! -path '*/svn*'
+find - - - share/htdocs/mui/api/ ../api -type f  ! -path '*/svn*'
+find - - - share/htdocs/mui/build/ ../build -type f  ! -path '*/svn*'
+find - - - share/htdocs/mui/examples/ ../examples -type f  ! -path '*/svn*'

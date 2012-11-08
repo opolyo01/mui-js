@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: datasource   DataSource.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.83" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.83" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.83"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.83"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_datasource.html" title="datasource">datasource</a>
+	               		
+	               		 <span class="gt"></span> DataSource.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * The datasource module</span>
+<span class="c"> * @module datasource</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/*</span>
+<span class="c"> * Constant to describe the cache type when mui.Storage is available</span>
+<span class="c"> * @final CACHETYPE_STORAGE</span>
+<span class="c"> * @type String</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">const</span> <span class="nx">CACHETYPE_STORAGE</span> <span class="o">=</span> <span class="s1">&#39;storage&#39;</span><span class="o">;</span>
+
+<span class="c">/*</span>
+<span class="c"> * Constant to describe the cache type when mui.Storage is NOT available</span>
+<span class="c"> * @final CACHETYPE_ARRAY</span>
+<span class="c"> * @type String</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">const</span> <span class="nx">CACHETYPE_ARRAY</span> <span class="o">=</span> <span class="s1">&#39;array&#39;</span><span class="o">;</span>
+
+<span class="c">/*</span>
+<span class="c"> * Constant used as a default key when no request parameters are used</span>
+<span class="c"> * @final REQ_DEFAULT</span>
+<span class="c"> * @type String</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">const</span> <span class="nx">REQ_DEFAULT</span> <span class="o">=</span> <span class="s1">&#39;mui_default&#39;</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> * (Taken from: http://developer.yahoo.com/yui/3/datasource/)</span>
+<span class="c"> * The DataSource Utility provides a consistent API for the retrieval of</span>
+<span class="c"> * data from arbitrary sources over a variety of supported protocols. The</span>
+<span class="c"> * only supported protocol at this time is a remote source over XHR. Thus, </span>
+<span class="c"> * the same-domain policy applies.</span>
+<span class="c"> * @class DataSource</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param config {Object} DataSource configuration</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">DataSource</span><span class="o">(</span><span class="nx">config</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">source</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">source</span><span class="o">;</span>
+
+	<span class="k">if</span><span class="o">(</span><span class="nx">config</span><span class="o">.</span><span class="nx">onRestore</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">onRestore</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">onRestore</span><span class="o">;</span>
+
+	<span class="k">if</span><span class="o">(</span><span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span> 		<span class="o">=</span> <span class="o">{};</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">id</span> 		<span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">id</span> <span class="o">||</span> <span class="s1">&#39;mui_datacache_&#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">source</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">version</span> 	<span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">version</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">title</span> 	<span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">title</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">max</span> 		<span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">max</span> <span class="o">||</span> <span class="m">10</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">keepalive</span> 	<span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">keepalive</span> <span class="o">||</span> <span class="o">{</span> <span class="nx">minutes</span><span class="o">:</span> <span class="m">30</span> <span class="o">};</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">type</span> 	<span class="o">=</span> <span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">Storage</span><span class="o">)</span> <span class="o">?</span>  <span class="nx">CACHETYPE_STORAGE</span> <span class="o">:</span> <span class="nx">CACHETYPE_ARRAY</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span>	<span class="o">=</span> <span class="o">[];</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">restored</span>		<span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">type</span> <span class="o">===</span> <span class="nx">CACHETYPE_STORAGE</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">try</span> <span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">restored</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">source</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/\./g</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/\//g</span><span class="o">,</span><span class="s1">&#39;_&#39;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/\?/g</span><span class="o">,</span> <span class="s1">&#39;__&#39;</span><span class="o">);</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">restoreCache</span><span class="o">();</span>
+			<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">CACHETYPE_ARRAY</span><span class="o">;</span>
+				<span class="nx">setTimeout</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">onRestore</span><span class="o">,</span> <span class="k">this</span><span class="o">),</span> <span class="m">0</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="nx">setTimeout</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">onRestore</span><span class="o">,</span> <span class="k">this</span><span class="o">),</span> <span class="m">0</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c">/**</span>
+<span class="c"> * Resolve a request URL by identifying and appending URL parameters</span>
+<span class="c"> * to a base URL</span>
+<span class="c"> * @method _getRequestUrl</span>
+<span class="c"> * @param base {String} The base URL</span>
+<span class="c"> * @param params {String} The request string</span>
+<span class="c"> * @return {String} The request URL</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">_getRequestUrl</span><span class="o">(</span><span class="nx">base</span><span class="o">,</span> <span class="nx">params</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">base</span><span class="o">;</span>
+	<span class="k">if</span><span class="o">(</span><span class="nx">params</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Check the form: server.com/data</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(!</span><span class="sr">/\?/</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">url</span><span class="o">))</span> <span class="nx">url</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span><span class="o">;</span>
+		<span class="nx">url</span> <span class="o">+=</span> <span class="nx">params</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="nx">url</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c">/**</span>
+<span class="c"> * Check to see if a cached record has expired, according to the keepalive</span>
+<span class="c"> * property</span>
+<span class="c"> * @method _hasExpired</span>
+<span class="c"> * @param ts {Number} The timestamp of the cached entry</span>
+<span class="c"> * @param keepalive {Object} Object literal defining the keepalive time such as</span>
+<span class="c"> *  { hours: 1, minutes: 30 }</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">_hasExpired</span><span class="o">(</span><span class="nx">ts</span><span class="o">,</span> <span class="nx">keepalive</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">var</span> <span class="nx">hasExpired</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="nx">maxTime</span> <span class="o">=</span> <span class="nx">ts</span><span class="o">,</span> <span class="nx">currentTime</span> <span class="o">=</span> <span class="o">+(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">);</span>
+	
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">keepalive</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">n</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;days&#39;</span><span class="o">:</span>
+				<span class="nx">maxTime</span> <span class="o">+=</span> <span class="m">86400</span><span class="o">*</span><span class="nx">v</span><span class="o">*</span><span class="m">1000</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;hours&#39;</span><span class="o">:</span>
+				<span class="nx">maxTime</span> <span class="o">+=</span> <span class="m">3600</span><span class="o">*</span><span class="nx">v</span><span class="o">*</span><span class="m">1000</span><span class="o">;</span>				
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;minutes&#39;</span><span class="o">:</span>
+				<span class="nx">maxTime</span> <span class="o">+=</span> <span class="m">60</span><span class="o">*</span><span class="nx">v</span><span class="o">*</span><span class="m">1000</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;seconds&#39;</span><span class="o">:</span>
+				<span class="nx">maxTime</span> <span class="o">+=</span> <span class="nx">v</span><span class="o">*</span><span class="m">1000</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">});</span>
+	
+	<span class="k">if</span><span class="o">(</span><span class="nx">currentTime</span> <span class="o">&gt;</span> <span class="nx">maxTime</span><span class="o">)</span> <span class="nx">hasExpired</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	
+	<span class="k">return</span> <span class="nx">hasExpired</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nx">DataSource</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Placeholder method. Implement this method if you want to capture the </span>
+<span class="c">	 * event when the database has been restored</span>
+<span class="c">	 * @method onRestore</span>
+<span class="c">	 */</span>
+	<span class="nx">onRestore</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span> <span class="o">{},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Make a request to the dataSource. If caching is enabled, the </span>
+<span class="c">	 * result of the request will be cached according to the keepalive</span>
+<span class="c">	 * and max entries set for the cache</span>
+<span class="c">	 * @method sendRequest</span>
+<span class="c">	 * @param request {String} Request parameter string</span>
+<span class="c">	 * @method callback {Object} Object literal defining success, failure functions,</span>
+<span class="c">	 * scope parameter, and any additional argument to be passed to the callbacks</span>
+<span class="c">	 * Example:</span>
+<span class="c">	 * myDataSource.sendRequest(&#39;id=foo&#39;, {</span>
+<span class="c">	 *   success: mySuccess,</span>
+<span class="c">	 *   failure: myFailure,</span>
+<span class="c">	 *   scope: this,</span>
+<span class="c">	 *   argument: myArgs</span>
+<span class="c">	 * });</span>
+<span class="c">	 */</span>
+	<span class="nx">sendRequest</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">request</span><span class="o">,</span> <span class="nx">callback</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="c">// First check if the request is in the cache</span>
+<span class="c"></span>		<span class="k">var</span> <span class="nx">cached</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getCachedEntry</span><span class="o">(</span><span class="nx">request</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">cached</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">callback</span><span class="o">.</span><span class="nx">success</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">callback</span><span class="o">.</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">success</span><span class="o">,</span> <span class="o">[</span><span class="nx">cached</span><span class="o">.</span><span class="nx">response</span><span class="o">,</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">argument</span><span class="o">]);</span>
+			<span class="k">return</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="c">// If not found in cach, make a request to server</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">io</span><span class="o">(</span><span class="nx">_getRequestUrl</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">source</span><span class="o">,</span> <span class="nx">request</span><span class="o">),</span> <span class="o">{</span>
+			<span class="nx">callback</span><span class="o">:</span> <span class="o">{</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">onSendSuccess</span><span class="o">(</span><span class="nx">request</span><span class="o">,</span> <span class="nx">o</span><span class="o">.</span><span class="nx">responseText</span><span class="o">);</span>
+					<span class="nx">callback</span><span class="o">.</span><span class="nx">success</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">callback</span><span class="o">.</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">success</span><span class="o">,</span> <span class="o">[</span><span class="nx">o</span><span class="o">.</span><span class="nx">responseText</span><span class="o">,</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">argument</span><span class="o">]);</span>
+				<span class="o">},</span>
+				<span class="nx">failure</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">onSendFailure</span><span class="o">(</span><span class="nx">o</span><span class="o">);</span>
+					<span class="nx">callback</span><span class="o">.</span><span class="nx">failure</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">callback</span><span class="o">.</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">failure</span><span class="o">,</span> <span class="o">[</span><span class="nx">o</span><span class="o">,</span> <span class="nx">callback</span><span class="o">.</span><span class="nx">argument</span><span class="o">]);</span>
+				<span class="o">},</span>
+				<span class="nx">scope</span><span class="o">:</span> <span class="k">this</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Callback method invoked upon a successful sendRequest</span>
+<span class="c">	 * @method onSendSuccess</span>
+<span class="c">	 * @param request {String} The request string</span>
+<span class="c">	 * @param response {String} The response text</span>
+<span class="c">	 */</span>	
+	<span class="nx">onSendSuccess</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">request</span><span class="o">,</span> <span class="nx">response</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">addToCache</span><span class="o">(</span><span class="nx">request</span><span class="o">,</span> <span class="nx">response</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Callback method invoked upon a failed sendRequest</span>
+<span class="c">	 * @method onSendFailure</span>
+<span class="c">	 * @param response {o} The response object</span>
+<span class="c">	 */</span>
+	<span class="nx">onSendFailure</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// @TODO handle error?</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Add an item to the cache</span>
+<span class="c">	 * @method addToCache</span>
+<span class="c">	 * @param request {String} The request string</span>
+<span class="c">	 * @param response {String} The response text</span>
+<span class="c">	 */</span>
+	<span class="nx">addToCache</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">request</span><span class="o">,</span> <span class="nx">response</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">request</span> <span class="o">=</span> <span class="nx">request</span> <span class="o">||</span> <span class="nx">REQ_DEFAULT</span><span class="o">;</span>
+		
+		<span class="c">// Declare local variables</span>
+<span class="c"></span>		<span class="k">var</span> <span class="nx">staleItems</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="k">var</span> <span class="nx">record</span> <span class="o">=</span> <span class="o">{</span>
+			<span class="nx">request</span><span class="o">:</span> <span class="nx">request</span><span class="o">,</span>
+			<span class="nx">response</span><span class="o">:</span> <span class="nx">response</span><span class="o">,</span>
+			<span class="nx">timestamp</span><span class="o">:</span> <span class="o">+(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">)</span>
+		<span class="o">};</span>
+
+		<span class="c">// If cache has exceeded max size, trim it up</span>
+<span class="c"></span>		<span class="k">while</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">max</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">staleItems</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">.</span><span class="nx">shift</span><span class="o">());</span>
+		<span class="o">}</span>
+		
+		<span class="c">// Push new record onto contents array</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">record</span><span class="o">);</span>
+		
+		<span class="c">// If using local storage...</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span><span class="o">.</span><span class="nx">transaction</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">)</span> <span class="o">{</span>
+				
+				<span class="c">// Delete any stale items</span>
+<span class="c"></span>				<span class="k">if</span><span class="o">(</span><span class="nx">staleItems</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">staleItems</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">item</span><span class="o">)</span> <span class="o">{</span>
+						<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;DELETE FROM &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">+</span><span class="s1">&#39; WHERE request = ?&#39;</span><span class="o">,</span> <span class="o">[</span><span class="nx">item</span><span class="o">.</span><span class="nx">request</span><span class="o">]);</span>
+					<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+				<span class="o">}</span>
+				
+				<span class="c">// Add new record</span>
+<span class="c"></span>				<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;INSERT INTO &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">+</span><span class="s1">&#39; (request, response, timestamp) VALUES(?, ?, ?)&#39;</span><span class="o">,</span> <span class="o">[</span><span class="nx">record</span><span class="o">.</span><span class="nx">request</span><span class="o">,</span> <span class="nx">record</span><span class="o">.</span><span class="nx">response</span><span class="o">,</span> <span class="nx">record</span><span class="o">.</span><span class="nx">timestamp</span><span class="o">]);</span>
+				
+			<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Retrieve a record stored in the cache</span>
+<span class="c">	 * @method getCachedEntry</span>
+<span class="c">	 * @param request {String} The request string</span>
+<span class="c">	 * @return {*} The cached entry, if found</span>
+<span class="c">	 */</span>
+	<span class="nx">getCachedEntry</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">request</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">entry</span><span class="o">,</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">.</span><span class="nx">length</span><span class="o">,</span> <span class="nx">e</span><span class="o">;</span>
+		<span class="nx">request</span> <span class="o">=</span> <span class="nx">request</span> <span class="o">||</span> <span class="nx">REQ_DEFAULT</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="nx">e</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">request</span> <span class="o">===</span> <span class="nx">request</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">_hasExpired</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">timestamp</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">keepalive</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="nx">entry</span> <span class="o">=</span> <span class="nx">e</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">entry</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Get all contents which have been locally cached</span>
+<span class="c">	 * @method getCache</span>
+<span class="c">	 * @return {Array} Array of cached items</span>
+<span class="c">	 */</span>
+	<span class="nx">getCache</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Flush the contents of the cache</span>
+<span class="c">	 * @method flushCache</span>
+<span class="c">	 */</span>
+	<span class="nx">flushCache</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span><span class="o">.</span><span class="nx">transaction</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;DROP TABLE &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">,</span> <span class="o">[],</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">restoreCache</span><span class="o">,</span> <span class="k">this</span><span class="o">));</span>
+			<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Restore the cache from the database</span>
+<span class="c">	 * @method restoreCache</span>
+<span class="c">	 */</span>
+	<span class="nx">restoreCache</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">Storage</span><span class="o">.</span><span class="nx">open</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">id</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">version</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">title</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">storage</span><span class="o">.</span><span class="nx">transaction</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;CREATE TABLE IF NOT EXISTS &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">+</span><span class="s1">&#39; (request VARCHAR(32) PRIMARY KEY, response TEXT, timestamp INT)&#39;</span><span class="o">,</span> <span class="o">[],</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">)</span> <span class="o">{</span>				
+				<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;SELECT * FROM &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">,</span> <span class="o">[],</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">,</span> <span class="nx">rs</span><span class="o">)</span> <span class="o">{</span>					
+					<span class="k">if</span><span class="o">(</span><span class="nx">rs</span> <span class="o">&amp;&amp;</span> <span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span> <span class="o">&amp;&amp;</span> <span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+					<span class="o">{</span>
+						<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+						<span class="o">{</span>
+							<span class="k">if</span><span class="o">(!</span><span class="nx">_hasExpired</span><span class="o">(</span><span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">item</span><span class="o">(</span><span class="nx">i</span><span class="o">).</span><span class="nx">timestamp</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">keepalive</span><span class="o">))</span>
+							<span class="o">{</span>
+								<span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">contents</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">item</span><span class="o">(</span><span class="nx">i</span><span class="o">));</span>
+							<span class="o">}</span>
+							<span class="k">else</span>
+							<span class="o">{</span>
+								<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;DELETE FROM &#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cache</span><span class="o">.</span><span class="nx">tableName</span><span class="o">+</span><span class="s1">&#39; WHERE request = ?&#39;</span><span class="o">,</span> <span class="o">[</span><span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">item</span><span class="o">(</span><span class="nx">i</span><span class="o">).</span><span class="nx">request</span><span class="o">]);</span>
+							<span class="o">}</span>
+						<span class="o">}</span>
+					<span class="o">}</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">restored</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">onRestore</span><span class="o">();</span>
+				<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+			<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+	<span class="o">}</span>
+	
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">DataSource</span> <span class="o">=</span> <span class="nx">DataSource</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class="selected"><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="DataSource.html" title="DataSource">DataSource</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="DataSource.js.html" title="DataSource.js">DataSource.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "DataSource.html#method_addToCache", "access": "", "host": "DataSource", "type": "method", "name": "addToCache"}, {"url": "DataSource.html#method_flushCache", "access": "", "host": "DataSource", "type": "method", "name": "flushCache"}, {"url": "DataSource.html#method_getCache", "access": "", "host": "DataSource", "type": "method", "name": "getCache"}, {"url": "DataSource.html#method_getCachedEntry", "access": "", "host": "DataSource", "type": "method", "name": "getCachedEntry"}, {"url": "DataSource.html#method__getRequestUrl", "access": "private", "host": "DataSource", "type": "method", "name": "_getRequestUrl"}, {"url": "DataSource.html#method__hasExpired", "access": "private", "host": "DataSource", "type": "method", "name": "_hasExpired"}, {"url": "DataSource.html#method_onRestore", "access": "", "host": "DataSource", "type": "method", "name": "onRestore"}, {"url": "DataSource.html#method_onSendFailure", "access": "", "host": "DataSource", "type": "method", "name": "onSendFailure"}, {"url": "DataSource.html#method_onSendSuccess", "access": "", "host": "DataSource", "type": "method", "name": "onSendSuccess"}, {"url": "DataSource.html#method_restoreCache", "access": "", "host": "DataSource", "type": "method", "name": "restoreCache"}, {"url": "DataSource.html#method_sendRequest", "access": "", "host": "DataSource", "type": "method", "name": "sendRequest"}];
+</script>
+</body>
+</html>

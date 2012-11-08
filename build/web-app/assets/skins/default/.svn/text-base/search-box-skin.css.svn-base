@@ -1,0 +1,6 @@
+.mui-searchbox {  -webkit-border-image: url(input.png) 0 16 0 16; border-width: 0 16px 0 16px; height: 36px; width: 100%; -webkit-box-sizing: border-box; position: relative; }
+.mui-searchbox input[type=search] { -webkit-appearance: none; border: 0; height: 100%; background: transparent; margin: 0; font-size: 16px; padding: 8px 0; width: 100%; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+
+.mui-searchbox .mui-close { position: absolute; right: -8px; top: 8px; background: transparent url(clear.png) center right no-repeat; width: 19px; height: 19px; visibility: hidden; }
+.mui-searchbox.mui-typing input { padding-right: 24px; }
+.mui-searchbox.mui-typing .mui-close { visibility: visible; }

@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: search-box   SearchBox.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.87" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.87" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.87"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.87"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_search-box.html" title="search-box">search-box</a>
+	               		
+	               		 <span class="gt"></span> SearchBox.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * SearchBox module</span>
+<span class="c"> * @module search-box</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * The SearchBox class provides a standard search box container</span>
+<span class="c"> * with the ability to trigger callbacks during interesting moments,</span>
+<span class="c"> * such as onSubmit, onKeypress, etc</span>
+<span class="c"> * @class SearchBox</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param config {Object} SearchBox configuration options</span>
+<span class="c"> * Example:</span>
+<span class="c"> * new mui.SearchBox({</span>
+<span class="c"> *  placeholder: &#39;Search&#39;,</span>
+<span class="c"> *  autocorrect: &#39;off&#39;,</span>
+<span class="c"> *  autocapitalize: &#39;off&#39;,</span>
+<span class="c"> *  callback: {</span>
+<span class="c"> *    submit: mySubmitHandler,</span>
+<span class="c"> *    keyup: myKeyupHandler,</span>
+<span class="c"> *  }</span>
+<span class="c"> * });</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">SearchBox</span><span class="o">(</span><span class="nx">config</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="c">// Declare local variables</span>
+<span class="c"></span>	<span class="k">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;form&#39;</span><span class="o">);</span>
+	
+	<span class="c">// Initialize properties</span>
+<span class="c"></span>	<span class="nx">config</span> <span class="o">=</span> <span class="nx">config</span> <span class="o">||</span> <span class="o">{};</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">placeholder</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">placeholder</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">callback</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">callback</span> <span class="o">||</span> <span class="o">{};</span>
+	
+	<span class="c">// Create elements</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-searchbox&#39;</span> <span class="o">});</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">input</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;input&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;search&#39;</span> <span class="o">});</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">closeButton</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-close&#39;</span> <span class="o">});</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">form</span><span class="o">);</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">closeButton</span><span class="o">);</span>
+	<span class="nx">form</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">);</span>
+	
+	<span class="c">// Configure input</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">placeholder</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;placeholder&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">placeholder</span><span class="o">);</span>
+	<span class="k">if</span><span class="o">(</span><span class="nx">config</span><span class="o">.</span><span class="nx">autocorrect</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;autocorrect&#39;</span><span class="o">,</span> <span class="nx">config</span><span class="o">.</span><span class="nx">autocorrect</span><span class="o">);</span>	
+	<span class="k">if</span><span class="o">(</span><span class="nx">config</span><span class="o">.</span><span class="nx">autocapitalize</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;autocapitalize&#39;</span><span class="o">,</span> <span class="nx">config</span><span class="o">.</span><span class="nx">autocapitalize</span><span class="o">);</span>	
+	
+	<span class="c">// Register listeners</span>
+<span class="c"></span>	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">closeButton</span><span class="o">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">clear</span><span class="o">,</span> <span class="k">this</span><span class="o">));</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nx">form</span><span class="o">,</span> <span class="s1">&#39;submit&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">,</span> <span class="s1">&#39;blur&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">,</span> <span class="s1">&#39;focus&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">,</span> <span class="s1">&#39;keyup&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">keydown</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">,</span> <span class="s1">&#39;keydown&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">keypress</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">,</span> <span class="s1">&#39;keypress&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nx">SearchBox</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * SearchBox container element</span>
+<span class="c">	 * @property element</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">element</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * SearchBox input element</span>
+<span class="c">	 * @property input</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">input</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Close Button container used to clear search field when pressed</span>
+<span class="c">	 * @property closeButton</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">closeButton</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Default value for input field</span>
+<span class="c">	 * @property placeholder</span>
+<span class="c">	 * @type String</span>
+<span class="c">	 */</span>
+	<span class="nx">placeholder</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Associate listing of callback handlers regsitered</span>
+<span class="c">	 * in the constructor</span>
+<span class="c">	 * @property callback</span>
+<span class="c">	 * @type Object</span>
+<span class="c">	 */</span>
+	<span class="nx">callback</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Render the SearchBox into a container</span>
+<span class="c">	 * @method render</span>
+<span class="c">	 * @param container {String|HTMLElement} Selector or HTMLElement for the container</span>
+<span class="c">	 * @return {SearchBox} The searchBox instance</span>
+<span class="c">	 */</span>
+	<span class="nx">render</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">container</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">container</span><span class="o">)</span> <span class="nx">container</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Clear the value of the search field, and hide the close button</span>
+<span class="c">	 * @method clear</span>
+<span class="c">	 * @return {SearchBox} The searchBox instance	</span>
+<span class="c">	 */</span>
+	<span class="nx">clear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Event dispatcher</span>
+<span class="c">	 * @method handleEvent</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;submit&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">blur</span><span class="o">();</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">submit</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">submit</span><span class="o">(</span><span class="nx">e</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">value</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;focus&#39;</span><span class="o">:</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">value</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+				<span class="k">else</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+				
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">focus</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">focus</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;blur&#39;</span><span class="o">:</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+			
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">blur</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">blur</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;keyup&#39;</span><span class="o">:</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">value</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+				<span class="k">else</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-typing&#39;</span><span class="o">);</span>
+				
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">keyup</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">keyup</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">default</span><span class="o">:</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">[</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">])</span> <span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">[</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">].</span><span class="nx">call</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">callback</span><span class="o">[</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">],</span> <span class="nx">e</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the value of the input field</span>
+<span class="c">	 * @method setValue</span>
+<span class="c">	 * @param v {String} The value</span>
+<span class="c">	 * @return {mui.SearchBox} The searchBox instance</span>
+<span class="c">	 */</span>
+	<span class="nx">setValue</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">input</span><span class="o">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">SearchBox</span> <span class="o">=</span> <span class="nx">SearchBox</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class="selected"><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="SearchBox.html" title="SearchBox">SearchBox</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="SearchBox.js.html" title="SearchBox.js">SearchBox.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "SearchBox.html#property_callback", "access": "", "host": "SearchBox", "type": "property", "name": "callback"}, {"url": "SearchBox.html#method_clear", "access": "", "host": "SearchBox", "type": "method", "name": "clear"}, {"url": "SearchBox.html#property_closeButton", "access": "", "host": "SearchBox", "type": "property", "name": "closeButton"}, {"url": "SearchBox.html#property_element", "access": "", "host": "SearchBox", "type": "property", "name": "element"}, {"url": "SearchBox.html#method_handleEvent", "access": "", "host": "SearchBox", "type": "method", "name": "handleEvent"}, {"url": "SearchBox.html#property_input", "access": "", "host": "SearchBox", "type": "property", "name": "input"}, {"url": "SearchBox.html#property_placeholder", "access": "", "host": "SearchBox", "type": "property", "name": "placeholder"}, {"url": "SearchBox.html#method_render", "access": "", "host": "SearchBox", "type": "method", "name": "render"}, {"url": "SearchBox.html#method_setValue", "access": "", "host": "SearchBox", "type": "method", "name": "setValue"}];
+</script>
+</body>
+</html>

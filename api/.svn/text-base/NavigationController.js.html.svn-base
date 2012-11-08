@@ -1,0 +1,588 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: framework   NavigationController.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.6" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.6" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.6"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.6"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_framework.html" title="framework">framework</a>
+	               		
+	               		 <span class="gt"></span> NavigationController.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * NavigationController class</span>
+<span class="c"> * This class manages a hierarchy of ViewControllers, and </span>
+<span class="c"> * provides/manages an instance of NavigationBar.</span>
+<span class="c"> * @class NavigationController</span>
+<span class="c"> * @param def {Object} NavigationController defintion</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">NavigationController</span><span class="o">(</span><span class="nx">def</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="c">// Iterate over defintion</span>
+<span class="c"></span>	<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">def</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span> <span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+<span class="o">};</span>
+
+<span class="nx">NavigationController</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Array of viewControllers in the navigation hierarchy</span>
+<span class="c">	 * @property viewControllers</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 */</span>
+	<span class="nx">viewControllers</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Stack of viewcontroller used to persist navigation history</span>
+<span class="c">	 * @property stack</span>
+<span class="c">	 * @type Array </span>
+<span class="c">	 */</span>
+	<span class="nx">stack</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Stack of viewcontroller&#39;s which have been popped used to persist</span>
+<span class="c">	 * forward navigation history</span>
+<span class="c">	 * @property poppedStack</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 */</span>
+	<span class="nx">poppedStack</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * NavigationBar shared by the viewControllers</span>
+<span class="c">	 * @property navigationBar</span>
+<span class="c">	 * @type mui.NavigationBar</span>
+<span class="c">	 */</span>
+	<span class="nx">navigationBar</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Method invoked upon click of the back button in the navigation bar</span>
+<span class="c">	 * @method goBack</span>
+<span class="c">	 */</span>
+	<span class="nx">goBack</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">popViewController</span><span class="o">())</span> <span class="k">this</span><span class="o">.</span><span class="nx">popToRootViewController</span><span class="o">();</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get a viewController by it&#39;s NAME property</span>
+<span class="c">	 * @method getViewController</span>
+<span class="c">	 * @param name {String} The NAME of the viewController</span>
+<span class="c">	 * @return {mui.ViewController} The viewController, or -1 if not found</span>
+<span class="c">	 */</span>
+	<span class="nx">getViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">name</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">vc</span><span class="o">,</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">name</span> <span class="o">||</span> <span class="o">(</span><span class="k">typeof</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">name</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="c">// If the viewController is defintion, and not instance, create a new one</span>
+<span class="c"></span>				<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+				<span class="o">}</span>
+				<span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">vc</span> <span class="o">||</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Load a set of viewController&#39;s in the background. Used when a viewController requires</span>
+<span class="c">	 * other viewControllers to be loaded before they are loaded themself.</span>
+<span class="c">	 * @param viewControllers {Array} Array of viewController info, in the form { NAME: &#39;myName&#39;, params: {} }</span>
+<span class="c">	 */</span>
+	<span class="nx">loadViewControllers</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewControllers</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">viewControllers</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">var</span> <span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getViewController</span><span class="o">(</span><span class="nx">n</span><span class="o">);</span>
+			<span class="c">// Set navigationController member</span>
+<span class="c"></span>			<span class="nx">vc</span><span class="o">.</span><span class="nx">navigationController</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+
+			<span class="c">// Insert the view controller in the stack			</span>
+<span class="c"></span>			<span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">popToViewController</span><span class="o">(</span><span class="nx">vc</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">pushToViewController</span><span class="o">(</span><span class="nx">vc</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">pushViewController</span><span class="o">(</span><span class="nx">vc</span><span class="o">,</span> <span class="kc">undefined</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Save the current stack to local storage</span>
+<span class="c">	 * @method saveStack</span>
+<span class="c">	 */</span>
+	<span class="nx">saveStack</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">mode</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">storage</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">JSON</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="o">[];</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">vc</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">s</span><span class="o">.</span><span class="nx">push</span><span class="o">({</span>
+					<span class="nx">NAME</span><span class="o">:</span> <span class="nx">vc</span><span class="o">.</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">,</span>
+					<span class="nx">timestamp</span><span class="o">:</span> <span class="nx">vc</span><span class="o">.</span><span class="nx">timestamp</span><span class="o">,</span>
+					<span class="nx">params</span><span class="o">:</span> <span class="nx">vc</span><span class="o">.</span><span class="nx">params</span> <span class="o">||</span> <span class="o">{}</span>
+				<span class="o">});</span>
+			<span class="o">});</span>
+			<span class="nx">s</span> <span class="o">=</span> <span class="nx">JSON</span><span class="o">.</span><span class="nx">stringify</span><span class="o">(</span><span class="nx">s</span><span class="o">);</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">storage</span><span class="o">.</span><span class="nx">transaction</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;SELECT * FROM mui_controllers WHERE nav_controller = ?&#39;</span><span class="o">,</span> <span class="o">[</span> <span class="k">this</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">],</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">(</span><span class="nx">tx</span><span class="o">,</span> <span class="nx">rs</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">if</span><span class="o">(</span><span class="nx">rs</span><span class="o">.</span><span class="nx">rows</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">0</span><span class="o">)</span>
+					<span class="o">{</span>
+						<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;INSERT INTO mui_controllers (nav_controller, stack) VALUES (?, ?)&#39;</span><span class="o">,</span> <span class="o">[</span> <span class="k">this</span><span class="o">.</span><span class="nx">NAME</span><span class="o">,</span> <span class="nx">s</span> <span class="o">]);</span>
+					<span class="o">}</span>
+					<span class="k">else</span>
+					<span class="o">{</span>
+						<span class="nx">tx</span><span class="o">.</span><span class="nx">executeSql</span><span class="o">(</span><span class="s1">&#39;UPDATE mui_controllers SET stack = ? WHERE nav_controller = ?&#39;</span><span class="o">,</span> <span class="o">[</span> <span class="nx">s</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">]);</span>
+					<span class="o">}</span>
+				<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+			<span class="o">},</span> <span class="k">this</span><span class="o">));</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Push a viewController onto the stack</span>
+<span class="c">	 * @method pushViewController</span>
+<span class="c">	 * @param viewController {mui.ViewController} The ViewController</span>
+<span class="c">	 * @param params {Object} Any request params to be passed to the viewController</span>
+<span class="c">	 * @param quiet {Boolean} Set to false to disable the invocation of mui.ApplicationController.openUrl (Default false)	</span>
+<span class="c">	 * @return {mui.ViewController} The viewController which was pushed	</span>
+<span class="c">	 */</span>
+	<span class="nx">pushViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">params</span><span class="o">,</span> <span class="nx">quiet</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Push onto stack</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">pop</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">push</span><span class="o">({</span> <span class="nx">viewController</span><span class="o">:</span> <span class="nx">viewController</span><span class="o">,</span> <span class="nx">params</span><span class="o">:</span> <span class="nx">params</span><span class="o">,</span> <span class="nx">timestamp</span><span class="o">:</span> <span class="o">+(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">)</span> <span class="o">});</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">quiet</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">openViewController</span><span class="o">(</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">params</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">viewController</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Pop the top viewController off the stack</span>
+<span class="c">	 * @method popViewController</span>
+<span class="c">	 * @param quiet {Boolean} Set to false to disable the invocation of mui.ApplicationController.openUrl (Default false)	</span>
+<span class="c">	 * @return {mui.ViewController} The viewController which was popped</span>
+<span class="c">	 */</span>
+	<span class="nx">popViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">quiet</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">pop</span><span class="o">();</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">vc</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">vc</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">vc</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">quiet</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">popping</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">openViewController</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">viewController</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">params</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">vc</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Pop to a particulator viewController in the stack</span>
+<span class="c">	 * @method popToViewController</span>
+<span class="c">	 * @param viewController {mui.ViewController} The ViewController to pop to</span>
+<span class="c">	 * @param quiet {Boolean} Set to false to disable the invocation of mui.ApplicationController.openUrl (Default false)	</span>
+<span class="c">	 * @return {mui.ViewController} The viewController, if found and popped</span>
+<span class="c">	 */</span>
+	<span class="nx">popToViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">quiet</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">vc</span><span class="o">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">len</span><span class="o">-</span><span class="m">1</span><span class="o">,</span> <span class="nx">tmpStack</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">slice</span><span class="o">(),</span> <span class="nx">tmpPoppedStack</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">.</span><span class="nx">slice</span><span class="o">();</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="m">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">--)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">tmpPoppedStack</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">tmpStack</span><span class="o">.</span><span class="nx">pop</span><span class="o">());</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">vc</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span> <span class="o">=</span> <span class="nx">tmpPoppedStack</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="nx">tmpStack</span><span class="o">;</span>
+			
+			<span class="k">if</span><span class="o">(!</span><span class="nx">quiet</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">popping</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">openViewController</span><span class="o">(</span><span class="nx">vc</span><span class="o">.</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">vc</span><span class="o">.</span><span class="nx">params</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">vc</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Push forward to a particulator viewController in the forward stack</span>
+<span class="c">	 * @method pushToViewController</span>
+<span class="c">	 * @param viewController {mui.ViewController} The ViewController to push to</span>
+<span class="c">	 * @param quiet {Boolean} Set to false to disable the invocation of mui.ApplicationController.openUrl (Default false)</span>
+<span class="c">	 * @return {mui.ViewController} The viewController, if found and pushed</span>
+<span class="c">	 */</span>
+	<span class="nx">pushToViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">quiet</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">vc</span><span class="o">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">.</span><span class="nx">length</span><span class="o">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">len</span><span class="o">-</span><span class="m">1</span><span class="o">,</span> <span class="nx">tmpStack</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">slice</span><span class="o">(),</span> <span class="nx">tmpPoppedStack</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">.</span><span class="nx">slice</span><span class="o">(),</span> <span class="nx">top</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getTopViewController</span><span class="o">();</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="m">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">--)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+				<span class="nx">tmpPoppedStack</span><span class="o">.</span><span class="nx">pop</span><span class="o">();</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">vc</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span> <span class="o">=</span> <span class="nx">tmpPoppedStack</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="nx">tmpStack</span><span class="o">;</span>
+			
+			<span class="k">if</span><span class="o">(!</span><span class="nx">quiet</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">pushing</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">openViewController</span><span class="o">(</span><span class="nx">vc</span><span class="o">.</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">vc</span><span class="o">.</span><span class="nx">params</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">vc</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Pop to the root viewController in the stack</span>
+<span class="c">	 * @method popToRootViewController</span>
+<span class="c">	 */</span>
+	<span class="nx">popToRootViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">1</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">popToViewController</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="m">0</span><span class="o">].</span><span class="nx">viewController</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">1</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="m">0</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">reloadView</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Restore the stack of viewControllers to the last visited state</span>
+<span class="c">	 * @method restoreStack</span>
+<span class="c">	 * @param stack {Array} Array of stacks as stored in database</span>
+<span class="c">	 */</span>
+	<span class="nx">restoreStack</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">stack</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Reset stack</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="o">[];</span>
+
+		<span class="c">// Stack item: { NAME: &#39;my-name&#39;, params: { id: &#39;foo&#39; }, timestamp: 123456689 }</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">stack</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">s</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">var</span> <span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getViewController</span><span class="o">(</span><span class="nx">s</span><span class="o">.</span><span class="nx">NAME</span><span class="o">);</span>
+			<span class="nx">vc</span><span class="o">.</span><span class="nx">navigationController</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+			<span class="nx">vc</span><span class="o">.</span><span class="nx">unloadView</span><span class="o">();</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">push</span><span class="o">({</span>
+				<span class="nx">viewController</span><span class="o">:</span> <span class="nx">vc</span><span class="o">,</span>
+				<span class="nx">params</span><span class="o">:</span> <span class="nx">s</span><span class="o">.</span><span class="nx">params</span><span class="o">,</span>
+				<span class="nx">timestamp</span><span class="o">:</span> <span class="nx">s</span><span class="o">.</span><span class="nx">timestamp</span>
+			<span class="o">});</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Get the viewcontroller preceding the top view controller</span>
+<span class="c">	 * @method getPreviousViewController</span>
+<span class="c">	 * @return {mui.ViewController} The previous viewController</span>
+<span class="c">	 */</span>
+	<span class="nx">getPreviousViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">c</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">1</span><span class="o">)</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">2</span><span class="o">].</span><span class="nx">viewController</span><span class="o">;</span>
+		<span class="k">return</span> <span class="nx">c</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Get the top view controller</span>
+<span class="c">	 * @method getTopViewController</span>
+<span class="c">	 * @return {mui.ViewController} The top viewController</span>
+<span class="c">	 */</span>
+	<span class="nx">getTopViewController</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">c</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="nx">c</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">viewController</span><span class="o">;</span>
+		<span class="k">return</span> <span class="nx">c</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Callback triggered when viewController is appearing. This is used to</span>
+<span class="c">	 * update the contents of the navigation-bar</span>
+<span class="c">	 * @method viewControllerWillAppear</span>
+<span class="c">	 * @param viewController {mui.ViewController} The viewController</span>
+<span class="c">	 */</span>
+	<span class="nx">viewControllerWillAppear</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewController</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">navigationItems</span> <span class="o">||</span> <span class="o">{},</span> <span class="nx">prevVc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getPreviousViewController</span><span class="o">();</span>
+		
+		<span class="c">// Check if back button should be placed in the navigation-bar</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="nx">prevVc</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">items</span><span class="o">.</span><span class="nx">back</span> <span class="o">=</span> <span class="nx">prevVc</span><span class="o">.</span><span class="nx">backTitle</span> <span class="o">||</span> <span class="nx">prevVc</span><span class="o">.</span><span class="nx">title</span> <span class="o">||</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="nx">items</span><span class="o">.</span><span class="nx">backAction</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">goBack</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="c">// Check for title attribute </span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(!</span><span class="nx">items</span><span class="o">.</span><span class="nx">title</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">title</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">items</span><span class="o">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">title</span><span class="o">;</span>
+		<span class="o">}</span>
+
+		<span class="c">// Check for any updated navigation items</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="nx">items</span> <span class="o">!==</span> <span class="k">this</span><span class="o">.</span><span class="nx">navigationBar</span><span class="o">.</span><span class="nx">items</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">navigationBar</span><span class="o">.</span><span class="nx">setItems</span><span class="o">(</span><span class="nx">items</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">animating</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">appController</span><span class="o">.</span><span class="nx">popping</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="k">if</span><span class="o">(!</span><span class="nx">items</span><span class="o">.</span><span class="nx">title</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">items</span><span class="o">.</span><span class="nx">leftBarItem</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">items</span><span class="o">.</span><span class="nx">rightBarItem</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">items</span><span class="o">.</span><span class="nx">back</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">hideNavigationBar</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+		<span class="c">// Update timestamp in stack</span>
+<span class="c"></span>		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="m">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">--)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">timestamp</span> <span class="o">=</span> <span class="o">+(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="c">// Save stack</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">saveStack</span><span class="o">();</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Hide the navigation-bar</span>
+<span class="c">	 * @method hideNavigationBar</span>
+<span class="c">	 */</span>
+	<span class="nx">hideNavigationBar</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">navigationBar</span><span class="o">.</span><span class="nx">hide</span><span class="o">();</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Return the last application URL for the top viewController in the stack</span>
+<span class="c">	 * @method getLastUrl</span>
+<span class="c">	 * @return {String} The URL</span>
+<span class="c">	 */</span>
+	<span class="nx">getLastUrl</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">topName</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="m">0</span><span class="o">].</span><span class="nx">NAME</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span><span class="o">[</span><span class="m">0</span><span class="o">].</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">NAME</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">topName</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">url</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">NAME</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">params</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">url</span> <span class="o">+=</span> <span class="s1">&#39;?&#39;</span><span class="o">;</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">].</span><span class="nx">params</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span> <span class="nx">url</span> <span class="o">+=</span> <span class="o">[</span><span class="nx">n</span><span class="o">,</span> <span class="nx">v</span><span class="o">].</span><span class="nx">join</span><span class="o">(</span><span class="s1">&#39;=&#39;</span><span class="o">);</span> <span class="nx">url</span> <span class="o">+=</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">;</span> <span class="o">});</span>
+				<span class="nx">url</span> <span class="o">=</span> <span class="nx">url</span><span class="o">.</span><span class="nx">substr</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="nx">url</span><span class="o">.</span><span class="nx">length</span><span class="o">-</span><span class="m">1</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">url</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Get a viewController from the stack</span>
+<span class="c">	 * @method getViewControllerFromStack</span>
+<span class="c">	 * @param viewController {mui.ViewController} The viewController to search for</span>
+<span class="c">	 * @param params {Object} Request parameters belonging to the viewController</span>
+<span class="c">	 * @return {mui.ViewController} The ViewController, if found</span>
+<span class="c">	 */</span>
+	<span class="nx">getViewControllerFromStack</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">viewController</span><span class="o">,</span> <span class="nx">params</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">vc</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">.</span><span class="nx">length</span><span class="o">,</span> <span class="nx">i</span><span class="o">=</span><span class="nx">len</span><span class="o">-</span><span class="m">1</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&gt;=</span><span class="m">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">--)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">===</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">NAME</span> <span class="o">&amp;&amp;</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">ApplicationController</span><span class="o">.</span><span class="nx">objectsEqual</span><span class="o">(</span><span class="nx">params</span><span class="o">,</span> <span class="nx">viewController</span><span class="o">.</span><span class="nx">params</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="nx">vc</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">stack</span><span class="o">[</span><span class="nx">i</span><span class="o">].</span><span class="nx">viewController</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">vc</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Initialize the navigationBar component</span>
+<span class="c">	 * @method initializeNavigationBar</span>
+<span class="c">	 */</span>
+	<span class="nx">initializeNavigationBar</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">navigationBar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">NavigationBar</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Initialize the stack</span>
+<span class="c">	 * @method initializeStack</span>
+<span class="c">	 */</span>
+	<span class="nx">initializeStack</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">poppedStack</span> <span class="o">=</span> <span class="o">[];</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * NavigationController initialization</span>
+<span class="c">	 * @method initialize</span>
+<span class="c">	 */</span>
+	<span class="nx">initialize</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Initialize properties</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">viewControllers</span> <span class="o">||</span> <span class="o">[];</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">appController</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">ApplicationController</span><span class="o">.</span><span class="nx">getInstance</span><span class="o">();</span>
+
+		<span class="c">// Initialize navigation-bar</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">initializeNavigationBar</span><span class="o">();</span>
+
+		<span class="c">// Initialize controller stack</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">initializeStack</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">NavigationController</span> <span class="o">=</span> <span class="nx">NavigationController</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+
+<span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">JSON</span><span class="o">){</span><span class="k">this</span><span class="o">.</span><span class="nx">JSON</span><span class="o">={}}(</span><span class="k">function</span><span class="o">(){</span><span class="k">function</span> <span class="nx">f</span><span class="o">(</span><span class="nx">n</span><span class="o">){</span><span class="k">return</span> <span class="nx">n</span><span class="o">&lt;</span><span class="m">10</span><span class="o">?</span><span class="s2">&quot;0&quot;</span><span class="o">+</span><span class="nx">n</span><span class="o">:</span><span class="nx">n</span><span class="o">}</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">Date</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">!==</span><span class="s2">&quot;function&quot;</span><span class="o">){</span><span class="nb">Date</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">=</span><span class="k">function</span><span class="o">(</span><span class="nx">key</span><span class="o">){</span><span class="k">return</span> <span class="nb">isFinite</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">valueOf</span><span class="o">())?</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCFullYear</span><span class="o">()+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nx">f</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCMonth</span><span class="o">()+</span><span class="m">1</span><span class="o">)+</span><span class="s2">&quot;-&quot;</span><span class="o">+</span><span class="nx">f</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCDate</span><span class="o">())+</span><span class="s2">&quot;T&quot;</span><span class="o">+</span><span class="nx">f</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCHours</span><span class="o">())+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">f</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCMinutes</span><span class="o">())+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nx">f</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getUTCSeconds</span><span class="o">())+</span><span class="s2">&quot;Z&quot;</span><span class="o">:</span><span class="kc">null</span><span class="o">};</span><span class="nb">String</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">=</span><span class="nb">Number</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">=</span><span class="nb">Boolean</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">=</span><span class="k">function</span><span class="o">(</span><span class="nx">key</span><span class="o">){</span><span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">valueOf</span><span class="o">()}}</span><span class="k">var</span> <span class="nx">cx</span><span class="o">=</span><span class="sr">/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g</span><span class="o">,</span><span class="nx">escapable</span><span class="o">=</span><span class="sr">/[\\\&quot;\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g</span><span class="o">,</span><span class="nx">gap</span><span class="o">,</span><span class="nx">indent</span><span class="o">,</span><span class="nx">meta</span><span class="o">={</span><span class="s2">&quot;\b&quot;</span><span class="o">:</span><span class="s2">&quot;\\b&quot;</span><span class="o">,</span><span class="s2">&quot;\t&quot;</span><span class="o">:</span><span class="s2">&quot;\\t&quot;</span><span class="o">,</span><span class="s2">&quot;\n&quot;</span><span class="o">:</span><span class="s2">&quot;\\n&quot;</span><span class="o">,</span><span class="s2">&quot;\f&quot;</span><span class="o">:</span><span class="s2">&quot;\\f&quot;</span><span class="o">,</span><span class="s2">&quot;\r&quot;</span><span class="o">:</span><span class="s2">&quot;\\r&quot;</span><span class="o">,</span><span class="s1">&#39;&quot;&#39;</span><span class="o">:</span><span class="s1">&#39;\\&quot;&#39;</span><span class="o">,</span><span class="s2">&quot;\\&quot;</span><span class="o">:</span><span class="s2">&quot;\\\\&quot;</span><span class="o">},</span><span class="nx">rep</span><span class="o">;</span><span class="k">function</span> <span class="nx">quote</span><span class="o">(</span><span class="nx">string</span><span class="o">){</span><span class="nx">escapable</span><span class="o">.</span><span class="nx">lastIndex</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="k">return</span> <span class="nx">escapable</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">string</span><span class="o">)?</span><span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nx">string</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="nx">escapable</span><span class="o">,</span><span class="k">function</span><span class="o">(</span><span class="nx">a</span><span class="o">){</span><span class="k">var</span> <span class="nx">c</span><span class="o">=</span><span class="nx">meta</span><span class="o">[</span><span class="nx">a</span><span class="o">];</span><span class="k">return</span> <span class="k">typeof</span> <span class="nx">c</span><span class="o">===</span><span class="s2">&quot;string&quot;</span><span class="o">?</span><span class="nx">c</span><span class="o">:</span><span class="s2">&quot;\\u&quot;</span><span class="o">+(</span><span class="s2">&quot;0000&quot;</span><span class="o">+</span><span class="nx">a</span><span class="o">.</span><span class="nx">charCodeAt</span><span class="o">(</span><span class="m">0</span><span class="o">).</span><span class="nx">toString</span><span class="o">(</span><span class="m">16</span><span class="o">)).</span><span class="nx">slice</span><span class="o">(-</span><span class="m">4</span><span class="o">)})+</span><span class="s1">&#39;&quot;&#39;</span><span class="o">:</span><span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nx">string</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="o">}</span><span class="k">function</span> <span class="nx">str</span><span class="o">(</span><span class="nx">key</span><span class="o">,</span><span class="nx">holder</span><span class="o">){</span><span class="k">var</span> <span class="nx">i</span><span class="o">,</span><span class="nx">k</span><span class="o">,</span><span class="nx">v</span><span class="o">,</span><span class="nx">length</span><span class="o">,</span><span class="nx">mind</span><span class="o">=</span><span class="nx">gap</span><span class="o">,</span><span class="nx">partial</span><span class="o">,</span><span class="nx">value</span><span class="o">=</span><span class="nx">holder</span><span class="o">[</span><span class="nx">key</span><span class="o">];</span><span class="k">if</span><span class="o">(</span><span class="nx">value</span><span class="o">&amp;&amp;</span><span class="k">typeof</span> <span class="nx">value</span><span class="o">===</span><span class="s2">&quot;object&quot;</span><span class="o">&amp;&amp;</span><span class="k">typeof</span> <span class="nx">value</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">===</span><span class="s2">&quot;function&quot;</span><span class="o">){</span><span class="nx">value</span><span class="o">=</span><span class="nx">value</span><span class="o">.</span><span class="nx">toJSON</span><span class="o">(</span><span class="nx">key</span><span class="o">)}</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">rep</span><span class="o">===</span><span class="s2">&quot;function&quot;</span><span class="o">){</span><span class="nx">value</span><span class="o">=</span><span class="nx">rep</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">holder</span><span class="o">,</span><span class="nx">key</span><span class="o">,</span><span class="nx">value</span><span class="o">)}</span><span class="nx">switch</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">value</span><span class="o">){</span><span class="nx">case</span><span class="s2">&quot;string&quot;</span><span class="o">:</span><span class="k">return</span> <span class="nx">quote</span><span class="o">(</span><span class="nx">value</span><span class="o">);</span><span class="nx">case</span><span class="s2">&quot;number&quot;</span><span class="o">:</span><span class="k">return</span> <span class="nb">isFinite</span><span class="o">(</span><span class="nx">value</span><span class="o">)?</span><span class="nb">String</span><span class="o">(</span><span class="nx">value</span><span class="o">):</span><span class="s2">&quot;null&quot;</span><span class="o">;</span><span class="nx">case</span><span class="s2">&quot;boolean&quot;</span><span class="o">:</span><span class="nx">case</span><span class="s2">&quot;null&quot;</span><span class="o">:</span><span class="k">return</span> <span class="nb">String</span><span class="o">(</span><span class="nx">value</span><span class="o">);</span><span class="nx">case</span><span class="s2">&quot;object&quot;</span><span class="o">:</span><span class="k">if</span><span class="o">(!</span><span class="nx">value</span><span class="o">){</span><span class="k">return</span><span class="s2">&quot;null&quot;</span><span class="o">}</span><span class="nx">gap</span><span class="o">+=</span><span class="nx">indent</span><span class="o">;</span><span class="nx">partial</span><span class="o">=[];</span><span class="k">if</span><span class="o">(</span><span class="nb">Object</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">toString</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">value</span><span class="o">)===</span><span class="s2">&quot;[object Array]&quot;</span><span class="o">){</span><span class="nx">length</span><span class="o">=</span><span class="nx">value</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">+=</span><span class="m">1</span><span class="o">){</span><span class="nx">partial</span><span class="o">[</span><span class="nx">i</span><span class="o">]=</span><span class="nx">str</span><span class="o">(</span><span class="nx">i</span><span class="o">,</span><span class="nx">value</span><span class="o">)||</span><span class="s2">&quot;null&quot;</span><span class="o">}</span><span class="nx">v</span><span class="o">=</span><span class="nx">partial</span><span class="o">.</span><span class="nx">length</span><span class="o">===</span><span class="m">0</span><span class="o">?</span><span class="s2">&quot;[]&quot;</span><span class="o">:</span><span class="nx">gap</span><span class="o">?</span><span class="s2">&quot;[\n&quot;</span><span class="o">+</span><span class="nx">gap</span><span class="o">+</span><span class="nx">partial</span><span class="o">.</span><span class="nx">join</span><span class="o">(</span><span class="s2">&quot;,\n&quot;</span><span class="o">+</span><span class="nx">gap</span><span class="o">)+</span><span class="s2">&quot;\n&quot;</span><span class="o">+</span><span class="nx">mind</span><span class="o">+</span><span class="s2">&quot;]&quot;</span><span class="o">:</span><span class="s2">&quot;[&quot;</span><span class="o">+</span><span class="nx">partial</span><span class="o">.</span><span class="nx">join</span><span class="o">(</span><span class="s2">&quot;,&quot;</span><span class="o">)+</span><span class="s2">&quot;]&quot;</span><span class="o">;</span><span class="nx">gap</span><span class="o">=</span><span class="nx">mind</span><span class="o">;</span><span class="k">return</span> <span class="nx">v</span><span class="o">}</span><span class="k">if</span><span class="o">(</span><span class="nx">rep</span><span class="o">&amp;&amp;</span><span class="k">typeof</span> <span class="nx">rep</span><span class="o">===</span><span class="s2">&quot;object&quot;</span><span class="o">){</span><span class="nx">length</span><span class="o">=</span><span class="nx">rep</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span><span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">length</span><span class="o">;</span><span class="nx">i</span><span class="o">+=</span><span class="m">1</span><span class="o">){</span><span class="nx">k</span><span class="o">=</span><span class="nx">rep</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">k</span><span class="o">===</span><span class="s2">&quot;string&quot;</span><span class="o">){</span><span class="nx">v</span><span class="o">=</span><span class="nx">str</span><span class="o">(</span><span class="nx">k</span><span class="o">,</span><span class="nx">value</span><span class="o">);</span><span class="k">if</span><span class="o">(</span><span class="nx">v</span><span class="o">){</span><span class="nx">partial</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">quote</span><span class="o">(</span><span class="nx">k</span><span class="o">)+(</span><span class="nx">gap</span><span class="o">?</span><span class="s2">&quot;: &quot;</span><span class="o">:</span><span class="s2">&quot;:&quot;</span><span class="o">)+</span><span class="nx">v</span><span class="o">)}}}}</span><span class="k">else</span><span class="o">{</span><span class="k">for</span><span class="o">(</span><span class="nx">k</span> <span class="k">in</span> <span class="nx">value</span><span class="o">){</span><span class="k">if</span><span class="o">(</span><span class="nb">Object</span><span class="o">.</span><span class="nx">hasOwnProperty</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span><span class="nx">k</span><span class="o">)){</span><span class="nx">v</span><span class="o">=</span><span class="nx">str</span><span class="o">(</span><span class="nx">k</span><span class="o">,</span><span class="nx">value</span><span class="o">);</span><span class="k">if</span><span class="o">(</span><span class="nx">v</span><span class="o">){</span><span class="nx">partial</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">quote</span><span class="o">(</span><span class="nx">k</span><span class="o">)+(</span><span class="nx">gap</span><span class="o">?</span><span class="s2">&quot;: &quot;</span><span class="o">:</span><span class="s2">&quot;:&quot;</span><span class="o">)+</span><span class="nx">v</span><span class="o">)}}}}</span><span class="nx">v</span><span class="o">=</span><span class="nx">partial</span><span class="o">.</span><span class="nx">length</span><span class="o">===</span><span class="m">0</span><span class="o">?</span><span class="s2">&quot;{}&quot;</span><span class="o">:</span><span class="nx">gap</span><span class="o">?</span><span class="s2">&quot;{\n&quot;</span><span class="o">+</span><span class="nx">gap</span><span class="o">+</span><span class="nx">partial</span><span class="o">.</span><span class="nx">join</span><span class="o">(</span><span class="s2">&quot;,\n&quot;</span><span class="o">+</span><span class="nx">gap</span><span class="o">)+</span><span class="s2">&quot;\n&quot;</span><span class="o">+</span><span class="nx">mind</span><span class="o">+</span><span class="s2">&quot;}&quot;</span><span class="o">:</span><span class="s2">&quot;{&quot;</span><span class="o">+</span><span class="nx">partial</span><span class="o">.</span><span class="nx">join</span><span class="o">(</span><span class="s2">&quot;,&quot;</span><span class="o">)+</span><span class="s2">&quot;}&quot;</span><span class="o">;</span><span class="nx">gap</span><span class="o">=</span><span class="nx">mind</span><span class="o">;</span><span class="k">return</span> <span class="nx">v</span><span class="o">}}</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">JSON</span><span class="o">.</span><span class="nx">stringify</span><span class="o">!==</span><span class="s2">&quot;function&quot;</span><span class="o">){</span><span class="nx">JSON</span><span class="o">.</span><span class="nx">stringify</span><span class="o">=</span><span class="k">function</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span><span class="nx">replacer</span><span class="o">,</span><span class="nx">space</span><span class="o">){</span><span class="k">var</span> <span class="nx">i</span><span class="o">;</span><span class="nx">gap</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">;</span><span class="nx">indent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">space</span><span class="o">===</span><span class="s2">&quot;number&quot;</span><span class="o">){</span><span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">space</span><span class="o">;</span><span class="nx">i</span><span class="o">+=</span><span class="m">1</span><span class="o">){</span><span class="nx">indent</span><span class="o">+=</span><span class="s2">&quot; &quot;</span><span class="o">}}</span><span class="k">else</span><span class="o">{</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">space</span><span class="o">===</span><span class="s2">&quot;string&quot;</span><span class="o">){</span><span class="nx">indent</span><span class="o">=</span><span class="nx">space</span><span class="o">}}</span><span class="nx">rep</span><span class="o">=</span><span class="nx">replacer</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="nx">replacer</span><span class="o">&amp;&amp;</span><span class="k">typeof</span> <span class="nx">replacer</span><span class="o">!==</span><span class="s2">&quot;function&quot;</span><span class="o">&amp;&amp;(</span><span class="k">typeof</span> <span class="nx">replacer</span><span class="o">!==</span><span class="s2">&quot;object&quot;</span><span class="o">||</span><span class="k">typeof</span> <span class="nx">replacer</span><span class="o">.</span><span class="nx">length</span><span class="o">!==</span><span class="s2">&quot;number&quot;</span><span class="o">)){</span><span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="o">(</span><span class="s2">&quot;JSON.stringify&quot;</span><span class="o">)}</span><span class="k">return</span> <span class="nx">str</span><span class="o">(</span><span class="s2">&quot;&quot;</span><span class="o">,{</span><span class="s2">&quot;&quot;</span><span class="o">:</span><span class="nx">value</span><span class="o">})}}</span><span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">JSON</span><span class="o">.</span><span class="nx">parse</span><span class="o">!==</span><span class="s2">&quot;function&quot;</span><span class="o">){</span><span class="nx">JSON</span><span class="o">.</span><span class="nx">parse</span><span class="o">=</span><span class="k">function</span><span class="o">(</span><span class="nx">text</span><span class="o">,</span><span class="nx">reviver</span><span class="o">){</span><span class="k">var</span> <span class="nx">j</span><span class="o">;</span><span class="k">function</span> <span class="nx">walk</span><span class="o">(</span><span class="nx">holder</span><span class="o">,</span><span class="nx">key</span><span class="o">){</span><span class="k">var</span> <span class="nx">k</span><span class="o">,</span><span class="nx">v</span><span class="o">,</span><span class="nx">value</span><span class="o">=</span><span class="nx">holder</span><span class="o">[</span><span class="nx">key</span><span class="o">];</span><span class="k">if</span><span class="o">(</span><span class="nx">value</span><span class="o">&amp;&amp;</span><span class="k">typeof</span> <span class="nx">value</span><span class="o">===</span><span class="s2">&quot;object&quot;</span><span class="o">){</span><span class="k">for</span><span class="o">(</span><span class="nx">k</span> <span class="k">in</span> <span class="nx">value</span><span class="o">){</span><span class="k">if</span><span class="o">(</span><span class="nb">Object</span><span class="o">.</span><span class="nx">hasOwnProperty</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span><span class="nx">k</span><span class="o">)){</span><span class="nx">v</span><span class="o">=</span><span class="nx">walk</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span><span class="nx">k</span><span class="o">);</span><span class="k">if</span><span class="o">(</span><span class="nx">v</span><span class="o">!==</span><span class="kc">undefined</span><span class="o">){</span><span class="nx">value</span><span class="o">[</span><span class="nx">k</span><span class="o">]=</span><span class="nx">v</span><span class="o">}</span><span class="k">else</span><span class="o">{</span><span class="nx">delete</span> <span class="nx">value</span><span class="o">[</span><span class="nx">k</span><span class="o">]}}}}</span><span class="k">return</span> <span class="nx">reviver</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">holder</span><span class="o">,</span><span class="nx">key</span><span class="o">,</span><span class="nx">value</span><span class="o">)}</span><span class="nx">cx</span><span class="o">.</span><span class="nx">lastIndex</span><span class="o">=</span><span class="m">0</span><span class="o">;</span><span class="k">if</span><span class="o">(</span><span class="nx">cx</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">text</span><span class="o">)){</span><span class="nx">text</span><span class="o">=</span><span class="nx">text</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="nx">cx</span><span class="o">,</span><span class="k">function</span><span class="o">(</span><span class="nx">a</span><span class="o">){</span><span class="k">return</span><span class="s2">&quot;\\u&quot;</span><span class="o">+(</span><span class="s2">&quot;0000&quot;</span><span class="o">+</span><span class="nx">a</span><span class="o">.</span><span class="nx">charCodeAt</span><span class="o">(</span><span class="m">0</span><span class="o">).</span><span class="nx">toString</span><span class="o">(</span><span class="m">16</span><span class="o">)).</span><span class="nx">slice</span><span class="o">(-</span><span class="m">4</span><span class="o">)})}</span><span class="k">if</span><span class="o">(</span><span class="sr">/^[\],:{}\s]*$/</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">text</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/\\(?:[&quot;\\\/bfnrt]|u[0-9a-fA-F]{4})/g</span><span class="o">,</span><span class="s2">&quot;@&quot;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/&quot;[^&quot;\\\n\r]*&quot;|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g</span><span class="o">,</span><span class="s2">&quot;]&quot;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/(?:^|:|,)(?:\s*\[)+/g</span><span class="o">,</span><span class="s2">&quot;&quot;</span><span class="o">))){</span><span class="nx">j</span><span class="o">=</span><span class="nb">eval</span><span class="o">(</span><span class="s2">&quot;(&quot;</span><span class="o">+</span><span class="nx">text</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="o">);</span><span class="k">return</span> <span class="k">typeof</span> <span class="nx">reviver</span><span class="o">===</span><span class="s2">&quot;function&quot;</span><span class="o">?</span><span class="nx">walk</span><span class="o">({</span><span class="s2">&quot;&quot;</span><span class="o">:</span><span class="nx">j</span><span class="o">},</span><span class="s2">&quot;&quot;</span><span class="o">):</span><span class="nx">j</span><span class="o">}</span><span class="k">throw</span> <span class="k">new</span> <span class="nx">SyntaxError</span><span class="o">(</span><span class="s2">&quot;JSON.parse&quot;</span><span class="o">)}}}());</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class="selected"><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="ApplicationController.html" title="ApplicationController">ApplicationController</a></li>
+                                <li class=""><a href="NavigationController.html" title="NavigationController">NavigationController</a></li>
+                                <li class=""><a href="ViewController.html" title="ViewController">ViewController</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="ApplicationController.js.html" title="ApplicationController.js">ApplicationController.js</a></li>
+                                <li class="selected"><a href="NavigationController.js.html" title="NavigationController.js">NavigationController.js</a></li>
+                                <li class=""><a href="ViewController.js.html" title="ViewController.js">ViewController.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "ViewController.html#method_appear", "access": "", "host": "ViewController", "type": "method", "name": "appear"}, {"url": "ApplicationController.html#property__controllers", "access": "private", "host": "ApplicationController", "type": "property", "name": "_controllers"}, {"url": "ViewController.html#method_disappear", "access": "", "host": "ViewController", "type": "method", "name": "disappear"}, {"url": "ViewController.html#method_fetchJSON", "access": "", "host": "ViewController", "type": "method", "name": "fetchJSON"}, {"url": "ViewController.html#method_fetchViewContent", "access": "", "host": "ViewController", "type": "method", "name": "fetchViewContent"}, {"url": "ApplicationController.html#method_getController", "access": "", "host": "ApplicationController", "type": "method", "name": "getController"}, {"url": "ApplicationController.html#method_getInstance", "access": "", "host": "ApplicationController", "type": "method", "name": "getInstance"}, {"url": "NavigationController.html#method_getLastUrl", "access": "", "host": "NavigationController", "type": "method", "name": "getLastUrl"}, {"url": "NavigationController.html#method_getPreviousViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getPreviousViewController"}, {"url": "NavigationController.html#method_getTopViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getTopViewController"}, {"url": "ViewController.html#method_getTransition", "access": "", "host": "ViewController", "type": "method", "name": "getTransition"}, {"url": "NavigationController.html#method_getViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getViewController"}, {"url": "NavigationController.html#method_getViewControllerFromStack", "access": "", "host": "NavigationController", "type": "method", "name": "getViewControllerFromStack"}, {"url": "NavigationController.html#method_goBack", "access": "", "host": "NavigationController", "type": "method", "name": "goBack"}, {"url": "ApplicationController.html#method_handleEvent", "access": "private", "host": "ApplicationController", "type": "method", "name": "handleEvent"}, {"url": "NavigationController.html#method_hideNavigationBar", "access": "", "host": "NavigationController", "type": "method", "name": "hideNavigationBar"}, {"url": "ApplicationController.html#method_initialize", "access": "", "host": "ApplicationController", "type": "method", "name": "initialize"}, {"url": "NavigationController.html#method_initialize", "access": "", "host": "NavigationController", "type": "method", "name": "initialize"}, {"url": "NavigationController.html#method_initializeNavigationBar", "access": "", "host": "NavigationController", "type": "method", "name": "initializeNavigationBar"}, {"url": "NavigationController.html#method_initializeStack", "access": "", "host": "NavigationController", "type": "method", "name": "initializeStack"}, {"url": "ApplicationController.html#property__instance", "access": "", "host": "ApplicationController", "type": "property", "name": "_instance"}, {"url": "ViewController.html#method_isViewLoaded", "access": "", "host": "ViewController", "type": "method", "name": "isViewLoaded"}, {"url": "ViewController.html#method_loadView", "access": "", "host": "ViewController", "type": "method", "name": "loadView"}, {"url": "NavigationController.html#method_loadViewControllers", "access": "", "host": "NavigationController", "type": "method", "name": "loadViewControllers"}, {"url": "ViewController.html#method_map", "access": "", "host": "ViewController", "type": "method", "name": "map"}, {"url": "NavigationController.html#property_navigationBar", "access": "", "host": "NavigationController", "type": "property", "name": "navigationBar"}, {"url": "ViewController.html#method_navigationItems", "access": "", "host": "ViewController", "type": "method", "name": "navigationItems"}, {"url": "ApplicationController.html#method_objectsEqual", "access": "", "host": "ApplicationController", "type": "method", "name": "objectsEqual"}, {"url": "ApplicationController.html#method_openUrl", "access": "", "host": "ApplicationController", "type": "method", "name": "openUrl"}, {"url": "ApplicationController.html#method_openViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "openViewController"}, {"url": "ViewController.html#property_persistView", "access": "", "host": "ViewController", "type": "property", "name": "persistView"}, {"url": "NavigationController.html#property_poppedStack", "access": "", "host": "NavigationController", "type": "property", "name": "poppedStack"}, {"url": "ApplicationController.html#property_popping", "access": "", "host": "ApplicationController", "type": "property", "name": "popping"}, {"url": "NavigationController.html#method_popToRootViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popToRootViewController"}, {"url": "NavigationController.html#method_popToViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popToViewController"}, {"url": "NavigationController.html#method_popViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popViewController"}, {"url": "ApplicationController.html#method_positionViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "positionViewController"}, {"url": "NavigationController.html#method_pushToViewController", "access": "", "host": "NavigationController", "type": "method", "name": "pushToViewController"}, {"url": "NavigationController.html#method_pushViewController", "access": "", "host": "NavigationController", "type": "method", "name": "pushViewController"}, {"url": "ApplicationController.html#method_registerController", "access": "", "host": "ApplicationController", "type": "method", "name": "registerController"}, {"url": "ViewController.html#method_reoladView", "access": "", "host": "ViewController", "type": "method", "name": "reoladView"}, {"url": "ApplicationController.html#method_restore", "access": "", "host": "ApplicationController", "type": "method", "name": "restore"}, {"url": "NavigationController.html#method_restoreStack", "access": "", "host": "NavigationController", "type": "method", "name": "restoreStack"}, {"url": "NavigationController.html#method_saveStack", "access": "", "host": "NavigationController", "type": "method", "name": "saveStack"}, {"url": "ViewController.html#method_setNavigationItem", "access": "", "host": "ViewController", "type": "method", "name": "setNavigationItem"}, {"url": "ApplicationController.html#method_setTabsElement", "access": "", "host": "ApplicationController", "type": "method", "name": "setTabsElement"}, {"url": "ViewController.html#method_setView", "access": "", "host": "ViewController", "type": "method", "name": "setView"}, {"url": "ViewController.html#method_setViewContent", "access": "", "host": "ViewController", "type": "method", "name": "setViewContent"}, {"url": "ApplicationController.html#method_showViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "showViewController"}, {"url": "NavigationController.html#property_stack", "access": "", "host": "NavigationController", "type": "property", "name": "stack"}, {"url": "ApplicationController.html#method__tabChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabChanged"}, {"url": "ApplicationController.html#method__tabRefreshed", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabRefreshed"}, {"url": "ApplicationController.html#property__tabView", "access": "private", "host": "ApplicationController", "type": "property", "name": "_tabView"}, {"url": "NavigationController.html#property_templateRegExp", "access": "private", "host": "NavigationController", "type": "property", "name": "templateRegExp"}, {"url": "ApplicationController.html#method__toggleEvents", "access": "private", "host": "ApplicationController", "type": "method", "name": "_toggleEvents"}, {"url": "ApplicationController.html#method__transitionEnd", "access": "private", "host": "ApplicationController", "type": "method", "name": "_transitionEnd"}, {"url": "ViewController.html#method_unloadView", "access": "", "host": "ViewController", "type": "method", "name": "unloadView"}, {"url": "ApplicationController.html#method__urlChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_urlChanged"}, {"url": "ViewController.html#property_view", "access": "", "host": "ViewController", "type": "property", "name": "view"}, {"url": "NavigationController.html#property_viewControllers", "access": "", "host": "NavigationController", "type": "property", "name": "viewControllers"}, {"url": "NavigationController.html#method_viewControllerWillAppear", "access": "", "host": "NavigationController", "type": "method", "name": "viewControllerWillAppear"}, {"url": "ViewController.html#method_viewDidAppear", "access": "", "host": "ViewController", "type": "method", "name": "viewDidAppear"}, {"url": "ViewController.html#method_viewDidDisappear", "access": "", "host": "ViewController", "type": "method", "name": "viewDidDisappear"}, {"url": "ViewController.html#method__viewDidLoad", "access": "private", "host": "ViewController", "type": "method", "name": "_viewDidLoad"}, {"url": "ViewController.html#method_viewDidLoad", "access": "", "host": "ViewController", "type": "method", "name": "viewDidLoad"}, {"url": "ViewController.html#property__viewLoaded", "access": "private", "host": "ViewController", "type": "property", "name": "_viewLoaded"}, {"url": "ApplicationController.html#property_viewportInfo", "access": "", "host": "ApplicationController", "type": "property", "name": "viewportInfo"}, {"url": "ViewController.html#method_viewWillAppear", "access": "", "host": "ViewController", "type": "method", "name": "viewWillAppear"}, {"url": "ViewController.html#method_viewWillDisappear", "access": "", "host": "ViewController", "type": "method", "name": "viewWillDisappear"}, {"url": "ApplicationController.html#property_visibleViewController", "access": "", "host": "ApplicationController", "type": "property", "name": "visibleViewController"}, {"url": "ApplicationController.html#property_window", "access": "", "host": "ApplicationController", "type": "property", "name": "window"}];
+</script>
+</body>
+</html>

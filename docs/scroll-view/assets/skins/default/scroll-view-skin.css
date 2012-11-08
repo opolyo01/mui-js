@@ -1,0 +1,17 @@
+.mui-scrollbar { opacity: 0; position: absolute; width: 6px; height: 10px; -webkit-transform: translate3d(0, 0, 0); }
+.mui-scrollbar.mui-vertical { top: 0; right: 1px; }
+.mui-scrollbar.mui-horizontal { height: 8px; width: 20px; bottom: 1px; left: 0; }
+.mui-scrollbar.mui-showing { opacity: 1; }
+.mui-scrollbar .mui-b, .mui-scrollbar .mui-img { position: absolute; right: 1px; display: block; width: 100%; height: 4px;  -webkit-border-radius: 3px; }
+.mui-scrollbar .mui-b { -webkit-border-bottom-right-radius: 0; -webkit-border-bottom-left-radius: 0; background: rgba(0,0,0,0.4); }
+.mui-scrollbar .mui-b:first-child { top: 0; }
+.mui-scrollbar .mui-b:last-child { bottom: -0; -webkit-border-radius: 0; -webkit-border-bottom-right-radius: 3px; -webkit-border-bottom-left-radius: 3px; -webkit-transform: translate3d(0, 0, 0); }
+.mui-scrollbar .mui-img { position: absolute; top: 4px; -webkit-border-radius: 0; height: 1px; -webkit-transform: translate3d(0,0,0) scaleY(1); -webkit-transform-origin-y: 0; }
+.mui-scrollbar.mui-horizontal > .mui-child { display: inline-block; top: 0; left: 0; bottom: auto; right: auto;  }
+.mui-scrollbar.mui-horizontal .mui-b { -webkit-border-top-right-radius: 0; -webkit-border-bottom-left-radius: 3px; width: 4px; height: 6px; }
+.mui-scrollbar.mui-horizontal .mui-b:last-child { -webkit-border-bottom-left-radius: 0; -webkit-border-top-right-radius: 3px; }
+.mui-scrollbar.mui-horizontal .mui-img { top: auto; left: 4px; width: 1px; height: 6px; -webkit-transform: translate3d(0,0,0) scaleX(1); -webkit-transform-origin: 0 0; }
+
+.mui-paginator { width: 100%; height: 100%; text-align: center; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.mui-paginator-page { display: inline-block; width: 6px; height: 6px; background: #666; margin-right: 8px; -webkit-border-radius: 2px; }
+.mui-paginator-page.mui-active { background: #fff; }

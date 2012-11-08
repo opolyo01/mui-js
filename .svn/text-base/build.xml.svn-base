@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MuiMasterBuild" default="buildall">
+    <description>Master Build File</description>
+
+	<target name="project" depends="buildall, deploydocs" description="Build all libraries, and generate API docs" />
+
+	<target name="buildall" description="Build all library components">
+		<subant target="all">
+			<fileset dir="src/" includes="*/build.xml"/>
+		</subant>
+	</target>
+	
+    <target name="deploydocs" description="Copy doc files to global doc locations">
+		<exec executable="bash">
+			<arg value="tools/yuidoc/bin/mui.sh" />
+		</exec>
+	</target>
+
+    <target name="test" description="run tests - currently only for core mui functions, will be expanded">
+        <subant target="test">
+            <fileset dir="src/" includes="*/tests/build.xml"/>
+        </subant>
+    </target>
+</project>

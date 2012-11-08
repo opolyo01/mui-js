@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		
+		<style type="text/css" media="screen">
+			body { min-height: 480px; font-size: 40px; }
+		</style>
+		
+		<script src="../../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		
+		function appendScript(){
+			mui.getScript('hello.js', {
+				callback: {
+					success: function(o) {
+						alert('GET JS response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('GET JS failure');
+					}
+				}
+			});
+		}
+		
+		function callback(){
+			alert("hello.js is appended to head");
+		}
+		
+		function doGet()
+		{
+			mui.io('get.html', {
+				callback: {
+					success: function(o) {
+						alert('GET response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('GET failure');
+					}
+				}
+			});
+		}
+		
+		function doPost()
+		{
+			mui.io('post.html', {
+				method: 'post',
+				callback: {
+					success: function(o) {
+						alert('POST response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('POST failure');
+					}
+				}
+			});
+		}
+		
+		function doPostWithHeaders()
+		{
+			mui.io('postHeaders.html', {
+				method: 'post',
+				headers: [
+					{ 'Content-Type': 'application/x-www-form-urlencoded' }
+				],
+				callback: {
+					success: function(o) {
+						alert('POST response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('POST failure');
+					}
+				}
+			});
+		}
+		
+		mui.on(document, 'DOMContentLoaded', function() {
+			mui.on('#append-script', 'click', appendScript);	
+			mui.on('#xhr-get', 'click', doGet);
+			mui.on('#xhr-post', 'click', doPost);
+			mui.on('#xhr-post-headers', 'click', doPostWithHeaders);						
+			
+		});
+		</script>
+	</head>
+	
+	<body>
+		<button id="append-script">Append hello.js</button><br/>
+		<button id="xhr-get">GET</button><br/>
+		<button id="xhr-post">POST</button><br/>
+		<button id="xhr-post-headers">POST w/ headers</button><br/>
+	</body>
+</html>

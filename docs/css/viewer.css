@@ -1,0 +1,217 @@
+body {
+    font-family: "Book Antiqua", serif;
+    margin: 0;
+    max-width: 1600px;
+    min-width: 900px;
+}
+
+a {
+ color: #C43DDE;
+ padding: 0;
+ text-decoration: none;
+}
+
+.content a {
+    color: #a734bd;
+}
+
+h1,h2,h3,h4,h5,h6,.tagline, .nav, dt {
+    font-family: "Helvetica Neue", Helvetica, Arial,"Liberation Sans","Droid Sans", sans-serif;
+}
+
+
+#header {
+    height: 6em;
+}
+
+h1 {
+    color: #999;
+    float: left;
+    font-size: 10em;
+    letter-spacing: -.05em;
+    line-height: .6em;
+    margin: 0 0 0 20%;
+    padding: 0;
+    position: relative;
+    text-shadow: #555 2px 2px 0px;
+    top: 15px;
+    z-index: 0;
+}
+
+.tagline {
+    color: #999;
+    font-size: 1.2em;
+    float: left;
+    position: relative;
+    left: 10px;
+    top: 40px;
+    width: 15em;
+}
+
+
+.nav {
+    background-color: #ddd;
+    -webkit-border-radius: 0 8px 8px 0;
+    -moz-border-radius: 0 8px 8px 0px;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.2em;
+    padding: .5em 0;
+    position: fixed;
+}
+
+.nav ul,
+.nav li {
+    list-style-type: none;
+    margin: 0;
+}
+
+.nav ul {
+    padding: 0;
+}
+
+.nav li {
+    height: 30px;
+    width: 12.5em;
+}
+
+.nav li a {
+    display: block;
+    padding: 0 0 0 .5em;
+    text-shadow: #9D31B2 0 0 1px;
+}
+
+.nav h3 {
+    color: #888;
+    font-size: 1em;
+    margin: .4em .5em 0 0;
+    text-align: right;
+}
+
+.active {
+    background: #9f9f9f;
+}
+
+li.active a {
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.active a:after {
+    content: url('../images/nav-arrow.png');
+    float: right;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    left: 20px;
+}
+
+.content {
+    background-color: rgba(255,255,255,.6);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-left: 25%;
+    padding: .1em 1em 1em 1em;
+    position: relative;
+    width: 50%;
+    z-index:1;
+}
+
+#methods ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.detail,
+span.params {
+    display: none;
+}
+
+.showing .detail {
+    display: block;
+}
+
+.showing span.params {
+    display: inline;
+}
+
+
+h4 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.GettingStarted h4:after {
+    content: "";
+}
+
+h4:after {
+    content: "+";
+    float: right;
+}
+
+.showing h4:after {
+    content: "-";
+}
+
+.detail {
+    border-bottom: 2px dotted #999;
+    margin-bottom: 4em;
+    padding-bottom: 2em;
+}
+
+h5, h6 {
+    font-size: 1.2em;
+    margin-bottom: 0;
+}
+
+.description {
+    margin-top: .3em;
+}
+
+.params {
+    background-color: #eee;
+}
+
+span.params {
+    margin: 0 .2em;
+    padding: .3em;
+}
+
+dl.params {
+    padding: 1em;
+}
+
+dt {
+    font-weight: bold;
+    margin-bottom: .4em;
+}
+
+dd {
+    margin-bottom: .4em;
+}
+
+.example {
+    background-color: #FFFEE3;
+    padding: 1em;
+}
+
+h6 {
+    margin-top: 0;
+}
+
+.demo {
+    background-color: #D0D7DD;
+    border: 1px solid #777;
+    border-radius: 8px;
+    padding: 1em;
+}
+
+/*
+ * Example Styles
+**/
+
+.hidden {
+    display: none;
+}
+

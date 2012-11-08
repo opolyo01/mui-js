@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../core/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		
+		<style type="text/css" media="screen">
+			body { min-height: 480px; font-size: 40px; }
+		</style>
+		
+		<script src="../../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.on(window, 'load', function() {
+
+			mui.one('#touchstart', 'touchstart', function(e) {
+				alert('touch started at x='+e.touches[0].pageX+', y='+e.touches[0].pageY);
+			});
+			
+			mui.one('#touchend', 'touchend', function(e) {
+				alert('touch ended at x='+e.touches[0].pageX+', y='+e.touches[0].pageY);
+			});
+			
+			mui.one('#click', 'click', function(e) {
+				alert('clicked at x='+e.pageX+', y='+e.pageY);
+			});
+						
+		});
+		</script>
+	</head>
+	
+	<body>
+		<div id="touchstart">
+			<strong>touchstart test</strong>
+		</div>
+		
+		<div id="touchend">
+			<strong>touchend test</strong>
+		</div>
+		
+		<div id="click">
+			<strong>click test</strong>
+		</div>
+	</body>
+</html>

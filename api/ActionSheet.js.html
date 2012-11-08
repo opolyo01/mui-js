@@ -1,0 +1,373 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: actionsheet   ActionSheet.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.32" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.32" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.32"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.32"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_actionsheet.html" title="actionsheet">actionsheet</a>
+	               		
+	               		 <span class="gt"></span> ActionSheet.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * actionsheet module</span>
+<span class="c"> * @module actionsheet</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * &lt;p&gt;</span>
+<span class="c"> * The ActionSheet class provides a modal view which slides up from</span>
+<span class="c"> * the bottom of the screen with 1 or more buttons, and a message. An example of this</span>
+<span class="c"> * is in the iPhone Safari Application, when you click the + button, an</span>
+<span class="c"> * action sheet view is displayed with options to bookmark the page. If the title is present,</span>
+<span class="c"> * that is displayed on the top of the aciton sheet. The order of the buttons are as follows:</span>
+<span class="c"> * &lt;/p&gt;</span>
+<span class="c"> * &lt;ol&gt;</span>
+<span class="c"> * &lt;li&gt;destructive button (in red)&lt;/li&gt;</span>
+<span class="c"> * &lt;li&gt;other buttons (in gray)&lt;/li&gt;</span>
+<span class="c"> * &lt;li&gt;cancel button (in black)&lt;/li&gt;</span>
+<span class="c"> * &lt;/ol&gt;</span>
+<span class="c"> * &lt;p&gt;</span>
+<span class="c"> * The valid configuration attributes are:</span>
+<span class="c"> * &lt;strong&gt;title, cancelButton, destructiveButton, otherButtons&lt;/strong&gt;</span>
+<span class="c"> * &lt;/p&gt;</span>
+<span class="c"> * @class ActionSheet</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param config {Object} ActionSheet commands configuration&lt;br/&gt;</span>
+<span class="c"> *   Possible configuration attributes:&lt;br/&gt;</span>
+<span class="c"> *   &lt;strong&gt;title&lt;/strong&gt; (String) - the message displayed at the top of the action sheet when shown&lt;br/&gt;</span>
+<span class="c"> *   &lt;strong&gt;cancelButton&lt;/strong&gt; (Object { title, action }) - the text for the cancel button, and URL or function for button activation&lt;br/&gt;</span>
+<span class="c"> *   &lt;strong&gt;destructiveButton&lt;/strong&gt; (Object {title, action }) - the text for the destructive button, and URL or function for button activation&lt;br/&gt;</span>
+<span class="c"> *   &lt;storng&gt;otherButtons&lt;/strong&gt; (Array) - Array of titles/actions for other buttons, which are shown between the destructive and cancel buttons &lt;br/&gt;</span>
+<span class="c"> * &lt;br/&gt;</span>
+<span class="c"> * Example: &lt;br/&gt;</span>
+<span class="c"> * var myActionSheet = new mui.ActionSheet({&lt;br/&gt;</span>
+<span class="c"> *   title: &#39;Blah blah blah&#39;,&lt;br/&gt;</span>
+<span class="c"> *   cancelButton: { title: &#39;Cancel&#39; },&lt;br/&gt;</span>
+<span class="c"> *   destructiveButton: { title: &#39;Alert!&#39;, action: myAlertMethod },&lt;br/&gt;</span>
+<span class="c"> *   otherButtons: [&lt;br/&gt;</span>
+<span class="c"> *     { title: &#39;Option 1&#39;, action: &#39;/options/1&#39; },&lt;br/&gt;</span>
+<span class="c"> *     { title: &#39;Option 2&#39;, action: myOption2 }&lt;br/&gt;</span>
+<span class="c"> *   ]&lt;br/&gt;</span>
+<span class="c"> * });&lt;br/&gt;</span>
+<span class="c"> * myActionSheet.show();</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">ActionSheet</span><span class="o">(</span><span class="nx">config</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="nx">config</span> <span class="o">=</span> <span class="nx">config</span> <span class="o">||</span> <span class="o">{};</span>
+
+	<span class="c">// Initialize properties	</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">title</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">cancelButton</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cancelButton</span><span class="o">;</span>
+	
+	<span class="k">this</span><span class="o">.</span><span class="nx">cancelButton</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">cancelButton</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">otherButtons</span> <span class="o">=</span> <span class="nx">config</span><span class="o">.</span><span class="nx">otherButtons</span><span class="o">;</span>
+	
+	<span class="c">// Create elements</span>
+<span class="c"></span>	
+	<span class="c">// Root element</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-actionsheet&#39;</span> <span class="o">});</span>
+	
+	<span class="c">// Content container</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">);</span>
+	
+	<span class="c">// Title</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">title</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">titleEl</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-title&#39;</span><span class="o">,</span> <span class="nx">innerHTML</span><span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="nx">title</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">titleEl</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">// Destructive button</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">destructiveButtonEl</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> 
+			<span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-action-button mui-destructive&#39;</span><span class="o">,</span>
+			<span class="nx">innerHTML</span><span class="o">:</span> <span class="s1">&#39;&lt;a href=&quot;#&quot;&gt;&#39;</span><span class="o">+(</span><span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">.</span><span class="nx">title</span><span class="o">)+</span><span class="s1">&#39;&lt;/a&gt;&#39;</span>
+		<span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">destructiveButtonEl</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">// Other buttons</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">otherButtons</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">otherButtonElements</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">otherButtons</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">otherButton</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> 
+				<span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-action-button mui-other&#39;</span><span class="o">,</span> 
+				<span class="nx">innerHTML</span><span class="o">:</span> <span class="s1">&#39;&lt;a href=&quot;#&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">otherButton</span><span class="o">.</span><span class="nx">title</span><span class="o">+</span><span class="s1">&#39;&lt;/a&gt;&#39;</span>
+			<span class="o">});</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">otherButtonElements</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">el</span><span class="o">);</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">el</span><span class="o">);</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">// Cancel button	</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cancelButton</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">cancelButtonEl</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span>
+			<span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-action-button mui-cancel&#39;</span><span class="o">,</span>
+			<span class="nx">innerHTML</span><span class="o">:</span> <span class="s1">&#39;&lt;a href=&quot;#&quot;&gt;&#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">cancelButton</span><span class="o">.</span><span class="nx">title</span><span class="o">+</span><span class="s1">&#39;&lt;/a&gt;&#39;</span>
+		<span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">cancelButtonEl</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="c">// Insert element</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(0, &#39;</span><span class="o">+</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>			
+	<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">);</span>
+	<span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+<span class="o">};</span>
+
+<span class="nx">ActionSheet</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Event dispatcher</span>
+<span class="c">	 * @method handleEvent</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getAncestorByClassName</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">target</span><span class="o">,</span> <span class="s1">&#39;mui-action-button&#39;</span><span class="o">);</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+				<span class="o">}</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">:</span>			
+			<span class="nx">case</span> <span class="s1">&#39;click&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">hide</span><span class="o">();</span>					
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+					<span class="k">if</span><span class="o">(!</span><span class="nx">mui</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">,</span> <span class="s1">&#39;mui-cancel&#39;</span><span class="o">))</span>
+					<span class="o">{</span>
+						<span class="k">if</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">,</span> <span class="s1">&#39;mui-destructive&#39;</span><span class="o">))</span>
+						<span class="o">{</span>
+							<span class="nx">switch</span><span class="o">(</span><span class="k">typeof</span> <span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">.</span><span class="nx">action</span><span class="o">)</span>
+							<span class="o">{</span>
+								<span class="nx">case</span> <span class="s1">&#39;function&#39;</span><span class="o">:</span>
+									<span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">.</span><span class="nx">action</span><span class="o">();</span>
+									<span class="k">break</span><span class="o">;</span>
+								<span class="nx">case</span> <span class="s1">&#39;string&#39;</span><span class="o">:</span>
+									<span class="nb">window</span><span class="o">.</span><span class="nx">location</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">destructiveButton</span><span class="o">.</span><span class="nx">action</span><span class="o">;</span>
+									<span class="k">break</span><span class="o">;</span>
+							<span class="o">}</span>
+						<span class="o">}</span>
+						<span class="k">else</span>
+						<span class="o">{</span>
+							<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">otherButtons</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">button</span><span class="o">)</span> <span class="o">{</span>
+								<span class="k">if</span><span class="o">(</span><span class="nx">button</span><span class="o">.</span><span class="nx">title</span> <span class="o">===</span> <span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">.</span><span class="nx">innerHTML</span><span class="o">)</span>
+								<span class="o">{</span>
+									<span class="nx">switch</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">button</span><span class="o">.</span><span class="nx">action</span><span class="o">)</span>
+									<span class="o">{</span>
+										<span class="nx">case</span> <span class="s1">&#39;function&#39;</span><span class="o">:</span>
+											<span class="nx">button</span><span class="o">.</span><span class="nx">action</span><span class="o">();</span>
+											<span class="k">break</span><span class="o">;</span>
+										<span class="nx">case</span> <span class="s1">&#39;string&#39;</span><span class="o">:</span>
+											<span class="nb">window</span><span class="o">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">button</span><span class="o">.</span><span class="nx">action</span><span class="o">;</span>
+											<span class="k">break</span><span class="o">;</span>
+									<span class="o">}</span>
+								<span class="o">}</span>
+							<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+						<span class="o">}</span>
+					<span class="o">}</span>
+				<span class="o">}</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">buttonTarget</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">removeAttribute</span><span class="o">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="o">);</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Show the ActionSheet dialog, transitioning from the bottom</span>
+<span class="c">	 * @method show</span>
+<span class="c">	 * @return {ActionSheet} The ActionSheet instance</span>
+<span class="c">	 */</span>
+	<span class="nx">show</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="o">(</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">+</span><span class="m">1</span><span class="o">)+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(0, &#39;</span><span class="o">+(</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">-</span><span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">)+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>
+		
+		<span class="c">// Listen for events</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Hide the ActionSheet dialog</span>
+<span class="c">	 * @method hide</span>
+<span class="c">	 * @return {ActionSheet} The ActionSheet instance	</span>
+<span class="c">	 */</span>
+	<span class="nx">hide</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>		
+		
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">contentEl</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(0, &#39;</span><span class="o">+</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>		
+		
+		<span class="c">// Detach event listener</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>		
+	<span class="o">}</span>
+	
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">ActionSheet</span> <span class="o">=</span> <span class="nx">ActionSheet</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="ActionSheet.html" title="ActionSheet">ActionSheet</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="ActionSheet.js.html" title="ActionSheet.js">ActionSheet.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "ActionSheet.html#method_handleEvent", "access": "", "host": "ActionSheet", "type": "method", "name": "handleEvent"}, {"url": "ActionSheet.html#method_hide", "access": "", "host": "ActionSheet", "type": "method", "name": "hide"}, {"url": "ActionSheet.html#method_show", "access": "", "host": "ActionSheet", "type": "method", "name": "show"}];
+</script>
+</body>
+</html>

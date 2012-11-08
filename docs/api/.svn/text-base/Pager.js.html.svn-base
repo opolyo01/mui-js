@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: pager   Pager.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584796.09" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584796.09" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584796.09"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584796.09"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_pager.html" title="pager">pager</a>
+	               		
+	               		 <span class="gt"></span> Pager.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Pager module</span>
+<span class="cm"> * @module pager</span>
+<span class="cm"> */</span>
+
+<span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Constant for vertical orientation</span>
+<span class="cm"> * @final ORIENT_VERTICAL</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">ORIENT_VERTICAL</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">;</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Constant for horizontal orientation</span>
+<span class="cm"> * @final ORIENT_VERTICAL</span>
+<span class="cm"> * @type String</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">ORIENT_HORIZONTAL</span> <span class="o">=</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * The Pager class provides a next/previous control which can be </span>
+<span class="cm"> * used in the navigation bar.  The orientation may either be</span>
+<span class="cm"> * vertical (up/down) or horizontal (left/right). The default </span>
+<span class="cm"> * orientation is vertical.</span>
+<span class="cm"> * @class Pager</span>
+<span class="cm"> * @constructor</span>
+<span class="cm"> * @param config {Object} The pager configuration options</span>
+<span class="cm"> * Example:</span>
+<span class="cm"> * var myPager = new mui.Pager({ orientation: &#39;vertical&#39; });</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">Pager</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// Set orientation</span>
+	<span class="nx">config</span> <span class="o">=</span> <span class="nx">config</span> <span class="o">||</span> <span class="p">{};</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">orientation</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">orientation</span> <span class="o">||</span> <span class="nx">ORIENT_VERTICAL</span><span class="p">;</span>
+	
+	<span class="c1">// Create elements</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-pager&#39;</span> <span class="p">});</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="p">[</span>
+		<span class="s1">&#39;&lt;ul&gt;&#39;</span><span class="p">,</span> 
+			<span class="s1">&#39;&lt;li class=&quot;mui-prev&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="p">,</span> 
+			<span class="s1">&#39;&lt;li class=&quot;mui-next&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;/a&gt;&lt;/li&gt;&#39;</span><span class="p">,</span> 
+		<span class="s1">&#39;&lt;/ul&gt;&#39;</span>
+	<span class="p">].</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+	
+	<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">orientation</span> <span class="o">===</span> <span class="nx">ORIENT_HORIZONTAL</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-orient&#39;</span><span class="p">,</span> <span class="s1">&#39;horizontal&#39;</span><span class="p">);</span>
+
+	<span class="c1">// Register event listeners</span>
+	<span class="nx">mui</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Pager</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+
+	<span class="cm">/**</span>
+<span class="cm">	 * URL for prev control</span>
+<span class="cm">	 * @property prevUrl</span>
+<span class="cm">	 * @type String</span>
+<span class="cm">	 */</span>	
+	<span class="nx">prevUrl</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * URL for next control</span>
+<span class="cm">	 * @property nextUrl</span>
+<span class="cm">	 * @type String</span>
+<span class="cm">	 */</span>
+	<span class="nx">nextUrl</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Event dispatcher</span>
+<span class="cm">	 * @method handleEvent</span>
+<span class="cm">	 * @param e {Event} The event</span>
+<span class="cm">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">getAncestorByTagName</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">,</span> <span class="s1">&#39;li&#39;</span><span class="p">);</span>
+		<span class="k">switch</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+			<span class="k">case</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">:</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">t</span> <span class="o">&amp;&amp;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">className</span> <span class="o">===</span> <span class="s1">&#39;mui-next&#39;</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">goNext</span><span class="p">();</span>
+				<span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">t</span> <span class="o">&amp;&amp;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">className</span> <span class="o">===</span> <span class="s1">&#39;mui-prev&#39;</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">goPrev</span><span class="p">();</span>
+				<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Render the pager element into a container</span>
+<span class="cm">	 * @method render</span>
+<span class="cm">	 * @param el {HTMLElement|String} The Selector or HTMLElement to render into</span>
+<span class="cm">	 * @return {Pager} The Pager instance</span>
+<span class="cm">	 */</span>
+	<span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nx">el</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Activate the next item</span>
+<span class="cm">	 * @method goNext</span>
+<span class="cm">	 * @return {Pager} The Pager instance	</span>
+<span class="cm">	 */</span>
+	<span class="nx">goNext</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nextUrl</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">().</span><span class="nx">doTransition</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+				<span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">().</span><span class="nx">openUrl</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nextUrl</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="k">else</span>
+			<span class="p">{</span>
+				<span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nextUrl</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Activate the prev item</span>
+<span class="cm">	 * @method goPrev</span>
+<span class="cm">	 * @return {Pager} The Pager instance	</span>
+<span class="cm">	 */</span>
+	<span class="nx">goPrev</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">prevUrl</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">().</span><span class="nx">doTransition</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+				<span class="nx">mui</span><span class="p">.</span><span class="nx">ApplicationController</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">().</span><span class="nx">openUrl</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">prevUrl</span><span class="p">);</span>
+			<span class="p">}</span>			
+			<span class="k">else</span>
+			<span class="p">{</span>
+				<span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">prevUrl</span><span class="p">;</span>				
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">},</span>
+
+	<span class="cm">/**</span>
+<span class="cm">	 * Set the URL for the previous control</span>
+<span class="cm">	 * @method setPrevUrl</span>
+<span class="cm">	 * @param url {String} The url</span>
+<span class="cm">	 * @return {Pager} The Pager instance	</span>
+<span class="cm">	 */</span>
+	<span class="nx">setPrevUrl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">prevLi</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;li[class=&quot;mui-prev&quot;]&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">prevUrl</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">prevUrl</span><span class="p">)</span> <span class="nx">prevLi</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-activated&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">);</span>
+		<span class="k">else</span> <span class="nx">prevLi</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-activated&#39;</span><span class="p">);</span>
+
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>		
+	<span class="p">},</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Set the URL for the next control</span>
+<span class="cm">	 * @method setNextUrl</span>
+<span class="cm">	 * @param url {String} The url</span>
+<span class="cm">	 * @return {Pager} The Pager instance	</span>
+<span class="cm">	 */</span>
+	<span class="nx">setNextUrl</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">nextLi</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;li[class=&quot;mui-next&quot;]&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span>
+		<span class="k">this</span><span class="p">.</span><span class="nx">nextUrl</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+		<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nextUrl</span><span class="p">)</span> <span class="nx">nextLi</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-activated&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">);</span>
+		<span class="k">else</span> <span class="nx">nextLi</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;x-mui-activated&#39;</span><span class="p">);</span>
+		
+		<span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+<span class="p">};</span>
+
+<span class="nx">mui</span><span class="p">.</span><span class="nx">Pager</span> <span class="o">=</span> <span class="nx">Pager</span><span class="p">;</span>
+
+<span class="p">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class="selected"><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_test.html" title="test">test</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class=""><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="Pager.html" title="Pager">Pager</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="Pager.js.html" title="Pager.js">Pager.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Pager.html#method_goNext", "access": "", "host": "Pager", "type": "method", "name": "goNext"}, {"url": "Pager.html#method_goPrev", "access": "", "host": "Pager", "type": "method", "name": "goPrev"}, {"url": "Pager.html#method_handleEvent", "access": "", "host": "Pager", "type": "method", "name": "handleEvent"}, {"url": "Pager.html#property_nextUrl", "access": "", "host": "Pager", "type": "property", "name": "nextUrl"}, {"url": "Pager.html#property_prevUrl", "access": "", "host": "Pager", "type": "property", "name": "prevUrl"}, {"url": "Pager.html#method_render", "access": "", "host": "Pager", "type": "method", "name": "render"}, {"url": "Pager.html#method_setNextUrl", "access": "", "host": "Pager", "type": "method", "name": "setNextUrl"}, {"url": "Pager.html#method_setPrevUrl", "access": "", "host": "Pager", "type": "method", "name": "setPrevUrl"}];
+</script>
+</body>
+</html>

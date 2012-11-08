@@ -1,0 +1,111 @@
+/**************************************************************
+ * Loading
+ *************************************************************/
+body { -webkit-transition-property: opacity; -webkit-transition-duration: 350ms; opacity: 1; }
+body[x-mui-loading=true] { opacity: 0; }
+
+/**************************************************************
+ * Selected
+ *************************************************************/
+.mui-selected { background: -webkit-gradient(linear, left top, left bottom, from(#058cf5), to(#0160e6)) !important; color: #fff !important; }
+.mui-selected * { color: #fff !important; }
+
+/**************************************************************
+ * BP Blocks and Styles
+ *************************************************************/
+.mui-title { font-weight: bold; font-size: 110%; }
+
+/**************************************************************
+ * Views
+ *************************************************************/
+#mui-views, #mui-modal-views { position: relative; }
+#mui-views > div { display: none; -webkit-box-sizing: border-box; }
+#mui-views > .mui-view[x-mui-loading=true] { display: block; background-image: url(loading.gif); background-position: center 40%; background-repeat: no-repeat; }
+.mui-view[x-mui-loading=true] .mui-view-content { display: none; }
+#mui-views > .mui-view[x-mui-showing=true] { display: block; }
+.mui-view { background: #fff; }
+
+/**************************************************************
+ * Header
+ *************************************************************/
+header { position: relative; }
+
+/**************************************************************
+ * Footer (Full-Screen)
+ *************************************************************/
+html[x-mui-full-screen=true] footer { position: absolute; z-index: 2; bottom: 0; width: 100%; -webkit-box-sizing: border-box; }
+
+/**************************************************************
+ * List Items
+ *************************************************************/
+.mui-list-item { position: relative; padding: 3px 5px; border-bottom: 1px solid #e5e5e5; min-height: 36px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-box-align: stretch; -webkit-box-pack: center; }
+.mui-list-item > * { -webkit-box-flex: 0; display: block; }
+.mui-list-item:last-child { border-bottom: 0; }
+
+/**************************************************************
+ * Buttons
+ *************************************************************/
+.mui-button { 
+	-webkit-border-radius: 6px; 
+	-webkit-tap-highlight-color: rgba(0,0,0,0);  
+	-webkit-appearance: none; 
+	padding: 6px 8px; 
+	color: #fff; 
+	font-weight: bold; 
+	font-size: 93%;
+	white-space: nowrap;
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+	border: 1px solid #4177a1; 
+	-webkit-box-shadow: 0 0 6px rgba(0,0,0,0.4);
+	background: -webkit-gradient(linear, 
+		left top, 
+		left bottom, 
+		from(#5ba2d8), 
+		to(#006ec2),
+		color-stop(.49, #1d7ec9),
+		color-stop(.50, #0772c4)
+	); 
+}
+.mui-button:active, .mui-navbar .mui-button:active {
+	background: -webkit-gradient(linear, 
+		left top, 
+		left bottom, 
+		from(#0c69f5),
+		to(#0036da)
+	);
+	color: #fff; 
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+}
+
+.mui-navbar .mui-button { 
+	color: #5e605e; 
+	text-shadow: 0 1px 1px rgb(255,255,255);
+	border-left-color: #b2b2b2;
+	border-right-color: #b2b2b2;
+	border-bottom: 1px solid #c2c2c2; 
+	border-top: 2px solid #d6d6d6;
+	-webkit-box-shadow: 0 1px 1px rgb(255,255,255);
+	background: -webkit-gradient(linear, 
+		left top, 
+		left bottom, 
+		from(#fff), 
+		to(#DEE0E2),
+		color-stop(.49, #ECECEC),
+		color-stop(.50, #D9DAD9)
+	);
+}
+.mui-navbar .mui-button:active { 
+	border: 1px solid #b8b8b8;
+	border-top-width: 2px;
+	color: #fff;
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+	-webkit-box-shadow: none;
+	background: -webkit-gradient(linear, 
+		left top, 
+		left bottom, 
+		from(#e0e0e0),
+		to(#a9aaaa),
+		color-stop(.49, #cacccc),
+		color-stop(.50, #c2c4c5)
+	);
+}

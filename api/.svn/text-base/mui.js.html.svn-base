@@ -1,0 +1,1438 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: util   mui.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.54" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.54" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.54"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.54"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_util.html" title="util">util</a>
+	               		
+	               		 <span class="gt"></span> mui.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/*</span>
+<span class="c"> * mui Library</span>
+<span class="c"> * A miniature javascript suitable for use on mobile devices.</span>
+<span class="c"> */</span>
+<span class="nx">mui</span> <span class="o">=</span> <span class="o">{};</span>
+
+<span class="c">/**</span>
+<span class="c"> * Utility methods</span>
+<span class="c"> * @module util</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">util</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Utility class</span>
+<span class="c">	 * @class Utility</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+
+	<span class="c">/*</span>
+<span class="c">	 * Private attribute to store the current log level</span>
+<span class="c">	 * @final _logLevel</span>
+<span class="c">	 * @type Number</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">_logLevel</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Log a message or object to the console.</span>
+<span class="c">	 * @method log</span>
+<span class="c">	 * @param o {String|Object} The string or object to log to the debug console.</span>
+<span class="c">	 **/</span>		
+	<span class="nx">log</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nb">document</span><span class="o">.</span><span class="nx">defaultView</span><span class="o">.</span><span class="nx">console</span> <span class="o">?</span> <span class="nx">console</span><span class="o">.</span><span class="nx">log</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Log a trace message or object to the console.</span>
+<span class="c">	 * @method trace	</span>
+<span class="c">	 * @param o {String|Object} The string or object to log to the debug console.</span>
+<span class="c">	 **/</span>
+	<span class="nx">trace</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_logLevel</span> <span class="o">&gt;=</span> <span class="m">3</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">log</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Log a debug message or object to the console.</span>
+<span class="c">	 * @method debug	</span>
+<span class="c">	 * @param o {String|Object} The string or object to log to the debug console.</span>
+<span class="c">	 **/</span>
+	<span class="nx">debug</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_logLevel</span> <span class="o">&gt;=</span> <span class="m">2</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">log</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Log a warning message or object to the console.</span>
+<span class="c">	 * @method warn	</span>
+<span class="c">	 * @param o {String|Object} The string or object to log to the debug console.</span>
+<span class="c">	 **/</span>
+	<span class="nx">warn</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_logLevel</span> <span class="o">&gt;=</span> <span class="m">1</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">log</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Log an error.  If second argument passed is true,</span>
+<span class="c">	 * this throws an exception.</span>
+<span class="c">	 * @method error</span>
+<span class="c">	 * @param o {String} The error string</span>
+<span class="c">	 * @param throwError {Boolean} If true, throw an exception.</span>
+<span class="c">	 */</span>
+	<span class="nx">error</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">,</span> <span class="nx">throwError</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_logLevel</span> <span class="o">&gt;=</span> <span class="m">0</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">log</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>		
+		<span class="k">if</span><span class="o">(</span><span class="nx">throwError</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="o">(</span><span class="nx">o</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The log level allows you to set the appropriate logging level</span>
+<span class="c">	 * for your application</span>
+<span class="c">	 * @method setLogLevel </span>
+<span class="c">	 * @param level {String} The desired log level</span>
+<span class="c">	 */</span>
+	<span class="nx">setLogLevel</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">level</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">intLevel</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">level</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;trace&#39;</span><span class="o">:</span>
+				<span class="nx">intLevel</span> <span class="o">=</span> <span class="m">3</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;debug&#39;</span><span class="o">:</span>
+				<span class="nx">intLevel</span> <span class="o">=</span> <span class="m">2</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;warn&#39;</span><span class="o">:</span>
+				<span class="nx">intLevel</span> <span class="o">=</span> <span class="m">1</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;error&#39;</span><span class="o">:</span>
+				<span class="nx">intLevel</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">default</span><span class="o">:</span>
+				<span class="nx">intLevel</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+			
+		<span class="o">}</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_logLevel</span> <span class="o">=</span> <span class="nx">intLevel</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Iterate over an array</span>
+<span class="c">	 * @method each</span>
+<span class="c">	 * @param collection {Array} The array to iterate over</span>
+<span class="c">	 * @param cb {Function} The callback function applied to each member of the array</span>
+<span class="c">	 * @param ctx {Object} The scope applied to the callback function.</span>
+<span class="c">	 **/</span>
+	<span class="nx">each</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">collection</span><span class="o">,</span> <span class="nx">cb</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">collection</span> <span class="o">||</span> <span class="o">!</span><span class="nx">collection</span><span class="o">.</span><span class="nx">length</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span><span class="nx">len</span><span class="o">=</span><span class="nx">collection</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span> 
+		<span class="o">{</span>
+			<span class="nx">cb</span><span class="o">.</span><span class="nx">call</span><span class="o">((</span><span class="nx">ctx</span> <span class="o">||</span> <span class="nx">collection</span><span class="o">[</span><span class="nx">i</span><span class="o">]),</span> <span class="nx">collection</span><span class="o">[</span><span class="nx">i</span><span class="o">],</span> <span class="nx">i</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Iterate over an object</span>
+<span class="c">	 * @method iterate</span>
+<span class="c">	 * @param obj {Object} The object to iterate over</span>
+<span class="c">	 * @param cb {Function} The callback function applied to each member of the object</span>
+<span class="c">	 * @param ctx {Object} The scope applied to the callback function.</span>
+<span class="c">	 **/</span>		
+	<span class="nx">iterate</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">obj</span><span class="o">,</span> <span class="nx">cb</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">ctx</span> <span class="o">=</span> <span class="nx">ctx</span> <span class="o">||</span> <span class="nx">obj</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="nx">obj</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">obj</span><span class="o">.</span><span class="nx">hasOwnProperty</span><span class="o">(</span><span class="nx">prop</span><span class="o">))</span> 
+			<span class="o">{</span>
+				<span class="nx">cb</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">ctx</span><span class="o">,</span> <span class="nx">obj</span><span class="o">[</span><span class="nx">prop</span><span class="o">],</span> <span class="nx">prop</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>			
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * DOM methods</span>
+<span class="c"> * @module dom</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">dom</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Dom class</span>
+<span class="c">	 * @class Dom</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Find an element by CSS query selector.  If parentNode is passed as second argument,</span>
+<span class="c">	 * the CSS selector is relative that node.</span>
+<span class="c">	 * @method get</span>
+<span class="c">	 * @param selector {String} Valid CSS query selector</span>
+<span class="c">	 * @param parentNode {HTMLElement} If present, CSS selector is relative to this DOM ndoe.</span>
+<span class="c">	 * @return {HTMLElement} The single element matching the given selector.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">get</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">selector</span><span class="o">,</span> <span class="nx">parentNode</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">selector</span> <span class="k">instanceof</span> <span class="nx">HTMLElement</span><span class="o">)</span> <span class="k">return</span> <span class="nx">selector</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">getAll</span><span class="o">(</span><span class="nx">selector</span><span class="o">,</span> <span class="nx">parentNode</span><span class="o">);</span>
+		<span class="k">return</span> <span class="o">!</span><span class="nx">matches</span><span class="o">.</span><span class="nx">length</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="o">(</span><span class="nx">matches</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">0</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="nx">matches</span><span class="o">[</span><span class="m">0</span><span class="o">]);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Find a collection of elements by CSS query selector.  If parentNode is passed as second argument,</span>
+<span class="c">	 * the CSS selector is relative that node.</span>
+<span class="c">	 * @method getAll</span>
+<span class="c">	 * @param selector {String} Valid CSS query selector</span>
+<span class="c">	 * @param parentNode {HTMLElement} If present, CSS selector is relative to this DOM ndoe.	</span>
+<span class="c">	 * @return {Array} An array of elements matching the given selector.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">getAll</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">selector</span><span class="o">,</span> <span class="nx">parentNode</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">parentNode</span> <span class="o">=</span> <span class="nx">parentNode</span> <span class="o">||</span> <span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">;</span>
+		<span class="k">return</span> <span class="nb">Array</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">slice</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">querySelectorAll</span><span class="o">(</span><span class="nx">selector</span><span class="o">));</span>
+	<span class="o">},</span>	
+
+	<span class="c">/**</span>
+<span class="c">	 * Create a DOM node.</span>
+<span class="c">	 * @method createElement	</span>
+<span class="c">	 * @param nodeName {String} The node name of the element to be created</span>
+<span class="c">	 * @param options {Object} Attributes to be attached to the created element.</span>
+<span class="c">	 * @return {HTMLElement} DOM node with passed in attriutes.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">createElement</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">nodeName</span><span class="o">,</span> <span class="nx">options</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="nx">nodeName</span><span class="o">);</span>
+		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">opt</span> <span class="k">in</span> <span class="nx">options</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">hasOwnProperty</span><span class="o">(</span><span class="nx">opt</span><span class="o">))</span> 
+			<span class="o">{</span>
+				<span class="nx">switch</span><span class="o">(</span><span class="nx">opt</span><span class="o">)</span> 
+				<span class="o">{</span>
+					<span class="nx">case</span> <span class="s1">&#39;className&#39;</span><span class="o">:</span>
+					<span class="nx">case</span> <span class="s1">&#39;innerHTML&#39;</span><span class="o">:</span>
+						<span class="nx">el</span><span class="o">[</span><span class="nx">opt</span><span class="o">]</span> <span class="o">=</span> <span class="nx">options</span><span class="o">[</span><span class="nx">opt</span><span class="o">];</span>
+						<span class="k">break</span><span class="o">;</span>
+					<span class="nx">default</span><span class="o">:</span>
+						<span class="nx">el</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="nx">opt</span><span class="o">,</span> <span class="nx">options</span><span class="o">[</span><span class="nx">opt</span><span class="o">]);</span>
+						<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">el</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Remove a node from the DOM.</span>
+<span class="c">	 * @method removeElement	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @return {HTMLElement} The deleted node</span>
+<span class="c">	 **/</span>	
+	<span class="nx">removeElement</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">removeChild</span><span class="o">(</span><span class="nx">el</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">el</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Insert an element before another element in the DOM.</span>
+<span class="c">	 * @method insertBefore	</span>
+<span class="c">	 * @param node {Object} </span>
+<span class="c">	 * @param refNode {String|Object} The CSS selector string or DOM node to insert before</span>
+<span class="c">	 **/</span>
+	<span class="nx">insertBefore</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">refNode</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">refNode</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">refNode</span><span class="o">)</span> <span class="o">:</span> <span class="nx">refNode</span><span class="o">;</span>
+		<span class="nx">refNode</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">refNode</span><span class="o">);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Insert an element after another element in the DOM.</span>
+<span class="c">	 * @method insertAfter	</span>
+<span class="c">	 * @param node {Object} </span>
+<span class="c">	 * @param refNode {String|Object} The CSS selector string or DOM node to insert after</span>
+<span class="c">	 **/</span>
+	<span class="nx">insertAfter</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">refNode</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">refNode</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">refNode</span><span class="o">)</span> <span class="o">:</span> <span class="nx">refNode</span><span class="o">;</span>
+		<span class="nx">refNode</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">refNode</span><span class="o">.</span><span class="nx">nextSibling</span><span class="o">);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get the computed style for a given element.</span>
+<span class="c">	 * @method getStyle	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param style {String} The style property.</span>
+<span class="c">	 * @return {String} Computed style for the given node and property</span>
+<span class="c">	 **/</span>
+	<span class="nx">getStyle</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">style</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">el</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nb">window</span><span class="o">.</span><span class="nx">getComputedStyle</span> <span class="o">?</span> 
+			<span class="nb">document</span><span class="o">.</span><span class="nx">defaultView</span><span class="o">.</span><span class="nx">getComputedStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="kc">null</span><span class="o">).</span><span class="nx">getPropertyValue</span><span class="o">(</span><span class="nx">style</span><span class="o">)</span> <span class="o">:</span>
+			<span class="o">(</span><span class="nx">el</span><span class="o">.</span><span class="nx">currentStyle</span> <span class="o">?</span> <span class="nx">el</span><span class="o">.</span><span class="nx">currentStyle</span><span class="o">[</span><span class="nx">style</span><span class="o">]</span> <span class="o">:</span> <span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">[</span><span class="nx">style</span><span class="o">]);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Set a style for a given element.</span>
+<span class="c">	 * @method setStyle	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param name {String} The style property name.</span>
+<span class="c">	 * @param value {String} The style property value.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">setStyle</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">name</span><span class="o">,</span> <span class="nx">value</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">[</span><span class="nx">name</span><span class="o">]</span> <span class="o">=</span> <span class="nx">value</span><span class="o">;</span>				
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Set a collection of styles for a given element.</span>
+<span class="c">	 * @method setStyles	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param styles {Object} Object literal containing style definitions.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">setStyles</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">styles</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">styles</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span> <span class="nx">name</span><span class="o">)</span> 
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">name</span><span class="o">,</span> <span class="nx">value</span><span class="o">);</span>
+			<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get the (x,y) coordinates for a given element.</span>
+<span class="c">	 * @method getXY	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @return {Array} Array containing the (x,y) coordinates of the element.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">getXY</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="o">[</span><span class="nx">el</span><span class="o">.</span><span class="nx">offsetLeft</span><span class="o">,</span> <span class="nx">el</span><span class="o">.</span><span class="nx">offsetTop</span><span class="o">];</span>
+		<span class="k">var</span> <span class="nx">parentNode</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">offsetParent</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">accountForBody</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">getStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;position&#39;</span><span class="o">)</span> <span class="o">===</span> <span class="s1">&#39;absolute&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">offsetParent</span> <span class="o">==</span> <span class="nx">el</span><span class="o">.</span><span class="nx">ownerDocument</span><span class="o">.</span><span class="nx">body</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">parentNode</span> <span class="o">!=</span> <span class="nx">el</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">while</span><span class="o">(</span><span class="nx">parentNode</span><span class="o">)</span> 
+			<span class="o">{</span>
+				<span class="nx">pos</span><span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">+=</span> <span class="nx">parentNode</span><span class="o">.</span><span class="nx">offsetLeft</span><span class="o">;</span>
+				<span class="nx">pos</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">+=</span> <span class="nx">parentNode</span><span class="o">.</span><span class="nx">offsetTop</span><span class="o">;</span>
+				<span class="k">if</span><span class="o">(!</span><span class="nx">accountForBody</span> <span class="o">&amp;&amp;</span> <span class="nx">parentNode</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">position</span> <span class="o">==</span> <span class="s1">&#39;absolute&#39;</span><span class="o">)</span> 
+				<span class="o">{</span>
+					<span class="nx">accountForBody</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+				<span class="o">}</span>
+				<span class="nx">parentNode</span> <span class="o">=</span> <span class="nx">parentNode</span><span class="o">.</span><span class="nx">offsetParent</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">accountForBody</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">pos</span><span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">-=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">ownerDocument</span><span class="o">.</span><span class="nx">body</span><span class="o">.</span><span class="nx">offsetLeft</span><span class="o">;</span>
+			<span class="nx">pos</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">-=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">ownerDocument</span><span class="o">.</span><span class="nx">body</span><span class="o">.</span><span class="nx">offsetTop</span><span class="o">;</span>			
+		<span class="o">}</span>
+
+		<span class="k">return</span> <span class="nx">pos</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Set the (x,y) coordinates of a given element</span>
+<span class="c">	 * @method setXY	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param xy {Array} Array containing the (x,y) coordinates to be set.</span>
+<span class="c">	 **/</span>
+	<span class="nx">setXY</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">xy</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="c">// @TODO: account for position: relative vs. position: absolute vs position: null</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;left&#39;</span><span class="o">,</span> <span class="nx">xy</span><span class="o">[</span><span class="m">0</span><span class="o">]+</span><span class="s1">&#39;px&#39;</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;top&#39;</span><span class="o">,</span> <span class="nx">xy</span><span class="o">[</span><span class="m">1</span><span class="o">]+</span><span class="s1">&#39;px&#39;</span><span class="o">);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Add a class name to a DOM node</span>
+<span class="c">	 * @method addClass	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param className {String} The class name.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">addClass</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">className</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(!</span><span class="nx">el</span><span class="o">.</span><span class="nx">className</span><span class="o">.</span><span class="nx">match</span><span class="o">(</span><span class="nx">className</span><span class="o">))</span> 
+			<span class="o">{</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">className</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">className</span><span class="o">;</span>
+			<span class="o">}</span>				
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Remove a class name from a DOM node</span>
+<span class="c">	 * @method removeClass	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param className {String} The class name.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">removeClass</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">className</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">className</span> <span class="o">=</span> <span class="nx">el</span><span class="o">.</span><span class="nx">className</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="nx">className</span><span class="o">,</span> <span class="s1">&#39;&#39;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/^\s+|\s+$/g</span><span class="o">,</span><span class="s2">&quot;&quot;</span><span class="o">);</span>	
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Check if a DOM node has a given class name.</span>
+<span class="c">	 * @method hasClass	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node</span>
+<span class="c">	 * @param className {String} The class name.</span>
+<span class="c">	 * @return True if the node has the class name applied to it, false otherwise.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">hasClass</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">className</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">hasClass</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">className</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">hasClass</span> <span class="o">=</span> <span class="o">(</span><span class="nx">el</span><span class="o">.</span><span class="nx">className</span><span class="o">.</span><span class="nx">match</span><span class="o">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="o">(</span><span class="s1">&#39;(?:^|\\s+)&#39;</span> <span class="o">+</span> <span class="nx">className</span> <span class="o">+</span> <span class="s1">&#39;(?:\\s+|$)&#39;</span><span class="o">))</span> <span class="o">!==</span> <span class="kc">null</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">hasClass</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Check if a node is contained inside another node.</span>
+<span class="c">	 * @method contains	</span>
+<span class="c">	 * @param parent {Object} The CSS selector string or DOM node for the parent node.</span>
+<span class="c">	 * @param el {Object} The CSS selector string or DOM node for the child node.	</span>
+<span class="c">	 * @param orig {HTMLElement} The original parent node, used in recursion</span>
+<span class="c">	 * @return True if el is contained inside of parentNode, false otherwise.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">contains</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">parent</span><span class="o">,</span> <span class="nx">el</span><span class="o">,</span> <span class="nx">orig</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">orig</span> <span class="o">===</span> <span class="nb">document</span> <span class="o">||</span> <span class="nx">orig</span> <span class="o">===</span> <span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="o">}</span> 
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">===</span> <span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">===</span> <span class="nx">parent</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="o">}</span> 
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">contains</span><span class="o">(</span><span class="nx">parent</span><span class="o">,</span> <span class="nx">el</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">,</span> <span class="nx">orig</span> <span class="o">||</span> <span class="nx">parent</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Check if a node exists in the document.</span>
+<span class="c">	 * @method inDocument	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @return True if el is contained inside the document, false otherwise.</span>
+<span class="c">	 **/</span>
+	<span class="nx">inDocument</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">try</span> 
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">contains</span><span class="o">(</span><span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">,</span> <span class="nx">el</span><span class="o">);</span>				
+		<span class="o">}</span> 
+		<span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get an ancestor node by a comparison function</span>
+<span class="c">	 * @method getAncestorBy	</span>
+<span class="c">	 * @param node {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param fn {Function} The comparison function - return true or false.</span>
+<span class="c">	 * @param scope {Object} The scope of the passed function (optional)</span>
+<span class="c">	 * @return The ancestor node if found, false otherwise.</span>
+<span class="c">	 **/</span>
+	<span class="nx">getAncestorBy</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="nx">scope</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">node</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">node</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">node</span><span class="o">)</span> <span class="o">:</span> <span class="nx">node</span><span class="o">;</span>
+		<span class="nx">scope</span> <span class="o">=</span> <span class="nx">scope</span> <span class="o">||</span> <span class="nx">fn</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">fn</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">scope</span><span class="o">,</span> <span class="nx">node</span><span class="o">))</span> 
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="nx">node</span><span class="o">;</span>
+		<span class="o">}</span> 
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">node</span> <span class="o">===</span> <span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span> 
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">node</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">getAncestorBy</span><span class="o">(</span><span class="nx">node</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="nx">scope</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get an ancestor node by a class name</span>
+<span class="c">	 * @method getAncestorByClassName</span>
+<span class="c">	 * @param node {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param className {String} The name of the class to search for</span>
+<span class="c">	 * @return The ancestor node if found, false otherwise.</span>
+<span class="c">	 **/</span>
+	<span class="nx">getAncestorByClassName</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">className</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">getAncestorBy</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">className</span><span class="o">);</span> <span class="o">});</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Get an ancestor node by tag name</span>
+<span class="c">	 * @method getAncestorByTagName	</span>
+<span class="c">	 * @param node {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param tagName {String} The tag name of the element to search for.</span>
+<span class="c">	 * @return The ancestor node if found, false otherwise.</span>
+<span class="c">	 **/</span>
+	<span class="nx">getAncestorByTagName</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="nx">tagName</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">getAncestorBy</span><span class="o">(</span><span class="nx">node</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="nx">el</span><span class="o">.</span><span class="nx">nodeName</span><span class="o">.</span><span class="nx">toLowerCase</span><span class="o">()</span> <span class="o">===</span> <span class="nx">tagName</span><span class="o">;</span> <span class="o">});</span>
+	<span class="o">}</span>
+		
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * Event methods</span>
+<span class="c"> * @module event</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">event</span> <span class="o">=</span> <span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Event class</span>
+<span class="c">	 * @class Event</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>	
+
+	<span class="c">/*</span>
+<span class="c">	 * Store event bindings so that they can later be unbound by</span>
+<span class="c">	 * calling mui.removeEventListener</span>
+<span class="c">	 * @property _bindings</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">var</span> <span class="nx">_bindings</span> <span class="o">=</span> <span class="o">[];</span>
+	
+	<span class="c">/*</span>
+<span class="c">	 * Store click event bindings for speedy clicks</span>
+<span class="c">	 * @property _clicks</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">var</span> <span class="nx">_clicks</span> <span class="o">=</span> <span class="o">[];</span>
+	
+	<span class="c">/*</span>
+<span class="c">	 * Store touchend event bindings for event normalization</span>
+<span class="c">	 * @property _touchends</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">var</span> <span class="nx">_touchends</span> <span class="o">=</span> <span class="o">[];</span>
+	
+	<span class="c">/*</span>
+<span class="c">	 * Store the touchstart event for event normalization</span>
+<span class="c">	 * @property _touchstartEvt</span>
+<span class="c">	 * @type Event</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">var</span> <span class="nx">_touchstartEvt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	
+	<span class="c">/*</span>
+<span class="c">	 * Store state of touches - whether or not user is moving</span>
+<span class="c">	 * @property _touchmoved</span>
+<span class="c">	 * @type BOolean</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">var</span> <span class="nx">_touchmoved</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+	
+	<span class="c">/*</span>
+<span class="c">	 * Resolve events by adding a touches array for browsers which do </span>
+<span class="c">	 * not support touch events</span>
+<span class="c">	 * @method resolveEvent</span>
+<span class="c">	 * @param e {Event} The DOM event</span>
+<span class="c">	 * @return {Event} The normalized DOM event</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="k">function</span> <span class="nx">resolveEvent</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">ev</span> <span class="o">=</span> <span class="nx">e</span><span class="o">;</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">:</span>	
+			<span class="nx">case</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">:</span>			
+				<span class="nx">ev</span><span class="o">.</span><span class="nx">touches</span> <span class="o">=</span> <span class="o">[</span><span class="nx">e</span><span class="o">];</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">ev</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Event handler - used to allow for speedy clicks on iPhone</span>
+<span class="c">	 * @method fireEvent	</span>
+<span class="c">	 * @param e {Event} The generated event</span>
+<span class="c">	 * @private</span>
+<span class="c">	 **/</span>
+	<span class="k">function</span> <span class="nx">handleEvent</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+				<span class="nx">_touchstartEvt</span> <span class="o">=</span> <span class="nx">e</span><span class="o">;</span>
+				<span class="nx">_touchmoved</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+				<span class="nx">_touchmoved</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+				<span class="c">// Fire touchend</span>
+<span class="c"></span>				<span class="nx">fireEvent</span><span class="o">(</span><span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="nx">e</span><span class="o">);</span>
+				
+				<span class="c">// Fire click, if there is a _touchstartEvt</span>
+<span class="c"></span>				<span class="k">if</span><span class="o">(</span><span class="nx">_touchstartEvt</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">_touchmoved</span><span class="o">)</span> <span class="nx">fireEvent</span><span class="o">(</span><span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="nx">e</span><span class="o">);</span>
+
+				<span class="nx">_touchstartEvt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>				
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Fire an event - used to allow for speedy clicks on iPhone</span>
+<span class="c">	 * @method fireEvent	</span>
+<span class="c">	 * @param type {String} The event type (click, touchstart, etc)</span>
+<span class="c">	 * @param e {Event} The generated event</span>
+<span class="c">	 * @private</span>
+<span class="c">	 **/</span>
+	<span class="k">function</span> <span class="nx">fireEvent</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;click&#39;</span> <span class="o">?</span> <span class="nx">_clicks</span> <span class="o">:</span> <span class="nx">_touchends</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">_touchstartEvt</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">arr</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">b</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">b</span> <span class="o">&amp;&amp;</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">contains</span><span class="o">(</span><span class="nx">b</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="nx">_touchstartEvt</span><span class="o">.</span><span class="nx">target</span><span class="o">))</span>
+				<span class="o">{</span>
+					<span class="k">var</span> <span class="nx">evt</span> <span class="o">=</span> <span class="o">{};</span>
+					<span class="nx">evt</span><span class="o">.</span><span class="nx">preventDefault</span> <span class="o">=</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span> 
+						<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span> 
+						<span class="nx">b</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">c</span><span class="o">)</span> <span class="o">{</span>
+							<span class="nx">c</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+						<span class="o">},</span> <span class="kc">false</span><span class="o">);</span>
+					<span class="o">};</span>
+					<span class="nx">evt</span><span class="o">.</span><span class="nx">stopPropagation</span> <span class="o">=</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span> 
+						<span class="nx">e</span><span class="o">.</span><span class="nx">stopPropagation</span><span class="o">();</span> 
+						<span class="nx">b</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">c</span><span class="o">)</span> <span class="o">{</span>
+							<span class="nx">c</span><span class="o">.</span><span class="nx">stopPropagation</span><span class="o">();</span>
+						<span class="o">},</span> <span class="kc">false</span><span class="o">);</span>
+					<span class="o">};</span>
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">_touchstartEvt</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+						<span class="nx">evt</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+					<span class="o">});</span>
+					<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">_touchstartEvt</span><span class="o">.</span><span class="nx">touches</span><span class="o">[</span><span class="m">0</span><span class="o">],</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+						<span class="nx">evt</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+					<span class="o">});</span>
+					<span class="nx">evt</span><span class="o">.</span><span class="nx">type</span> <span class="o">=</span> <span class="nx">type</span><span class="o">;</span>					
+					<span class="nx">b</span><span class="o">.</span><span class="nx">method</span><span class="o">(</span><span class="nx">evt</span><span class="o">);</span>
+				<span class="o">}</span>
+			<span class="o">});</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Attach an event to a given element</span>
+<span class="c">	 * @method on</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param type {String} The event type (click, touchstart, etc)</span>
+<span class="c">	 * @param fn {Function} The callback function fired on the event</span>
+<span class="c">	 * @param ctx {Object} The scope to be applied to the callback</span>
+<span class="c">	 * @param useCapture {Boolean} Whether or not to initiate capture</span>
+<span class="c">	 **/</span>
+	<span class="k">function</span> <span class="nx">on</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">method</span><span class="o">,</span> <span class="nx">fauxEvt</span><span class="o">;</span>
+		<span class="nx">ctx</span> <span class="o">=</span> <span class="nx">ctx</span> <span class="o">||</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="nx">useCapture</span> <span class="o">=</span> <span class="o">!!</span><span class="nx">useCapture</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span> 
+			<span class="o">{</span>
+				<span class="nx">switch</span><span class="o">(</span><span class="nx">type</span><span class="o">)</span> 
+				<span class="o">{</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>				
+				<span class="nx">method</span> <span class="o">=</span> <span class="o">(</span><span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span> <span class="o">?</span> 
+				 	<span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">fn</span><span class="o">,</span> <span class="nx">resolveEvent</span><span class="o">(</span><span class="nx">e</span><span class="o">));</span> <span class="o">}:</span> 
+					<span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">ctx</span><span class="o">,</span> <span class="nx">resolveEvent</span><span class="o">(</span><span class="nx">e</span><span class="o">));</span> <span class="o">};</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">method</span> <span class="o">=</span> <span class="o">(</span><span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span> <span class="o">?</span> 
+					<span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">fn</span><span class="o">,</span> <span class="nx">e</span><span class="o">);</span> <span class="o">}</span> <span class="o">:</span> 
+					<span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">ctx</span><span class="o">,</span> <span class="nx">e</span><span class="o">);</span> <span class="o">};</span>
+			<span class="o">}</span>
+			
+			<span class="nx">fauxEvt</span> <span class="o">=</span> <span class="o">{</span>
+				<span class="nx">element</span><span class="o">:</span> <span class="nx">el</span><span class="o">,</span>
+				<span class="nx">type</span><span class="o">:</span> <span class="nx">type</span><span class="o">,</span>
+				<span class="nx">originalMethod</span><span class="o">:</span> <span class="nx">fn</span><span class="o">,</span>
+				<span class="nx">method</span><span class="o">:</span> <span class="nx">method</span><span class="o">,</span>
+				<span class="nx">useCapture</span><span class="o">:</span> <span class="nx">useCapture</span>
+			<span class="o">};</span>
+
+			<span class="nx">_bindings</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">fauxEvt</span><span class="o">);</span>
+
+			<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;click&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">_clicks</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">fauxEvt</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;touchend&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">_touchends</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">fauxEvt</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="nx">method</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Attach an event to a given element one time</span>
+<span class="c">	 * @method one</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param type {String} The event type (click, touchstart, etc)</span>
+<span class="c">	 * @param fn {Function} The callback function fired on the event</span>
+<span class="c">	 * @param ctx {Object} The scope to be applied to the callback</span>
+<span class="c">	 * @param useCapture {Boolean} Whether or not to initiate capture</span>
+<span class="c">	 **/</span>
+	<span class="k">function</span> <span class="nx">one</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">method</span> <span class="o">=</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">fn</span><span class="o">.</span><span class="nx">handleEvent</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">fn</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">fn</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="nx">ctx</span><span class="o">||</span><span class="nx">fn</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">method</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">);</span>
+		<span class="o">};</span>
+		<span class="nx">on</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">method</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Remove an event handler from a given element</span>
+<span class="c">	 * @method removeEventListener	</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param type {String} The event type (click, touchstart, etc)</span>
+<span class="c">	 * @param fn {Function} The callback function fired on the event</span>
+<span class="c">	 * @param ctx {Object} The scope to be applied to the callback</span>
+<span class="c">	 * @param useCapture {Boolean} Whether or not to initiate capture	</span>
+<span class="c">	 **/</span>
+	<span class="k">function</span> <span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">type</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">,</span> <span class="nx">useCapture</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">_bindings</span><span class="o">.</span><span class="nx">length</span><span class="o">,</span> <span class="nx">b</span><span class="o">,</span> <span class="nx">method</span><span class="o">;</span>
+		<span class="nx">ctx</span> <span class="o">=</span> <span class="nx">ctx</span> <span class="o">||</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="nx">useCapture</span> <span class="o">=</span> <span class="o">!!</span><span class="nx">useCapture</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span> 
+			<span class="o">{</span>
+				<span class="nx">switch</span><span class="o">(</span><span class="nx">type</span><span class="o">)</span> 
+				<span class="o">{</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+					<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+						<span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">;</span>
+						<span class="k">break</span><span class="o">;</span>
+				<span class="o">}</span>				
+			<span class="o">}</span>
+			
+			<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+			<span class="o">{</span>
+				<span class="nx">b</span> <span class="o">=</span> <span class="nx">_bindings</span><span class="o">[</span><span class="nx">i</span><span class="o">];</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">b</span><span class="o">.</span><span class="nx">type</span> <span class="o">===</span> <span class="nx">type</span> <span class="o">&amp;&amp;</span> <span class="nx">b</span><span class="o">.</span><span class="nx">useCapture</span> <span class="o">===</span> <span class="nx">useCapture</span> <span class="o">&amp;&amp;</span> <span class="nx">b</span><span class="o">.</span><span class="nx">element</span> <span class="o">===</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">b</span><span class="o">.</span><span class="nx">originalMethod</span> <span class="o">===</span> <span class="nx">fn</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">el</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="nx">b</span><span class="o">.</span><span class="nx">method</span><span class="o">,</span> <span class="nx">b</span><span class="o">.</span><span class="nx">useCapture</span><span class="o">);</span>
+					<span class="nx">_bindings</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="nx">i</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+					<span class="nx">i</span><span class="o">--;</span>
+					<span class="nx">len</span><span class="o">--;</span>
+				<span class="o">}</span>
+				<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">b</span><span class="o">.</span><span class="nx">type</span> <span class="o">===</span> <span class="nx">type</span> <span class="o">&amp;&amp;</span> <span class="nx">b</span><span class="o">.</span><span class="nx">useCapture</span> <span class="o">===</span> <span class="nx">useCapture</span> <span class="o">&amp;&amp;</span> <span class="nx">b</span><span class="o">.</span><span class="nx">element</span> <span class="o">===</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">fn</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">el</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">type</span><span class="o">,</span> <span class="nx">b</span><span class="o">.</span><span class="nx">method</span><span class="o">,</span> <span class="nx">b</span><span class="o">.</span><span class="nx">useCapture</span><span class="o">);</span>
+					<span class="nx">_bindings</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="nx">i</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+					<span class="nx">i</span><span class="o">--;</span>
+					<span class="nx">len</span><span class="o">--;</span>
+				<span class="o">}</span>
+
+				<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;click&#39;</span> <span class="o">||</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;touchend&#39;</span><span class="o">))</span>
+				<span class="o">{</span>
+					<span class="k">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;click&#39;</span> <span class="o">?</span> <span class="nx">_clicks</span> <span class="o">:</span> <span class="nx">_touchends</span><span class="o">;</span>
+					<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len2</span><span class="o">=</span><span class="nx">arr</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">len2</span><span class="o">;</span> <span class="nx">j</span><span class="o">++)</span>
+					<span class="o">{</span>
+						<span class="k">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">arr</span><span class="o">[</span><span class="nx">j</span><span class="o">];</span>
+						<span class="k">if</span><span class="o">(</span><span class="nx">c</span><span class="o">.</span><span class="nx">useCapture</span> <span class="o">===</span> <span class="nx">useCapture</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">element</span> <span class="o">===</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">originalMethod</span> <span class="o">===</span> <span class="nx">fn</span><span class="o">)</span>
+						<span class="o">{</span>
+							<span class="nx">arr</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="nx">j</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+							<span class="nx">j</span><span class="o">--;</span>
+							<span class="nx">len2</span><span class="o">--;</span>
+						<span class="o">}</span>
+						<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">c</span><span class="o">.</span><span class="nx">useCapture</span> <span class="o">===</span> <span class="nx">useCapture</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">element</span> <span class="o">===</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">fn</span><span class="o">)</span>
+						<span class="o">{</span>
+							<span class="nx">arr</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="nx">j</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+							<span class="nx">j</span><span class="o">--;</span>
+							<span class="nx">len2</span><span class="o">--;</span>
+						<span class="o">}</span>
+					<span class="o">}</span>
+					<span class="k">if</span><span class="o">(</span><span class="nx">type</span> <span class="o">===</span> <span class="s1">&#39;click&#39;</span><span class="o">)</span> <span class="nx">_clicks</span> <span class="o">=</span> <span class="nx">arr</span><span class="o">;</span>
+					<span class="k">else</span> <span class="nx">_touchends</span> <span class="o">=</span> <span class="nx">arr</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c">// Attach listeners to document for speedy clicks</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nb">window</span><span class="o">.</span><span class="nx">ontouchstart</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nb">document</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="nx">handleEvent</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+		<span class="nb">document</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="nx">handleEvent</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+		<span class="nb">document</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="nx">handleEvent</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">// Public methods</span>
+<span class="c"></span>	<span class="k">return</span> <span class="o">{</span>
+		<span class="nx">on</span><span class="o">:</span> <span class="nx">on</span><span class="o">,</span>
+		<span class="nx">one</span><span class="o">:</span> <span class="nx">one</span><span class="o">,</span>
+		<span class="nx">removeEventListener</span><span class="o">:</span> <span class="nx">removeEventListener</span>
+	<span class="o">};</span>
+	
+<span class="o">})();</span>
+
+<span class="c">/**</span>
+<span class="c"> * Animation methods</span>
+<span class="c"> * @module anim</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">anim</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Animation class</span>
+<span class="c">	 * @class Animation</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Animate an object&#39;s position, using webkit transitions.</span>
+<span class="c">	 * @method animate</span>
+<span class="c">	 * @param el {String|Object} The CSS selector string or DOM node.</span>
+<span class="c">	 * @param options {Object} The animation configuration</span>
+<span class="c">	 * Example:</span>
+<span class="c">	 *	Animating a position 100px up and 100px to the left:</span>
+<span class="c">	 *	</span>
+<span class="c">	 *	mui.animate(&#39;#the-element&#39;, {</span>
+<span class="c">	 *		top: &#39;-100px&#39;,</span>
+<span class="c">	 *		left: &#39;-100px&#39;,</span>
+<span class="c">	 *		duration: &#39;0.5s&#39;</span>
+<span class="c">	 *	});</span>
+<span class="c">	 **/</span>
+	<span class="nx">animate</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">options</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">posStyle</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;position&#39;</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">posStyle</span> <span class="o">!=</span> <span class="s1">&#39;absolute&#39;</span> <span class="o">||</span> <span class="nx">posStyle</span> <span class="o">!=</span> <span class="s1">&#39;absolute&#39;</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;position&#39;</span><span class="o">,</span> <span class="s1">&#39;relative&#39;</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">var</span> <span class="nx">styles</span> <span class="o">=</span> <span class="o">{};</span>
+		<span class="k">var</span> <span class="nx">duration</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">duration</span> <span class="o">||</span> <span class="s1">&#39;350ms&#39;</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="o">[];</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">options</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span> <span class="nx">property</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">switch</span><span class="o">(</span><span class="nx">property</span><span class="o">)</span> 
+			<span class="o">{</span>
+				<span class="nx">case</span> <span class="s1">&#39;left&#39;</span><span class="o">:</span>
+				<span class="nx">case</span> <span class="s1">&#39;right&#39;</span><span class="o">:</span>
+					<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTimingFunction</span> <span class="o">=</span> <span class="s1">&#39;ease-in-out&#39;</span><span class="o">;</span>
+					<span class="nx">property</span> <span class="o">=</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="o">;</span>
+					<span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;translateX(&#39;</span><span class="o">+</span><span class="nx">value</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="o">;</span>
+					<span class="k">break</span><span class="o">;</span>
+				<span class="nx">case</span> <span class="s1">&#39;top&#39;</span><span class="o">:</span>
+				<span class="nx">case</span> <span class="s1">&#39;bottom&#39;</span><span class="o">:</span>
+					<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTimingFunction</span> <span class="o">=</span> <span class="s1">&#39;ease-in-out&#39;</span><span class="o">;</span>				
+					<span class="nx">property</span> <span class="o">=</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="o">;</span>
+					<span class="nx">value</span> <span class="o">=</span> <span class="s1">&#39;translateY(&#39;</span><span class="o">+</span><span class="nx">value</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="o">;</span>
+					<span class="k">break</span><span class="o">;</span>
+				<span class="nx">default</span><span class="o">:</span>
+					<span class="k">break</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="nx">properties</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">property</span><span class="o">);</span>
+			<span class="nx">styles</span><span class="o">[</span><span class="nx">property</span><span class="o">]</span> <span class="o">=</span> <span class="nx">value</span><span class="o">;</span>
+		<span class="o">});</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="nx">duration</span><span class="o">;</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionProperty</span> <span class="o">=</span> <span class="nx">properties</span><span class="o">.</span><span class="nx">join</span><span class="o">(</span><span class="s1">&#39; &#39;</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">styles</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">value</span><span class="o">,</span> <span class="nx">name</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">[</span><span class="nx">name</span><span class="o">]</span> <span class="o">=</span> <span class="nx">value</span><span class="o">;</span>
+		<span class="o">});</span>			
+		
+		<span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">onComplete</span><span class="o">;</span>
+			<span class="k">var</span> <span class="nx">fn</span> <span class="o">=</span> <span class="k">function</span><span class="o">()</span>
+			<span class="o">{</span>
+				<span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">onComplete</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">scope</span><span class="o">);</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+			<span class="o">};</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="nx">fn</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>		
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * Effects methods</span>
+<span class="c"> * @module fx</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">fx</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * FX class</span>
+<span class="c">	 * @class FX</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Apply a reflection directly underneath a given image.</span>
+<span class="c">	 * @method reflect</span>
+<span class="c">	 * @param img {HTMLElement} The &lt;img&gt; element.</span>
+<span class="c">	 **/</span>
+	<span class="nx">reflect</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">img</span><span class="o">)</span> 
+	<span class="o">{</span>			
+		<span class="k">var</span> <span class="nx">doReflection</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">i</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">);</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;mui-reflect-container&#39;</span><span class="o">;</span>
+			<span class="nx">img</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="nx">img</span><span class="o">);</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">img</span><span class="o">);</span>
+			<span class="k">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;canvas&#39;</span><span class="o">);</span>
+			<span class="k">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="o">.</span><span class="nx">getContext</span><span class="o">(</span><span class="s2">&quot;2d&quot;</span><span class="o">);</span>
+			<span class="k">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="m">40</span><span class="o">;</span>
+			<span class="k">var</span> <span class="nx">opacity</span> <span class="o">=</span> <span class="m">0</span><span class="o">.</span><span class="m">3</span><span class="o">;</span>
+
+			<span class="nx">container</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">canvas</span><span class="o">);</span>
+
+			<span class="nx">canvas</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+			<span class="nx">canvas</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">img</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+			<span class="nx">canvas</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="o">;</span>
+			<span class="nx">canvas</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">img</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">;</span>
+
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">save</span><span class="o">();</span>
+
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">translate</span><span class="o">(</span><span class="m">0</span><span class="o">,</span><span class="nx">img</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">-</span><span class="m">1</span><span class="o">);</span>
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">scale</span><span class="o">(</span><span class="m">1</span><span class="o">,-</span><span class="m">1</span><span class="o">);</span>
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">drawImage</span><span class="o">(</span><span class="nx">img</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="nx">img</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">,</span> <span class="nx">img</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">);</span>
+
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">restore</span><span class="o">();</span>
+
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">globalCompositeOperation</span> <span class="o">=</span> <span class="s2">&quot;destination-out&quot;</span><span class="o">;</span>
+			<span class="k">var</span> <span class="nx">grad</span> <span class="o">=</span> <span class="nx">ctx</span><span class="o">.</span><span class="nx">createLinearGradient</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="nx">height</span><span class="o">);</span>
+			<span class="nx">grad</span><span class="o">.</span><span class="nx">addColorStop</span><span class="o">(</span><span class="m">1</span><span class="o">,</span> <span class="s2">&quot;rgba(255, 255, 255, 1.0)&quot;</span><span class="o">);</span>
+			<span class="nx">grad</span><span class="o">.</span><span class="nx">addColorStop</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="s2">&quot;rgba(255, 255, 255, &quot;</span><span class="o">+(</span><span class="m">1</span><span class="o">-</span><span class="nx">opacity</span><span class="o">)+</span><span class="s2">&quot;)&quot;</span><span class="o">);</span>
+
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="nx">grad</span><span class="o">;</span>
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">rect</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="nx">img</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">,</span> <span class="nx">height</span><span class="o">*</span><span class="m">2</span><span class="o">);</span>
+			<span class="nx">ctx</span><span class="o">.</span><span class="nx">fill</span><span class="o">();</span>			
+		<span class="o">};</span>		
+
+		<span class="k">if</span><span class="o">(!</span><span class="nx">mui</span><span class="o">.</span><span class="nx">inDocument</span><span class="o">(</span><span class="nx">img</span><span class="o">))</span> 
+		<span class="o">{</span>
+			<span class="nx">img</span><span class="o">.</span><span class="nx">addEventListener</span><span class="o">(</span><span class="s1">&#39;load&#39;</span><span class="o">,</span> <span class="k">function</span><span class="o">()</span> 
+			<span class="o">{</span>
+				<span class="nx">doReflection</span><span class="o">(</span><span class="nx">img</span><span class="o">);</span>
+			<span class="o">},</span> <span class="kc">false</span><span class="o">);</span>
+		<span class="o">}</span> 
+		<span class="k">else</span> 
+		<span class="o">{</span>
+			<span class="nx">doReflection</span><span class="o">(</span><span class="nx">img</span><span class="o">);</span>
+		<span class="o">}</span>				
+	<span class="o">}</span>		
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * AJAX methods</span>
+<span class="c"> * @module ajax</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">ajax</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * AJAX class</span>
+<span class="c">	 * @class Ajax</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * XHR wrapper for making asynchronous connections</span>
+<span class="c">	 * @method io</span>
+<span class="c">	 * @param url {String} URL endpoint</span>
+<span class="c">	 * @param options {Object} Configuration options:</span>
+<span class="c">	 * 	method {String}: get, post</span>
+<span class="c">	 *	callback {Object}: Object literal containing the success and failure callback functions,</span>
+<span class="c">	 *		  as well as the scope to be applied to the callback functions.</span>
+<span class="c">	 *	update {String|HTMLElement}: If present, the given element will be updated with the result </span>
+<span class="c">	 *		of the transaction.</span>
+<span class="c">	 * Example: </span>
+<span class="c">	 * 	Using callback function:</span>
+<span class="c">	 *</span>
+<span class="c">	 * 	mui.io(&#39;/ajax.php&#39;, {</span>
+<span class="c">	 *	  method: &#39;get&#39;,</span>
+<span class="c">	 *        headers: [ { &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39; }],</span>
+<span class="c">	 *	  callback: {</span>
+<span class="c">	 *		success: function(o) {</span>
+<span class="c">	 *			// do something with o.responseText</span>
+<span class="c">	 *		},</span>
+<span class="c">	 *		scope: this</span>
+<span class="c">	 *	});</span>
+<span class="c">	 *</span>
+<span class="c">	 *	Using update property:</span>
+<span class="c">	 *</span>
+<span class="c">	 * 	mui.io(&#39;/ajax.php&#39;, {</span>
+<span class="c">	 *	  method: &#39;get&#39;,</span>
+<span class="c">	 *	  update: &#39;#el-to-be-updated&#39;</span>
+<span class="c">	 *	});	</span>
+<span class="c">	 * @return {Boolean} True if el is contained inside the document, false otherwise.</span>
+<span class="c">	 **/</span>		
+	<span class="nx">io</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="nx">options</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="o">();</span>
+		<span class="k">var</span> <span class="nx">method</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">method</span> <span class="o">||</span> <span class="s1">&#39;get&#39;</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">success</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span> <span class="o">?</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">success</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">failure</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span> <span class="o">?</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">failure</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span> <span class="o">?</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">scope</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">params</span> <span class="o">=</span> <span class="nx">options</span><span class="o">.</span><span class="nx">params</span> <span class="o">||</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">update</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">options</span><span class="o">.</span><span class="nx">update</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">update</span><span class="o">)</span> <span class="o">:</span> <span class="nx">options</span><span class="o">.</span><span class="nx">update</span><span class="o">;</span>
+			<span class="nx">success</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">o</span><span class="o">.</span><span class="nx">responseText</span><span class="o">;</span>
+			<span class="o">};</span>
+		<span class="o">}</span>
+		<span class="nx">xhr</span><span class="o">.</span><span class="nx">open</span><span class="o">(</span><span class="nx">method</span><span class="o">,</span> <span class="nx">url</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+		<span class="nx">xhr</span><span class="o">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="o">(</span><span class="nx">success</span><span class="o">)</span> <span class="o">?</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">xhr</span><span class="o">.</span><span class="nx">readyState</span> <span class="o">!==</span> <span class="m">4</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">return</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">xhr</span><span class="o">.</span><span class="nx">status</span> <span class="o">===</span> <span class="m">200</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">success</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">scope</span><span class="o">,</span> <span class="nx">o</span><span class="o">.</span><span class="nx">target</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">callback</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="o">.</span><span class="nx">callback</span><span class="o">.</span><span class="nx">failure</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">failure</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">scope</span><span class="o">,</span> <span class="nx">o</span><span class="o">.</span><span class="nx">target</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span> <span class="o">:</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">headers</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">headers</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">h</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">h</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span> <span class="nx">xhr</span><span class="o">.</span><span class="nx">setRequestHeader</span><span class="o">(</span><span class="nx">n</span><span class="o">,</span> <span class="nx">v</span><span class="o">);</span> <span class="o">});</span>
+			<span class="o">});</span>
+		<span class="o">}</span>
+		<span class="nx">xhr</span><span class="o">.</span><span class="nx">send</span><span class="o">(</span><span class="nx">params</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Fetch an external script resource</span>
+<span class="c">	 * @method getScript</span>
+<span class="c">	 * @param url {String} The url of the scrip</span>
+<span class="c">	 * @param callback {Function} Callback invoked after script is downloaded</span>
+<span class="c">	 * @param scope {Object} The context of the callback function</span>
+<span class="c">	 **/</span>
+	<span class="nx">getScript</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="nx">callback</span><span class="o">,</span> <span class="nx">scope</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">scriptTag</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;script&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/javascript&#39;</span><span class="o">,</span> <span class="nx">src</span><span class="o">:</span> <span class="nx">url</span> <span class="o">});</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nx">scriptTag</span><span class="o">,</span> <span class="s1">&#39;load&#39;</span><span class="o">,</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="nx">callback</span><span class="o">,</span> <span class="nx">scope</span><span class="o">));</span>
+		<span class="nb">document</span><span class="o">.</span><span class="nx">getElementsByTagName</span><span class="o">(</span><span class="s1">&#39;head&#39;</span><span class="o">)[</span><span class="m">0</span><span class="o">].</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">scriptTag</span><span class="o">);</span>
+	<span class="o">}</span>	
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * Object-Oriented programming helpers</span>
+<span class="c"> * @module oop</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">oop</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * OOP class</span>
+<span class="c">	 * @class Oop</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Provide a namespace.  </span>
+<span class="c">	 * @method provide</span>
+<span class="c">	 * @param ns {String} The namespace. This can be a chained namespace, i.e., &quot;levelOne.levelTwo.levelThree&quot;</span>
+<span class="c">	 */</span>
+	<span class="nx">provide</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">ns</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">i</span><span class="o">,</span> <span class="nx">len</span><span class="o">,</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">ns</span><span class="o">.</span><span class="nx">split</span><span class="o">(</span><span class="s1">&#39;.&#39;</span><span class="o">),</span> <span class="nx">p</span> <span class="o">=</span> <span class="nb">window</span><span class="o">;</span>
+		<span class="k">for</span><span class="o">(</span><span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">s</span><span class="o">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="nx">p</span><span class="o">[</span><span class="nx">s</span><span class="o">[</span><span class="nx">i</span><span class="o">]]</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">p</span><span class="o">[</span><span class="nx">s</span><span class="o">[</span><span class="nx">i</span><span class="o">]]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="o">{}</span> <span class="o">:</span> <span class="nx">p</span><span class="o">[</span><span class="nx">s</span><span class="o">[</span><span class="nx">i</span><span class="o">]];</span>
+			<span class="nx">p</span> <span class="o">=</span> <span class="nx">p</span><span class="o">[</span><span class="nx">s</span><span class="o">[</span><span class="nx">i</span><span class="o">]];</span>
+		<span class="o">}</span>
+ 	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Simple object extension. Static members will not be inherited to the child class.</span>
+<span class="c">	 * The superclass and constructor properties are added to parent and child classes.</span>
+<span class="c">	 * @method extend</span>
+<span class="c">	 * @param sub {Object} The subclass</span>
+<span class="c">	 * @param sup {Object} The superclass from which to extend</span>
+<span class="c">	 * @param proto {Object} prototype properties to add/override</span>
+<span class="c">	 * @param stat {Object} static properties to add/override	</span>
+<span class="c">	 * @return The subclass, with properties/methods inherited from superclass</span>
+<span class="c">	 **/</span>
+	<span class="nx">extend</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">sub</span><span class="o">,</span> <span class="nx">sup</span><span class="o">,</span> <span class="nx">proto</span><span class="o">,</span> <span class="nx">stat</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="c">// Ensure sub and sup exist</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(!</span><span class="nx">sub</span> <span class="o">||</span> <span class="o">!</span><span class="nx">sup</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="o">(</span><span class="s1">&#39;mui.extend: Invalid extension.&#39;</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="c">// Prototypal inheritance of the parent to child</span>
+<span class="c"></span>		<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">sup</span><span class="o">();</span>
+		
+		<span class="c">// Javascript does not allow getters/setters to be inherited via prototype.</span>
+<span class="c"></span>		<span class="c">// The workaround here use a naming convention.  The rules are as follows:</span>
+<span class="c"></span>		<span class="c">// If superclass has a __set__&lt;property&gt; method defined, we defined a setter</span>
+<span class="c"></span>		<span class="c">// for the &lt;property&gt; member on the subclass.  The same rule applies for</span>
+<span class="c"></span>		<span class="c">// __get__&lt;property&gt;.</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">sup</span><span class="o">.</span><span class="nx">prototype</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">val</span><span class="o">,</span> <span class="nx">name</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">sup</span><span class="o">.</span><span class="nx">prototype</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">val</span><span class="o">,</span> <span class="nx">name</span><span class="o">)</span> <span class="o">{</span>
+				<span class="c">// Special case: __get__property</span>
+<span class="c"></span>				<span class="k">if</span><span class="o">(</span><span class="nx">name</span><span class="o">.</span><span class="nx">substring</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">7</span><span class="o">)</span> <span class="o">===</span> <span class="s1">&#39;__get__&#39;</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">__defineGetter__</span><span class="o">(</span><span class="nx">name</span><span class="o">.</span><span class="nx">substring</span><span class="o">(</span><span class="m">7</span><span class="o">),</span> <span class="nx">val</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="c">// Special case: __set__property</span>
+<span class="c"></span>				<span class="k">if</span><span class="o">(</span><span class="nx">name</span><span class="o">.</span><span class="nx">substring</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">7</span><span class="o">)</span> <span class="o">===</span> <span class="s1">&#39;__set__&#39;</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">__defineSetter__</span><span class="o">(</span><span class="nx">name</span><span class="o">.</span><span class="nx">substring</span><span class="o">(</span><span class="m">7</span><span class="o">),</span> <span class="nx">val</span><span class="o">);</span>				
+				<span class="o">}</span>
+			<span class="o">});</span>
+		<span class="o">});</span>
+
+		<span class="c">// Set constructor properties for parent, child</span>
+<span class="c"></span>		<span class="nx">sup</span><span class="o">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">sup</span><span class="o">;</span>
+		<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">sub</span><span class="o">;</span>
+		
+		<span class="c">// Set superclass property for child</span>
+<span class="c"></span>		<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">superclass</span> <span class="o">=</span> <span class="nx">sup</span><span class="o">;</span>
+		
+		<span class="c">// If any prototype properties are passed in, add those to the child&#39;s prototype</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="nx">proto</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">proto</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">sub</span><span class="o">.</span><span class="nx">prototype</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+			<span class="o">});</span>
+		<span class="o">}</span>
+		
+		<span class="c">// If any static properties are passed in, add those to the child as static members</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="nx">stat</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">stat</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nx">sub</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span>
+			<span class="o">});</span>
+		<span class="o">}</span>
+
+		<span class="k">return</span> <span class="nx">sub</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Object augmentation</span>
+<span class="c">	 * @method augment</span>
+<span class="c">	 * @param obj {Object} The object to be augmented</span>
+<span class="c">	 * @param ext {Object} Object literal containing members to be added the object.</span>
+<span class="c">	 * @return The original object with all the original properties , plus the passed in extensions.</span>
+<span class="c">	 **/</span>	
+	<span class="nx">augment</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">obj</span><span class="o">,</span> <span class="nx">ext</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">p</span> <span class="k">in</span> <span class="nx">ext</span><span class="o">)</span> 
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">ext</span><span class="o">.</span><span class="nx">hasOwnProperty</span><span class="o">(</span><span class="nx">p</span><span class="o">))</span> 
+			<span class="o">{</span>
+				<span class="nx">obj</span><span class="o">[</span><span class="nx">p</span><span class="o">]</span> <span class="o">=</span> <span class="nx">ext</span><span class="o">[</span><span class="nx">p</span><span class="o">];</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">obj</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Bind a function to a given context and arguments</span>
+<span class="c">	 * @method bind</span>
+<span class="c">	 * @param fn {Function} The function to bind</span>
+<span class="c">	 * @param ctx {Object} The context in which the function will be executed</span>
+<span class="c">	 * @param args* 0..n arguments to include before the arguments the </span>
+<span class="c">	 * function is executed with</span>
+<span class="c">	 * @return {Function} the wrapped function</span>
+<span class="c">	 */</span>
+	<span class="nx">bind</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">fn</span><span class="o">,</span> <span class="nx">ctx</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">slice</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">arguments</span><span class="o">,</span> <span class="m">2</span><span class="o">);</span>
+		<span class="k">return</span> <span class="k">function</span><span class="o">()</span> <span class="o">{</span> 
+			<span class="c">// Merge arguments of inner function with those passed to mui.bind			</span>
+<span class="c"></span>			<span class="k">var</span> <span class="nx">xargs</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="nx">prototype</span><span class="o">.</span><span class="nx">slice</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">arguments</span><span class="o">);</span>
+			<span class="c">// mui.log(xargs);</span>
+<span class="c"></span>			<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">args</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">a</span><span class="o">)</span> <span class="o">{</span> <span class="nx">xargs</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">a</span><span class="o">);</span> <span class="o">});</span>
+			<span class="nx">fn</span><span class="o">.</span><span class="nx">apply</span><span class="o">((</span><span class="nx">ctx</span> <span class="o">||</span> <span class="nx">fn</span><span class="o">),</span> <span class="nx">xargs</span><span class="o">);</span> 
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * Client environment methods</span>
+<span class="c"> * @module env</span>
+<span class="c"> **/</span>
+<span class="k">var</span> <span class="nx">env</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Env class</span>
+<span class="c">	 * @class Env</span>
+<span class="c">	 * @static</span>
+<span class="c">	 */</span>
+
+	<span class="c">/*</span>
+<span class="c">	 * mui.UA is a read-only property which gives information regarding </span>
+<span class="c">	 * the User Agent. </span>
+<span class="c">	 * @final UA</span>
+<span class="c">	 * @type Object</span>
+<span class="c">	 */</span>
+	<span class="nx">UA</span><span class="o">:</span> <span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+		<span class="k">var</span> <span class="nx">UA</span> <span class="o">=</span> <span class="o">{</span>
+			<span class="nx">Apple</span><span class="o">:</span>       <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">Safari</span><span class="o">:</span>      <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">iPhone3</span><span class="o">:</span>     <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">Android</span><span class="o">:</span>     <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">Pre</span><span class="o">:</span> 	     <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">WebKit</span><span class="o">:</span>      <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">IE</span><span class="o">:</span>          <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">RIM</span><span class="o">:</span>         <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">OperaMini</span><span class="o">:</span>   <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">OperaMobile</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">Gears</span><span class="o">:</span>       <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">CSSTransitions</span><span class="o">:</span> <span class="kc">false</span>
+		<span class="o">};</span>
+
+		<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">navigator</span> <span class="o">!=</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;BlackBerry&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>         <span class="nx">UA</span><span class="o">.</span><span class="nx">RIM</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;MSIE &quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>         <span class="nx">UA</span><span class="o">.</span><span class="nx">IE</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;Opera Mobi&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>    <span class="nx">UA</span><span class="o">.</span><span class="nx">OperaMobile</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;Opera Mini&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>    <span class="nx">UA</span><span class="o">.</span><span class="nx">OperaMini</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+			<span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot; AppleWebKit/&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>       <span class="nx">UA</span><span class="o">.</span><span class="nx">WebKit</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;Android/&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>	    <span class="nx">UA</span><span class="o">.</span><span class="nx">Android</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot; Pre/&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>	    	    <span class="nx">UA</span><span class="o">.</span><span class="nx">Pre</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>			
+			<span class="k">if</span><span class="o">(</span><span class="sr">/i(Phone|Pod)/</span><span class="o">.</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>                <span class="nx">UA</span><span class="o">.</span><span class="nx">Apple</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">UA</span><span class="o">.</span><span class="nx">Apple</span> <span class="o">&amp;&amp;</span> <span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;OS 3&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span>    <span class="nx">UA</span><span class="o">.</span><span class="nx">iPhone3</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(!</span><span class="nx">UA</span><span class="o">.</span><span class="nx">Android</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">UA</span><span class="o">.</span><span class="nx">Pre</span> <span class="o">&amp;&amp;</span> <span class="nb">RegExp</span><span class="o">(</span><span class="s2">&quot;Safari&quot;</span><span class="o">).</span><span class="nx">test</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">userAgent</span><span class="o">))</span> <span class="nx">UA</span><span class="o">.</span><span class="nx">Safari</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="o">}</span>
+
+		<span class="nx">UA</span><span class="o">.</span><span class="nx">Gears</span> <span class="o">=</span> <span class="k">typeof</span><span class="o">(</span><span class="nx">navigator</span><span class="o">.</span><span class="nx">mimeTypes</span><span class="o">)</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">navigator</span><span class="o">.</span><span class="nx">mimeTypes</span><span class="o">[</span><span class="s1">&#39;application/x-googlegears&#39;</span><span class="o">];</span>
+		
+		<span class="c">// Create Gears element</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="nx">UA</span><span class="o">.</span><span class="nx">Gears</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">factory</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;object&#39;</span><span class="o">);</span>
+			<span class="nx">factory</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="o">;</span>
+			<span class="nx">factory</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="s1">&#39;0px&#39;</span><span class="o">;</span>
+			<span class="nx">factory</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s1">&#39;0px&#39;</span><span class="o">;</span>
+			<span class="nx">factory</span><span class="o">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;application/x-googlegears&#39;</span><span class="o">;</span>
+			<span class="nb">document</span><span class="o">.</span><span class="nx">documentElement</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">factory</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">google</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span> <span class="nx">google</span> <span class="o">=</span> <span class="o">{};</span>
+			<span class="k">if</span><span class="o">(!</span><span class="nx">google</span><span class="o">.</span><span class="nx">gears</span><span class="o">)</span> <span class="nx">google</span><span class="o">.</span><span class="nx">gears</span> <span class="o">=</span> <span class="o">{</span> <span class="nx">factory</span><span class="o">:</span> <span class="nx">factory</span> <span class="o">};</span>
+		<span class="o">}</span>		
+		
+		<span class="c">// Transitions</span>
+<span class="c"></span>		<span class="nx">UA</span><span class="o">.</span><span class="nx">CSSTransitions</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">WebKitCSSMatrix</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="o">);</span>
+
+		<span class="k">return</span> <span class="nx">UA</span><span class="o">;</span>
+	<span class="o">})()</span>
+<span class="o">};</span>
+
+<span class="c">// Define mui</span>
+<span class="c"></span><span class="nx">util</span><span class="o">.</span><span class="nx">each</span><span class="o">([</span><span class="nx">util</span><span class="o">,</span> <span class="nx">dom</span><span class="o">,</span> <span class="nx">event</span><span class="o">,</span> <span class="nx">anim</span><span class="o">,</span> <span class="nx">fx</span><span class="o">,</span> <span class="nx">ajax</span><span class="o">,</span> <span class="nx">oop</span><span class="o">,</span> <span class="nx">env</span><span class="o">],</span> <span class="k">function</span><span class="o">(</span><span class="nx">lib</span><span class="o">)</span> <span class="o">{</span>
+	<span class="nx">oop</span><span class="o">.</span><span class="nx">augment</span><span class="o">(</span><span class="nx">mui</span><span class="o">,</span> <span class="nx">lib</span><span class="o">);</span>
+<span class="o">});</span>
+
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class="selected"><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="Utility.html" title="Utility">Utility</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="mui.js.html" title="mui.js">mui.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Utility.html#method_debug", "access": "", "host": "Utility", "type": "method", "name": "debug"}, {"url": "Utility.html#method_each", "access": "", "host": "Utility", "type": "method", "name": "each"}, {"url": "Utility.html#method_error", "access": "", "host": "Utility", "type": "method", "name": "error"}, {"url": "Utility.html#method_iterate", "access": "", "host": "Utility", "type": "method", "name": "iterate"}, {"url": "Utility.html#method_log", "access": "", "host": "Utility", "type": "method", "name": "log"}, {"url": "Utility.html#method_setLogLevel", "access": "", "host": "Utility", "type": "method", "name": "setLogLevel"}, {"url": "Utility.html#method_trace", "access": "", "host": "Utility", "type": "method", "name": "trace"}, {"url": "Utility.html#method_warn", "access": "", "host": "Utility", "type": "method", "name": "warn"}];
+</script>
+</body>
+</html>

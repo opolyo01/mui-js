@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  
+  <!-- disable zooming -->
+  <meta name="viewport" content="initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+  
+  <title>Card 1 &middot; Intro to CSS 3D transforms &rsaquo; Examples</title>
+    <style media="screen">
+    .container {
+      width: 200px;
+      height: 260px;
+      position: relative;
+      margin: 0 auto 40px;
+      border: 1px solid #CCC;
+      -webkit-perspective: 800;
+    }
+    
+    #card {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      -webkit-transition: -webkit-transform 1s;
+      -webkit-transform-style: preserve-3d;
+    }
+    
+    #card.flipped {
+      -webkit-transform: rotateY( 180deg );
+    }
+    
+    #card figure {
+      display: block;
+      height: 100%;
+      width: 100%;
+      line-height: 260px;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      font-size: 140px;
+      position: absolute;
+      -webkit-backface-visibility: hidden;
+    }
+    
+    #card .front {
+      background: red;
+    }
+    
+    #card .back {
+      background: blue;
+      -webkit-transform: rotateY( 180deg );
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>Card 1</h1>
+  
+  <section class="container">
+    <div id="card">
+      <figure class="front">1</figure>
+      <figure class="back">2</figure>
+    </div>
+  </section>
+  
+  <section id="options">
+    <p><button id="flip">Flip Card</button></p>
+  </section>
+  
+  <script>
+	Element.prototype.hasClassName = function (a) {
+	    return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
+	};
+	Element.prototype.addClassName = function (a) {
+	    if (!this.hasClassName(a)) {
+	        this.className = [this.className, a].join(" ");
+	    }
+	};
+	Element.prototype.removeClassName = function (b) {
+	    if (this.hasClassName(b)) {
+	        var a = this.className;
+	        this.className = a.replace(new RegExp("(?:^|\\s+)" + b + "(?:\\s+|$)", "g"), " ");
+	    }
+	};
+	Element.prototype.toggleClassName = function (a) {
+	  this[this.hasClassName(a) ? "removeClassName" : "addClassName"](a);
+	};
+	var init = function() {
+	  var card = document.getElementById('card');
+
+	  document.getElementById('flip').addEventListener( 'click', function(){
+	    card.toggleClassName('flipped');
+	  }, false);
+	};
+
+	window.addEventListener('DOMContentLoaded', init, false);
+  </script>
+</body>
+</html>

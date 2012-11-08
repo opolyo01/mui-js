@@ -1,0 +1,373 @@
+/*******************************************************
+ * Thumbs ScrollView
+ ******************************************************/
+#thumbs { position: relative; height: 270px; width: 100%; margin: 10px auto; overflow: hidden; background: yellow; }
+#thumbs > div { position: absolute; white-space: nowrap; margin: 8px; }
+#thumbs img { display: inline-block; vertical-align: middle; margin-right: 12px; -webkit-transform: translate3d(0,0,0); }
+#thumbs img:last-child { margin-right: 0; }
+
+/*******************************************************
+ * Navigation Bar
+ ******************************************************/
+.mui-navbar {
+	background: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(#d8dee6),
+		color-stop(0.01, #b0bccc),
+		color-stop(0.49, #889bb3),		
+		color-stop(0.50, #8094ae),		
+		to(#6d83a1)		
+	);
+	
+	border-bottom: 1px solid #2d3033;	
+}
+
+.mui-navtitle {
+	color: #fff;
+	text-shadow: 0 -1px 1px #333;
+}
+
+.mui-navback h6 {
+	-webkit-border-image: url(../img/back.png) 0 7 49 17;
+	
+	color: #fff;
+}
+
+.mui-navback.mui-depressed h6 {
+	-webkit-border-image: url(../img/back.png) 32 7 17 17;
+}
+
+/*******************************************************
+ * Footer Toolbar
+ ******************************************************/
+footer {
+	height: 43px; 
+	
+	background: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(#d8dee6),
+		color-stop(0.01, #b0bccc),
+		color-stop(0.49, #889bb3),		
+		color-stop(0.50, #8094ae),		
+		to(#6d83a1)
+	);
+	
+	border-top: 1px solid #2d3033;
+}
+
+#footer-left {
+	
+}
+
+#footer-title {
+	
+}
+
+#footer-right {
+	
+}
+
+/*******************************************************
+ * Table Views
+ ******************************************************/
+.mui-list-item.arrow {
+	padding-right: 30px;
+	background: transparent url(../img/arrow.png) 95% center no-repeat;
+}
+
+.message-count { 
+	position: absolute; 
+	right: 35px; 
+	top: 9px; 
+	
+	background: #bab9b9; 
+	
+	padding: 4px 6px; 
+	
+	-webkit-border-radius: 11px; 
+	
+	font-size: 93%; 
+	font-weight: bold; 
+	color: #fff;
+	text-align: center;
+	
+	min-width: 20px;
+}
+
+#message-list .mui-list-item > div {
+	padding-left: 25px;
+}
+
+#message-list .mui-list-item.new-message > div {
+	background: transparent url(../img/dot-blue.png) 2px center no-repeat;
+}
+
+.mui-list-item .date {
+	position: absolute;
+	right: 20px;
+	top: 4px;
+	
+	color: #2571d8;
+	
+	font-size: 80%;
+}
+
+#message-list .mui-title {
+	font-size: 100%;
+	
+	width: 81%;
+	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#message-list .message-title {
+
+	font-size: 87%;
+	
+	width: 100%;
+	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#message-list .summary {
+	font-size: 80%;
+	
+	color: #8c8c8c;
+}
+
+#account .mui-list-item > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/*******************************************************
+ * Icons
+ ******************************************************/
+.icon {
+	display: inline-block;
+	
+	width: 32px;
+	height: 32px;
+	
+	margin: 0 4px;
+}
+
+.icon.inbox {
+	background-image: url(../img/icon-inbox.png);
+}
+
+.icon.sent {
+	background-image: url(../img/icon-sent.png);
+}
+
+.icon.draft {
+	background-image: url(../img/icon-draft.png);
+}
+
+.icon.trash {
+	background-image: url(../img/icon-trash.png);
+}
+
+.icon.folder {
+	background-image: url(../img/icon-folder.png);
+}
+
+
+/*******************************************************
+ * Message View
+ ******************************************************/
+#message > * {
+	padding: 5px 8px;
+}
+
+#message .header, #message .subject {
+	border-bottom: 1px solid #d8d8d8;
+}
+
+#message .date {
+	font-size: 80%;
+	color: #8c8c8c;
+}
+
+
+/*******************************************************
+ * Compose View
+ ******************************************************/
+#view-compose .formfield {
+	border-bottom: 1px solid #d8d8d8;
+
+	padding: 7px 5px;		
+}
+
+#view-compose label {
+	color: #999;
+	font-size: 96%;
+	
+	display: inline-block;
+	
+	margin-right: 4px;
+}
+
+#view-compose input[type=text], #view-compose textarea {
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	border: 0;
+	background: transparent;
+	font-size: 100%;
+}
+
+#view-compose textarea {
+	min-height: 200px;
+	width: 100%;
+	display: block;
+}
+
+/*******************************************************
+ * Buttons
+ ******************************************************/
+header .button {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-border-image: url(../img/buttons.png) 0 6 60 6;
+	border-width: 0 6px 0 6px;
+	
+	padding: 6px 3px;
+	
+	text-align: center;
+	color: #fff;
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
+	font-weight: bold;
+	font-size: 80%;
+}
+
+header .button:active {
+	-webkit-border-image: url(../img/buttons.png) 60 6 0 6 !important;		
+}
+
+header .button.blue {
+	-webkit-border-image: url(../img/buttons.png) 30 6 30 6;
+}
+
+header .button.disabled {
+	-webkit-border-image: url(../img/buttons.png) 0 6 60 6 !important;	
+	
+	color: #d3d3d3;
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.6);
+}
+
+/*******************************************************
+ * Toolbar
+ ******************************************************/
+footer {
+	display: table;
+	overflow: hidden;
+}
+
+footer > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+footer #footer-left, footer #footer-center {
+	width: 100%;
+	white-space: nowrap;
+}
+
+footer.center #footer-left {
+	width: auto;
+}
+
+footer #footer-center {
+	text-align: center;
+}
+
+footer #footer-center .icon {
+	margin: 0 18px;
+}
+
+footer #footer-center .title {
+	position: absolute; 
+	left: 0;
+	top: 12px;
+	
+	width: 100%;
+	
+	z-index: -1;
+	
+	text-align: center;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 0 -1px 1px #333;
+}
+
+footer #footer-center .subtitle {
+	font-weight: normal;
+	font-size: 83%;
+	margin-top: 1px;
+}
+
+footer .icon {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);	
+	display: inline-block;
+
+	width: 32px;
+	height: 32px;
+	
+	background: transparent url(../img/toolbar-icons.png) 0 0 no-repeat;
+}
+
+footer .icon:active {
+	background: url(../img/toolbar-icons.png) 0 -160px no-repeat,
+				url(../img/toolbar-icons.png) 0 0 no-repeat;
+}
+
+footer .icon.compose {
+	background: url(../img/toolbar-icons.png) 0 -32px no-repeat;	
+}
+
+footer .icon.compose:active {
+	background: url(../img/toolbar-icons.png) 0 -160px no-repeat,
+				url(../img/toolbar-icons.png) 0 -32px no-repeat;
+}
+
+footer .icon.folder {
+	background: url(../img/toolbar-icons.png) 0 -64px no-repeat;	
+}
+
+footer .icon.folder:active {
+	background: url(../img/toolbar-icons.png) 0 -160px no-repeat,
+				url(../img/toolbar-icons.png) 0 -64px no-repeat;
+}
+
+footer .icon.trash {
+	background: url(../img/toolbar-icons.png) 0 -96px no-repeat;	
+}
+
+footer .icon.trash:active {
+	background: url(../img/toolbar-icons.png) 0 -160px no-repeat,
+				url(../img/toolbar-icons.png) 0 -96px no-repeat;
+}
+
+footer .icon.reply {
+	background: url(../img/toolbar-icons.png) 0 -128px no-repeat;	
+}
+
+footer .icon.reply:active {
+	background: url(../img/toolbar-icons.png) 0 -160px no-repeat,
+				url(../img/toolbar-icons.png) 0 -128px no-repeat;
+}
+
+
+
+
+
+
+
+

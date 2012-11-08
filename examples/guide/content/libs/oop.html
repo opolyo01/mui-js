@@ -1,0 +1,73 @@
+<h1>Object Oriented mui</h1>
+<p>
+	There are several language helpers which allow you to write object-oriented Javascript.
+</p>
+
+<h4>provide</h4>
+<p>
+	This method ensures that a namespace exists.  This works with nested namespaces.  For instance:
+	<code>
+		mui.provide('MyCompany.MyTeam.Me');
+	</code>
+	will make sure the following object tree is available. If a level in the tree does not exist, it will initialize an empty object.
+	<pre><code>MyCompany {
+    MyTeam: {
+        Me: {}
+    }
+}</code></pre>
+</p>
+
+<h4>bind</h4>
+
+<p>
+	Binding methods to execution context and arguments is one of the most commonly used tasks in Javascript.  <code class="inlinle">mui.bind()</code> does just that.
+	It accepts a method, execution context, and a variable list of arguments to be passed to the method when it is invoked.  For instance, to bind the method <code class="inline">doSomething()</code>
+	to <code class="inline">myObject</code>:
+	<pre><code>mui.bind(doSomething, myObject, arg1, arg2, arg3);</code></pre>
+</p>
+
+<h4>extend</h4>
+<p>
+	Allows for extension of the prototype and static members of one class to another.  In addition, the superclass and constructor
+	properties are setup on the parent and child classes.  For example, let's create a Person class:
+	<pre><code>function Person(data) {
+    // Set the name property on this instance
+    this.name = data.name;
+}
+	</code></pre>
+	Next, create an Employee class which extends Person, and adds a new property, id:
+	<pre><code>function Employee(data) {
+    // Set the id property on this instance
+    this.id = data.id;
+
+    // Call the superclass' constructor 
+    Employee.superclass.constructor.apply(this, arguments);
+}
+mui.extend(Employee, Person, {
+    // Prototype method getId returns the ID number of this Employee
+    getId: function() {
+        return this.id;
+    }
+});</code></pre>
+</p>
+
+<h4>mix</h4>
+
+<p>
+	Mixins allow you to add behavior to an existing class through another class.  This is typically used when there exists a set of shared
+	methods and properties which might be used by multiple classes.  In this case, you can use <code class="inline">mui.mix()</code> to 
+	add prototype and static members from one class to another.
+</p>
+
+<h4>augment</h4>
+
+<p>
+	If you want to add the static members from one class to another class, use <code class="inline">mui.augment()</code>.  This method only 
+	augments the object's static, or instance, properties and methods.
+</p>
+
+<h4>augmentProto</h4>
+
+<p>
+	Similar to <code class="inline">augment()</code>, this method adds one class or object's prototype members to another.
+</p>

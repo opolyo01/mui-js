@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    
+    <style type="text/css" media="screen">
+      body { min-height: 480px; /*font-size: 40px;*/ }
+      /*#domContent { display: none; }*/
+      #first { background-color: #bada55; }
+      #point { position: absolute; top: 100px; left: 50px;  }
+    </Style>
+    <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+    <script src="test.js" type="text/javascript"></script>
+    <script src="instrumented_code/mui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="tests.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  
+  <body>
+    <div id="domContent">
+      <h1>Heading 1</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rutrum dui enim, sed elementum urna. Donec tincidunt ante non arcu posuere gravida. Donec diam ipsum, eleifend et bibendum posuere, consequat ut erat. Nullam facilisis mi non augue euismod accumsan. Vestibulum lobortis aliquet urna, sit amet pellentesque quam bibendum dictum. Pellentesque eget augue lacus. Aenean eget nunc nisl. Integer lacinia hendrerit nunc, suscipit feugiat magna commodo a. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sit amet egestas justo. Donec sollicitudin convallis quam ultrices gravida. Nam quis lacus sem, eget pulvinar enim. Suspendisse tempus elit sit amet sapien tincidunt eu auctor massa cursus. Suspendisse potenti. Phasellus vitae ante libero, sit amet rutrum est. Etiam non neque id purus eleifend placerat. Duis augue diam, dapibus sed egestas vitae</p>
+
+      <p>Praesent non augue sit amet nunc vulputate congue. Duis sed erat nulla. Etiam facilisis facilisis enim. Aenean varius nunc nec nunc feugiat id fermentum eros molestie. Vestibulum vel sapien ligula, sit amet suscipit velit. Integer lectus augue, euismod vitae facilisis at, scelerisque ac ligula. Nunc quis mi neque, a volutpat felis. Aliquam enim leo, eleifend vel auctor et, congue ullamcorper arcu. In eros turpis, scelerisque et sodales eget, eleifend vitae augue. Morbi eros magna, scelerisque non dapibus id, pretium vitae orci. Sed dignissim egestas elit, pharetra convallis leo rutrum in. Cras porta orci ac nibh porta eget porttitor justo accumsan.</p>
+
+      <p>Proin condimentum erat ac orci scelerisque pharetra. Nullam non diam ac nibh interdum laoreet. In commodo scelerisque libero vel ornare. Vestibulum ultricies porta facilisis. Donec nisl urna, condimentum non rutrum et, ultricies eu ipsum. Etiam tempor facilisis nulla, id porta tellus dapibus sed. Nunc quis tempor dolor. Sed dignissim, nibh vel consectetur faucibus, odio risus mollis magna, eu convallis lorem quam quis orci. Praesent porttitor ligula non arcu tincidunt eleifend. Maecenas lorem elit, vehicula eget pharetra quis, congue sed sapien. Sed leo est, luctus ac placerat sed, convallis in augue. Sed elementum, sem vel malesuada condimentum, est velit auctor orci, in dictum tellus massa in justo. Sed lobortis congue tellus quis feugiat. Duis congue lobortis dolor, et fermentum mauris vehicula a. Nulla ut dui in tortor rhoncus interdum sed vestibulum dolor. Maecenas tempor erat justo, in imperdiet eros. Ut venenatis laoreet tortor, sit amet dapibus turpis rhoncus nec. Vestibulum eleifend, neque eu dictum ultrices, ipsum elit molestie diam, id tincidunt mi risus sed nisi. Aenean pretium, leo sit amet blandit mattis, diam erat mollis quam, sit amet dictum odio nibh eget ante. Morbi ullamcorper tempus placerat.</p>
+
+      <ul>
+        <li id="first" class="foo">First list item</li>
+        <li class="foo">Second list item</li>
+        <li class="foo">Third list item</li>
+        <li class="foo">Fourth list item</li>
+      </ul>
+
+      <div id="point">.</div>
+    </div>
+
+    <div id="log"></div>
+  </body>
+</html>

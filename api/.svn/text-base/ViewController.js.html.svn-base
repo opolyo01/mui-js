@@ -1,0 +1,509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: framework   ViewController.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.6" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.6" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.6"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.6"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_framework.html" title="framework">framework</a>
+	               		
+	               		 <span class="gt"></span> ViewController.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * Regular expression for template building</span>
+<span class="c"> * @property templateRegExp</span>
+<span class="c"> * @static</span>
+<span class="c"> * @private</span>
+<span class="c"> */</span>
+<span class="k">const</span> <span class="nx">templateRegExp</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="o">(</span><span class="s1">&#39;%{([\\w-.]+)}&#39;</span><span class="o">,</span> <span class="s1">&#39;g&#39;</span><span class="o">);</span>
+
+<span class="c">/**</span>
+<span class="c"> * ViewController class</span>
+<span class="c"> * This class provides the behavior layer for one screen of the app.</span>
+<span class="c"> * All built-in view controller classes and any custom</span>
+<span class="c"> * view controller classes inherit from this class.</span>
+<span class="c"> * @class ViewController</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param definition {Object} View controller definition</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">ViewController</span><span class="o">(</span><span class="nx">def</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="c">// Iterate over defintion</span>
+<span class="c"></span>	<span class="nx">mui</span><span class="o">.</span><span class="nx">iterate</span><span class="o">(</span><span class="nx">def</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">v</span><span class="o">,</span> <span class="nx">n</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">[</span><span class="nx">n</span><span class="o">]</span> <span class="o">=</span> <span class="nx">v</span><span class="o">;</span> <span class="o">},</span> <span class="k">this</span><span class="o">);</span>	
+	
+	<span class="c">// Initialize navigation items</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">navigationItems</span> <span class="o">=</span> <span class="o">{};</span>
+<span class="o">};</span>
+
+<span class="nx">ViewController</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Flag to determine if view data has been loaded</span>
+<span class="c">	 * @property _viewLoaded</span>
+<span class="c">	 * @type Boolean</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">_viewLoaded</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Flag to determine if ViewController should be persisted. If set to</span>
+<span class="c">	 * false, then this ViewController will not be restored when the</span>
+<span class="c">	 * navigationController&#39;s stack is restored</span>
+<span class="c">	 * @property persistView</span>
+<span class="c">	 * @type Boolean</span>
+<span class="c">	 * @default true</span>
+<span class="c">	 */</span>
+	<span class="nx">persistView</span><span class="o">:</span> <span class="kc">true</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Root node for the view</span>
+<span class="c">	 * @property view</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">view</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The navigationItems property is used to allow view controllers to specify</span>
+<span class="c">	 * the contents for the navigation-bar. There are 3 possible locations for </span>
+<span class="c">	 * navigation items.  Left (back button), Center (title), Right (custom view).</span>
+<span class="c">	 * You can use the viewWillAppear callback to set navigation items for a </span>
+<span class="c">	 * view controller.</span>
+<span class="c">	 * See: http://developer.apple.com/iphone/library/featuredarticles/ViewControllerPGforiPhoneOS/UsingNavigationControllers/UsingNavigationControllers.html#//apple_ref/doc/uid/TP40007457-CH7-SW1</span>
+<span class="c">	 * for a detailed explanation of navigation item&#39;s in context of native </span>
+<span class="c">	 * iPhone development, as the rules are similar.</span>
+<span class="c">	 * @method navigationItems</span>
+<span class="c">	 * @type Object</span>
+<span class="c">	 */</span>
+	<span class="nx">navigationItems</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Check to see whether the view has been loaded or not.</span>
+<span class="c">	 * @method isViewLoaded</span>
+<span class="c">	 * @return Boolean indicating if the view has been loaded.</span>
+<span class="c">	 */</span>
+	<span class="nx">isViewLoaded</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">_viewLoaded</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Trigger the callback sequence for when the view contents have</span>
+<span class="c">	 * been loaded</span>
+<span class="c">	 * @method _viewDidLoad</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">_viewDidLoad</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_viewLoaded</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">removeAttribute</span><span class="o">(</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">loadingAttr</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">viewDidLoad</span><span class="o">();</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * This method defines the transition which will occur when this </span>
+<span class="c">	 * viewController is set to appear on-screen. By default, if the</span>
+<span class="c">	 * viewController belongs to a navigationController, the transition</span>
+<span class="c">	 * will be a &quot;push&quot;. To define a different transition, override this</span>
+<span class="c">	 * method in the viewController.</span>
+<span class="c">	 * @method getTransition</span>
+<span class="c">	 * @return {Object} Object literal containing type, direction values</span>
+<span class="c">	 */</span>
+	<span class="nx">getTransition</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span> <span class="k">instanceof</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">NavigationController</span><span class="o">)</span> <span class="k">return</span> <span class="o">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;push&#39;</span> <span class="o">};</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the root node for the view. If the second argument passed to the</span>
+<span class="c">	 * method is true, then it is assumed the node is already loaded. Otherwise,</span>
+<span class="c">	 * one must use setViewContent to trigger the viewDidLoad callback.</span>
+<span class="c">	 * @method setView</span>
+<span class="c">	 * @param el {String|HTMLElement} Selector string or HTML element for the view</span>
+<span class="c">	 * @param isLoaded {Boolean} Whether or not the HTML element is loaded. Default is false.</span>
+<span class="c">	 */</span>
+	<span class="nx">setView</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">isLoaded</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">view</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">className</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">className</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">className</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">viewClassName</span> <span class="o">:</span> <span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">viewClassName</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">isLoaded</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_viewDidLoad</span><span class="o">();</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_disableReload</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">loadingAttr</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+		
+		<span class="c">// Initialize scroll view</span>
+<span class="c"></span>		<span class="c">// if(mui.ScrollView &amp;&amp; mui.UA.Apple &amp;&amp; mui.ApplicationController.getInstance().viewportInfo.fullScreen)</span>
+<span class="c"></span>		<span class="c">// {</span>
+<span class="c"></span>			<span class="c">// this.scrollView = new mui.ScrollView(this.view);</span>
+<span class="c"></span>			<span class="c">// this.scrollView.renderTexture();</span>
+<span class="c"></span>		<span class="c">// }</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the content for the view, either in the form of an HTML string, or an</span>
+<span class="c">	 * HTMLElement which will be appended to the view. This method triggers the</span>
+<span class="c">	 * viewDidLoad callback.</span>
+<span class="c">	 * @method setViewContent</span>
+<span class="c">	 * @param content {String|HTMLElement} the HTML String or HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">setViewContent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">content</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">content</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">content</span><span class="o">;</span>
+		<span class="k">else</span> <span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">content</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_viewDidLoad</span><span class="o">();</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Fetch view content using mui.io. This method will trigger</span>
+<span class="c">	 * the viewDidLoad callback upon success</span>
+<span class="c">	 * @method fetchViewContent</span>
+<span class="c">	 * @param url {String} The URL of the view content</span>
+<span class="c">	 * @param callback {Function} Optional callback function invoked upon</span>
+<span class="c">	 *  XHR completion</span>
+<span class="c">	 */</span>
+	<span class="nx">fetchViewContent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="nx">callback</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">io</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="o">{</span>
+			<span class="nx">callback</span><span class="o">:</span> <span class="o">{</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">setViewContent</span><span class="o">(</span><span class="nx">o</span><span class="o">.</span><span class="nx">responseText</span><span class="o">);</span>
+					<span class="k">if</span><span class="o">(</span><span class="nx">callback</span><span class="o">)</span> <span class="nx">callback</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+				<span class="o">},</span>
+				<span class="nx">failure</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span> <span class="o">{</span>
+					<span class="nx">alert</span><span class="o">(</span><span class="s1">&#39;Unable to load page. Please refresh&#39;</span><span class="o">);</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">setViewContent</span><span class="o">(</span><span class="s1">&#39;Unable to load page. Please refresh&#39;</span><span class="o">);</span>
+					<span class="k">if</span><span class="o">(</span><span class="nx">callback</span><span class="o">)</span> <span class="nx">callback</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+				<span class="o">},</span>
+				<span class="nx">scope</span><span class="o">:</span> <span class="k">this</span>
+			<span class="o">}</span>
+		<span class="o">});</span>	
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Utility method for fetching a JSON resource.</span>
+<span class="c">	 * @method fetchJSON</span>
+<span class="c">	 * @param url {String} The url of the resource</span>
+<span class="c">	 * @param callback {Function} The callback function to execute when the resource has loaded</span>
+<span class="c">	 * @param scope {Object} The scope to be applied to the callback function.</span>
+<span class="c">	 */</span>	
+	<span class="nx">fetchJSON</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="nx">callback</span><span class="o">,</span> <span class="nx">scope</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">io</span><span class="o">(</span><span class="nx">url</span><span class="o">,</span> <span class="o">{</span>
+			<span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;get&#39;</span><span class="o">,</span>
+			<span class="nx">callback</span><span class="o">:</span> <span class="o">{</span>
+				<span class="nx">success</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">o</span><span class="o">)</span>  <span class="o">{</span>
+					<span class="k">try</span> <span class="o">{</span>
+						<span class="k">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nb">eval</span><span class="o">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nx">o</span><span class="o">.</span><span class="nx">responseText</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="o">);</span>
+						<span class="nx">callback</span><span class="o">.</span><span class="nx">call</span><span class="o">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="k">this</span><span class="o">,</span> <span class="nx">obj</span><span class="o">);</span>
+						
+					<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+						<span class="nx">mui</span><span class="o">.</span><span class="nx">trace</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+					<span class="o">}</span>
+				<span class="o">},</span>
+				<span class="nx">scope</span><span class="o">:</span> <span class="k">this</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Map an Object to a DOM node. The DOM node is assumed to have an HTML comment</span>
+<span class="c">	 * to avoid fetching of malfrormed resources via &lt;img&gt; or background-image: url()</span>
+<span class="c">	 * @method map</span>
+<span class="c">	 * @param data {Object} The object to map</span>
+<span class="c">	 * @param el {String|HTMLElement} The CSS selector or DOM node to map to</span>
+<span class="c">	 * @param nodeName {String} The tag name of the newly created DOM node</span>
+<span class="c">	 * @param nodeConfig {Object} Object literal of node configuration passed to mui.createElement</span>
+<span class="c">	 */</span>
+	<span class="nx">map</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">data</span><span class="o">,</span> <span class="nx">el</span><span class="o">,</span> <span class="nx">nodeName</span><span class="o">,</span> <span class="nx">nodeConfig</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">node</span><span class="o">.</span><span class="nx">innerHTML</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="sr">/(--&gt;)|(&lt;!--)/g</span><span class="o">,</span> <span class="s1">&#39;&#39;</span><span class="o">);</span>
+		<span class="nx">nodeConfig</span> <span class="o">=</span> <span class="nx">nodeConfig</span> <span class="o">||</span> <span class="o">{};</span>
+		<span class="c">// copy classes from source node</span>
+<span class="c"></span>		<span class="nx">nodeConfig</span><span class="o">.</span><span class="nx">className</span> <span class="o">=</span> <span class="nx">nodeConfig</span><span class="o">.</span><span class="nx">className</span> <span class="o">?</span> <span class="nx">nodeConfig</span><span class="o">.</span><span class="nx">className</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span>  <span class="nx">node</span><span class="o">.</span><span class="nx">className</span> <span class="o">:</span> <span class="nx">node</span><span class="o">.</span><span class="nx">className</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">nodeName</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="nx">nodeName</span><span class="o">,</span> <span class="nx">nodeConfig</span><span class="o">)</span> <span class="o">:</span> <span class="nx">node</span><span class="o">.</span><span class="nx">cloneNode</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">nodeName</span><span class="o">)</span> <span class="nx">res</span><span class="o">.</span><span class="nx">removeAttribute</span><span class="o">(</span><span class="s1">&#39;id&#39;</span><span class="o">);</span>
+		<span class="nx">res</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">html</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="nx">templateRegExp</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">match</span><span class="o">,</span> <span class="nx">prop</span><span class="o">,</span> <span class="nx">b</span><span class="o">,</span> <span class="nx">c</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="nx">data</span><span class="o">[</span><span class="nx">prop</span><span class="o">];</span>
+		<span class="o">});</span>
+		<span class="k">return</span> <span class="nx">res</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set a navigation item to be displayed in the navigation bar</span>
+<span class="c">	 * @method setNavigationItem</span>
+<span class="c">	 * @param section {String} Which section to set the navigation item in</span>
+<span class="c">	 *  Possible values are leftBarItem, titleItem, rightBarItem</span>
+<span class="c">	 * @param item {*} Either an HTMLElement, or a mui control, such as a SearchBox</span>
+<span class="c">	 */</span> 
+	<span class="nx">setNavigationItem</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">section</span><span class="o">,</span> <span class="nx">item</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">section</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;leftBarItem&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;title&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;rightBarItem&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">navigationItems</span><span class="o">[</span><span class="nx">section</span><span class="o">]</span> <span class="o">=</span> <span class="nx">item</span><span class="o">;</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">default</span><span class="o">:</span>
+				<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="o">(</span><span class="s1">&#39;NavigationBar: Invalid section name: &#39;</span> <span class="o">+</span> <span class="nx">section</span> <span class="o">+</span> <span class="s1">&#39;. Must be one of title, leftBarItem, or rightBarItem&#39;</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">.</span><span class="nx">navigationBar</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="nx">_showing</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">.</span><span class="nx">navigationBar</span><span class="o">.</span><span class="nx">setItems</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">navigationItems</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Reload the contents of the view. This method will be called by the framework</span>
+<span class="c">	 * when this ViewController has been pushed onto a navigation stack, and later</span>
+<span class="c">	 * visited with a different set of request parameters.</span>
+<span class="c">	 * @method reoladView</span>
+<span class="c">	 * @param params {Object} Request parameters</span>
+<span class="c">	 */</span>
+	<span class="nx">reloadView</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">params</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">_disableReload</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">loadingAttr</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">loadView</span><span class="o">(</span><span class="nx">params</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+		
+	<span class="c">/**</span>
+<span class="c">	 * Load the view contents.  Override this method</span>
+<span class="c">	 * in implementation</span>
+<span class="c">	 * @method loadView</span>
+<span class="c">	 * @param params {Object} Any request params </span>
+<span class="c">	 */</span>
+	<span class="nx">loadView</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">params</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Override this.</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Unload the view contents. This just sets the _viewLoaded property to false</span>
+<span class="c">	 * @method unloadView</span>
+<span class="c">	 */</span>
+	<span class="nx">unloadView</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_viewLoaded</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * View Load callback is fired every time the view is first loaded</span>
+<span class="c">	 * @method viewDidLoad</span>
+<span class="c">	 */</span>
+	<span class="nx">viewDidLoad</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Override this</span>
+<span class="c"></span>	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * View Appear callback is fired every time the view is pushed</span>
+<span class="c">	 * on-screen</span>
+<span class="c">	 * @method viewDidAppear</span>
+<span class="c">	 */</span>
+	<span class="nx">viewDidAppear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Override this</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * View Disappear callback is fired every time the view is taken </span>
+<span class="c">	 * off-screen</span>
+<span class="c">	 * @method viewDidDisappear</span>
+<span class="c">	 */</span>
+	<span class="nx">viewDidDisappear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Override this</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * View Appear callback is fired before every time the view is pushed</span>
+<span class="c">	 * on-screen</span>
+<span class="c">	 * @method viewWillAppear</span>
+<span class="c">	 */</span>
+	<span class="nx">viewWillAppear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Override this</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * View Disappear callback is fired before every time the view is taken </span>
+<span class="c">	 * off-screen</span>
+<span class="c">	 * @method viewWillDisappear</span>
+<span class="c">	 */</span>
+	<span class="nx">viewWillDisappear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Override this</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Make the view&#39;s contents visible</span>
+<span class="c">	 * @method appear</span>
+<span class="c">	 */</span>
+	<span class="nx">appear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Notify navigationController</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">.</span><span class="nx">viewControllerWillAppear</span><span class="o">(</span><span class="k">this</span><span class="o">);</span> 
+
+		<span class="c">// Show view node</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">viewShowingAttr</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+		
+		<span class="c">// Set showing attribute</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">_showing</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Hide the view&#39;s contents</span>
+<span class="c">	 * @method disappear</span>
+<span class="c">	 */</span>
+	<span class="nx">disappear</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>	
+		<span class="c">// Hide view node		</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">view</span><span class="o">.</span><span class="nx">removeAttribute</span><span class="o">(</span><span class="nx">MUI_DOM</span><span class="o">.</span><span class="nx">viewShowingAttr</span><span class="o">);</span>
+		
+		<span class="c">// Set showing attribute</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">_showing</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">ViewController</span> <span class="o">=</span> <span class="nx">ViewController</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class="selected"><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="ApplicationController.html" title="ApplicationController">ApplicationController</a></li>
+                                <li class=""><a href="NavigationController.html" title="NavigationController">NavigationController</a></li>
+                                <li class=""><a href="ViewController.html" title="ViewController">ViewController</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="ApplicationController.js.html" title="ApplicationController.js">ApplicationController.js</a></li>
+                                <li class=""><a href="NavigationController.js.html" title="NavigationController.js">NavigationController.js</a></li>
+                                <li class="selected"><a href="ViewController.js.html" title="ViewController.js">ViewController.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "ViewController.html#method_appear", "access": "", "host": "ViewController", "type": "method", "name": "appear"}, {"url": "ApplicationController.html#property__controllers", "access": "private", "host": "ApplicationController", "type": "property", "name": "_controllers"}, {"url": "ViewController.html#method_disappear", "access": "", "host": "ViewController", "type": "method", "name": "disappear"}, {"url": "ViewController.html#method_fetchJSON", "access": "", "host": "ViewController", "type": "method", "name": "fetchJSON"}, {"url": "ViewController.html#method_fetchViewContent", "access": "", "host": "ViewController", "type": "method", "name": "fetchViewContent"}, {"url": "ApplicationController.html#method_getController", "access": "", "host": "ApplicationController", "type": "method", "name": "getController"}, {"url": "ApplicationController.html#method_getInstance", "access": "", "host": "ApplicationController", "type": "method", "name": "getInstance"}, {"url": "NavigationController.html#method_getLastUrl", "access": "", "host": "NavigationController", "type": "method", "name": "getLastUrl"}, {"url": "NavigationController.html#method_getPreviousViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getPreviousViewController"}, {"url": "NavigationController.html#method_getTopViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getTopViewController"}, {"url": "ViewController.html#method_getTransition", "access": "", "host": "ViewController", "type": "method", "name": "getTransition"}, {"url": "NavigationController.html#method_getViewController", "access": "", "host": "NavigationController", "type": "method", "name": "getViewController"}, {"url": "NavigationController.html#method_getViewControllerFromStack", "access": "", "host": "NavigationController", "type": "method", "name": "getViewControllerFromStack"}, {"url": "NavigationController.html#method_goBack", "access": "", "host": "NavigationController", "type": "method", "name": "goBack"}, {"url": "ApplicationController.html#method_handleEvent", "access": "private", "host": "ApplicationController", "type": "method", "name": "handleEvent"}, {"url": "NavigationController.html#method_hideNavigationBar", "access": "", "host": "NavigationController", "type": "method", "name": "hideNavigationBar"}, {"url": "ApplicationController.html#method_initialize", "access": "", "host": "ApplicationController", "type": "method", "name": "initialize"}, {"url": "NavigationController.html#method_initialize", "access": "", "host": "NavigationController", "type": "method", "name": "initialize"}, {"url": "NavigationController.html#method_initializeNavigationBar", "access": "", "host": "NavigationController", "type": "method", "name": "initializeNavigationBar"}, {"url": "NavigationController.html#method_initializeStack", "access": "", "host": "NavigationController", "type": "method", "name": "initializeStack"}, {"url": "ApplicationController.html#property__instance", "access": "", "host": "ApplicationController", "type": "property", "name": "_instance"}, {"url": "ViewController.html#method_isViewLoaded", "access": "", "host": "ViewController", "type": "method", "name": "isViewLoaded"}, {"url": "ViewController.html#method_loadView", "access": "", "host": "ViewController", "type": "method", "name": "loadView"}, {"url": "NavigationController.html#method_loadViewControllers", "access": "", "host": "NavigationController", "type": "method", "name": "loadViewControllers"}, {"url": "ViewController.html#method_map", "access": "", "host": "ViewController", "type": "method", "name": "map"}, {"url": "NavigationController.html#property_navigationBar", "access": "", "host": "NavigationController", "type": "property", "name": "navigationBar"}, {"url": "ViewController.html#method_navigationItems", "access": "", "host": "ViewController", "type": "method", "name": "navigationItems"}, {"url": "ApplicationController.html#method_objectsEqual", "access": "", "host": "ApplicationController", "type": "method", "name": "objectsEqual"}, {"url": "ApplicationController.html#method_openUrl", "access": "", "host": "ApplicationController", "type": "method", "name": "openUrl"}, {"url": "ApplicationController.html#method_openViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "openViewController"}, {"url": "ViewController.html#property_persistView", "access": "", "host": "ViewController", "type": "property", "name": "persistView"}, {"url": "NavigationController.html#property_poppedStack", "access": "", "host": "NavigationController", "type": "property", "name": "poppedStack"}, {"url": "ApplicationController.html#property_popping", "access": "", "host": "ApplicationController", "type": "property", "name": "popping"}, {"url": "NavigationController.html#method_popToRootViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popToRootViewController"}, {"url": "NavigationController.html#method_popToViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popToViewController"}, {"url": "NavigationController.html#method_popViewController", "access": "", "host": "NavigationController", "type": "method", "name": "popViewController"}, {"url": "ApplicationController.html#method_positionViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "positionViewController"}, {"url": "NavigationController.html#method_pushToViewController", "access": "", "host": "NavigationController", "type": "method", "name": "pushToViewController"}, {"url": "NavigationController.html#method_pushViewController", "access": "", "host": "NavigationController", "type": "method", "name": "pushViewController"}, {"url": "ApplicationController.html#method_registerController", "access": "", "host": "ApplicationController", "type": "method", "name": "registerController"}, {"url": "ViewController.html#method_reoladView", "access": "", "host": "ViewController", "type": "method", "name": "reoladView"}, {"url": "ApplicationController.html#method_restore", "access": "", "host": "ApplicationController", "type": "method", "name": "restore"}, {"url": "NavigationController.html#method_restoreStack", "access": "", "host": "NavigationController", "type": "method", "name": "restoreStack"}, {"url": "NavigationController.html#method_saveStack", "access": "", "host": "NavigationController", "type": "method", "name": "saveStack"}, {"url": "ViewController.html#method_setNavigationItem", "access": "", "host": "ViewController", "type": "method", "name": "setNavigationItem"}, {"url": "ApplicationController.html#method_setTabsElement", "access": "", "host": "ApplicationController", "type": "method", "name": "setTabsElement"}, {"url": "ViewController.html#method_setView", "access": "", "host": "ViewController", "type": "method", "name": "setView"}, {"url": "ViewController.html#method_setViewContent", "access": "", "host": "ViewController", "type": "method", "name": "setViewContent"}, {"url": "ApplicationController.html#method_showViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "showViewController"}, {"url": "NavigationController.html#property_stack", "access": "", "host": "NavigationController", "type": "property", "name": "stack"}, {"url": "ApplicationController.html#method__tabChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabChanged"}, {"url": "ApplicationController.html#method__tabRefreshed", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabRefreshed"}, {"url": "ApplicationController.html#property__tabView", "access": "private", "host": "ApplicationController", "type": "property", "name": "_tabView"}, {"url": "NavigationController.html#property_templateRegExp", "access": "private", "host": "NavigationController", "type": "property", "name": "templateRegExp"}, {"url": "ApplicationController.html#method__toggleEvents", "access": "private", "host": "ApplicationController", "type": "method", "name": "_toggleEvents"}, {"url": "ApplicationController.html#method__transitionEnd", "access": "private", "host": "ApplicationController", "type": "method", "name": "_transitionEnd"}, {"url": "ViewController.html#method_unloadView", "access": "", "host": "ViewController", "type": "method", "name": "unloadView"}, {"url": "ApplicationController.html#method__urlChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_urlChanged"}, {"url": "ViewController.html#property_view", "access": "", "host": "ViewController", "type": "property", "name": "view"}, {"url": "NavigationController.html#property_viewControllers", "access": "", "host": "NavigationController", "type": "property", "name": "viewControllers"}, {"url": "NavigationController.html#method_viewControllerWillAppear", "access": "", "host": "NavigationController", "type": "method", "name": "viewControllerWillAppear"}, {"url": "ViewController.html#method_viewDidAppear", "access": "", "host": "ViewController", "type": "method", "name": "viewDidAppear"}, {"url": "ViewController.html#method_viewDidDisappear", "access": "", "host": "ViewController", "type": "method", "name": "viewDidDisappear"}, {"url": "ViewController.html#method__viewDidLoad", "access": "private", "host": "ViewController", "type": "method", "name": "_viewDidLoad"}, {"url": "ViewController.html#method_viewDidLoad", "access": "", "host": "ViewController", "type": "method", "name": "viewDidLoad"}, {"url": "ViewController.html#property__viewLoaded", "access": "private", "host": "ViewController", "type": "property", "name": "_viewLoaded"}, {"url": "ApplicationController.html#property_viewportInfo", "access": "", "host": "ApplicationController", "type": "property", "name": "viewportInfo"}, {"url": "ViewController.html#method_viewWillAppear", "access": "", "host": "ViewController", "type": "method", "name": "viewWillAppear"}, {"url": "ViewController.html#method_viewWillDisappear", "access": "", "host": "ViewController", "type": "method", "name": "viewWillDisappear"}, {"url": "ApplicationController.html#property_visibleViewController", "access": "", "host": "ApplicationController", "type": "property", "name": "visibleViewController"}, {"url": "ApplicationController.html#property_window", "access": "", "host": "ApplicationController", "type": "property", "name": "window"}];
+</script>
+</body>
+</html>

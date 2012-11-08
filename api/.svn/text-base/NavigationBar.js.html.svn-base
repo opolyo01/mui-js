@@ -1,0 +1,493 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: navigator   NavigationBar.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.89" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.89" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.89"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.89"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_navigator.html" title="navigator">navigator</a>
+	               		
+	               		 <span class="gt"></span> NavigationBar.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * NavigationBar class</span>
+<span class="c"> * This class provides a navigation-bar component for a </span>
+<span class="c"> * NavigationController. </span>
+<span class="c"> * The NavigationBar class has built-in components for title,</span>
+<span class="c"> * back button, right bar button item, and a search box. It is </span>
+<span class="c"> * also possible to add custom controls to the navigation bar</span>
+<span class="c"> * @class NavigationBar</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param navigationController {mui.NavigationController} (Optional) A </span>
+<span class="c"> *   navgation controller to attach to</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">NavigationBar</span><span class="o">(</span><span class="nx">navigationController</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="c">// Initialize properties</span>
+<span class="c"></span>	<span class="k">if</span><span class="o">(</span><span class="nx">navigationController</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span> <span class="o">=</span> <span class="nx">navigationController</span><span class="o">;</span>
+	
+	<span class="c">// Initialize</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">initialize</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="nx">NavigationBar</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * NavigationBar HTMLElement container</span>
+<span class="c">	 * @property element</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">element</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * HTMLElement container for items</span>
+<span class="c">	 * @property itemsContainer</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">itemsContainer</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Currently visible navigation items</span>
+<span class="c">	 * @property items</span>
+<span class="c">	 * @type Object</span>
+<span class="c">	 */</span>
+	<span class="nx">items</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Event dispatcher</span>
+<span class="c">	 * @method handleEvent</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">backTarget</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getAncestorByClassName</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">target</span><span class="o">,</span> <span class="s1">&#39;mui-navback&#39;</span><span class="o">);</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">backTarget</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">:</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">backTarget</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">backTarget</span><span class="o">)</span> <span class="nx">setTimeout</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">,</span> <span class="s1">&#39;mui-depressed&#39;</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the navigation items for the navigation bar, with an </span>
+<span class="c">	 * option to animate the items into place</span>
+<span class="c">	 * @method setItems</span>
+<span class="c">	 * @param items {Object} The navigation items</span>
+<span class="c">	 * @param animated {Boolean} To enable animation (default is false)</span>
+<span class="c">	 * @param reverse {Boolean} To animate in reverse (popping)</span>
+<span class="c">	 */</span>
+	<span class="nx">setItems</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">items</span><span class="o">,</span> <span class="nx">animated</span><span class="o">,</span> <span class="nx">reverse</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">animated</span> <span class="o">&amp;&amp;</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">UA</span><span class="o">.</span><span class="nx">Apple</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">setItemsWithAnimation</span><span class="o">(</span><span class="nx">items</span><span class="o">,</span> <span class="nx">reverse</span><span class="o">);</span>
+			<span class="k">return</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">show</span><span class="o">();</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setBack</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">back</span><span class="o">,</span> <span class="nx">items</span><span class="o">.</span><span class="nx">backAction</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setLeftBarItem</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">leftBarItem</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setRightBarItem</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">rightBarItem</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setTitle</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">title</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the navigation items in the bar with an animation. Contents of the</span>
+<span class="c">	 * title section are pushed out, while the back, leftBarItems and rightBarItems </span>
+<span class="c">	 * are faded in/out</span>
+<span class="c">	 * @method setItemsWithAnimation</span>
+<span class="c">	 * @param items {Object} The new navigation items</span>
+<span class="c">	 * @param reverse {Boolean} If animation should be in reverse</span>
+<span class="c">	 */</span>
+	<span class="nx">setItemsWithAnimation</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">items</span><span class="o">,</span> <span class="nx">reverse</span><span class="o">)</span>	
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">clone</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">cloneNode</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">clone</span><span class="o">,</span> <span class="s1">&#39;mui-navbar-clone&#39;</span><span class="o">);</span>
+		
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">clone</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">);</span>		
+		
+		<span class="k">this</span><span class="o">.</span><span class="nx">setBack</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">back</span><span class="o">,</span> <span class="nx">items</span><span class="o">.</span><span class="nx">backAction</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setLeftBarItem</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">leftBarItem</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setRightBarItem</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">rightBarItem</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">setTitle</span><span class="o">(</span><span class="nx">items</span><span class="o">.</span><span class="nx">title</span><span class="o">);</span>
+		
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">visibility</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;0s&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="nx">reverse</span> <span class="o">?</span> <span class="s1">&#39;translateX(-50%)&#39;</span> <span class="o">:</span> <span class="s1">&#39;translateX(50%)&#39;</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">;</span>		
+		
+		<span class="nx">setTimeout</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">bind</span><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">visibility</span> <span class="o">=</span> <span class="s1">&#39;visible&#39;</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translateX(0)&#39;</span><span class="o">;</span>
+
+			<span class="nx">clone</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">;</span>
+			<span class="nx">clone</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="nx">reverse</span> <span class="o">?</span> <span class="s1">&#39;translateX(50%)&#39;</span> <span class="o">:</span> <span class="s1">&#39;translateX(-50%)&#39;</span><span class="o">;</span>
+			
+			<span class="nx">setTimeout</span><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+				<span class="nx">clone</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">removeChild</span><span class="o">(</span><span class="nx">clone</span><span class="o">);</span>
+			<span class="o">},</span> <span class="m">300</span><span class="o">);</span>
+
+		<span class="o">},</span> <span class="k">this</span><span class="o">),</span> <span class="m">0</span><span class="o">);</span>
+		
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the contents of the back element. Accepts either</span>
+<span class="c">	 * a string or a truthy value as argument. If string, the word </span>
+<span class="c">	 * is displayed in the back button. If true, the arrow icon is </span>
+<span class="c">	 * presented instead</span>
+<span class="c">	 * @method setBack</span>
+<span class="c">	 * @param action {Function|String} Either a function to be executed on click, or a URL </span>
+<span class="c">	 * @param back {String|Boolean} The back string, or true to present arrow icon</span>
+<span class="c">	 */</span>
+	<span class="nx">setBack</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">back</span><span class="o">,</span> <span class="nx">action</span><span class="o">,</span> <span class="nx">node</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">node</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">back</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;mui-hidden&#39;</span><span class="o">);</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;touchend&#39;</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;click&#39;</span><span class="o">);</span>
+		<span class="o">}</span> 
+		<span class="k">else</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;mui-hidden&#39;</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">back</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;mui-backicon&#39;</span><span class="o">);</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">action</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span>
+					<span class="s1">&#39;&lt;h6&gt;&lt;a href=&quot;&#39;</span><span class="o">+</span><span class="nx">action</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">back</span><span class="o">+</span><span class="s1">&#39;&lt;/a&gt;&lt;/h6&gt;&#39;</span> <span class="o">:</span> 
+					<span class="s1">&#39;&lt;h6&gt;&#39;</span><span class="o">+</span><span class="nx">back</span><span class="o">+</span><span class="s1">&#39;&lt;/h6&gt;&#39;</span><span class="o">;</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">action</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">one</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="nx">action</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;mui-backicon&#39;</span><span class="o">);</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">action</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> 
+					<span class="s1">&#39;&lt;h6&gt;&lt;a href=&quot;&#39;</span><span class="o">+</span><span class="nx">action</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;&lt;/h6&gt;&#39;</span> <span class="o">:</span>
+					<span class="s1">&#39;&lt;h6&gt;&lt;b&gt;&lt;/b&gt;&lt;/h6&gt;&#39;</span><span class="o">;</span>
+				<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">action</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">one</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="nx">action</span><span class="o">);</span>				
+			<span class="o">}</span>
+			
+			<span class="c">// Button </span>
+<span class="c"></span>			<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="nx">el</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the contents of the leftBarItem element</span>
+<span class="c">	 * @method setLeftBarItem</span>
+<span class="c">	 * @param leftBarItem {HTMLElement} A DOM node to use as the content of the item</span>
+<span class="c">	 */</span>
+	<span class="nx">setLeftBarItem</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">leftBarItem</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">leftBarItem</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">leftBarItem</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="o">}</span>		
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the contents of the rightBarItem element</span>
+<span class="c">	 * @method setRightBarItem</span>
+<span class="c">	 * @param rightBarItem {HTMLElement} A DOM node to use as the content of the item</span>
+<span class="c">	 */</span>
+	<span class="nx">setRightBarItem</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">rightBarItem</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">Pager</span> <span class="o">&amp;&amp;</span> <span class="nx">rightBarItem</span> <span class="k">instanceof</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">Pager</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">rightBarItem</span><span class="o">.</span><span class="nx">render</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">rightBarItem</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">rightBarItem</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span>
+		<span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the contents of the title element</span>
+<span class="c">	 * @method setTitle</span>
+<span class="c">	 * @param title {String|HTMLElement|*} A DOM node to use as the content of the item, or</span>
+<span class="c">	 *   a string to use as title text, or an allowed control, such as mui.SearchBox</span>
+<span class="c">	 */</span>
+	<span class="nx">setTitle</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">title</span><span class="o">,</span> <span class="nx">node</span><span class="o">)</span>
+	<span class="o">{</span> 
+		<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">node</span> <span class="o">||</span> <span class="k">this</span><span class="o">.</span><span class="nx">_titleElement</span><span class="o">,</span> <span class="nx">container</span> <span class="o">=</span> <span class="nb">document</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">),</span> <span class="nx">left</span><span class="o">,</span> <span class="nx">right</span><span class="o">,</span> <span class="nx">xy</span><span class="o">;</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">container</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">SearchBox</span> <span class="o">&amp;&amp;</span> <span class="nx">title</span> <span class="k">instanceof</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">SearchBox</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="s1">&#39;mui-block&#39;</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="s1">&#39;mui-wide&#39;</span><span class="o">);</span>
+			<span class="nx">title</span><span class="o">.</span><span class="nx">render</span><span class="o">(</span><span class="nx">container</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">title</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nb">document</span><span class="o">.</span><span class="nx">createTextNode</span><span class="o">(</span><span class="nx">title</span><span class="o">));</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">title</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">title</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">.</span><span class="nx">offsetWidth</span> <span class="o">&amp;&amp;</span> <span class="nx">container</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">;</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginLeft</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">container</span><span class="o">.</span><span class="nx">offsetLeft</span> <span class="o">&lt;=</span> <span class="o">(</span><span class="nx">el</span><span class="o">.</span><span class="nx">offsetLeft</span><span class="o">+</span><span class="m">3</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginLeft</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>				
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="s1">&#39;mui-block&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span> <span class="o">&amp;&amp;</span> <span class="nx">container</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">right</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">;</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginRight</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+			<span class="nx">xy</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getXY</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">((</span><span class="nx">container</span><span class="o">.</span><span class="nx">offsetLeft</span> <span class="o">+</span> <span class="nx">container</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">)</span> <span class="o">&gt;=</span> <span class="nx">xy</span><span class="o">[</span><span class="m">0</span><span class="o">])</span>
+			<span class="o">{</span>
+				<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginRight</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="s1">&#39;mui-block&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span> <span class="o">&amp;&amp;</span> <span class="nx">container</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">left</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">;</span>
+			<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginLeft</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">container</span><span class="o">.</span><span class="nx">offsetLeft</span> <span class="o">&lt;=</span> <span class="nx">left</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">container</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">marginLeft</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">container</span><span class="o">,</span> <span class="s1">&#39;mui-block&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+
+		<span class="k">return</span> <span class="nx">el</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Hide the navigationBar element</span>
+<span class="c">	 * @method hide</span>
+<span class="c">	 */</span>
+	<span class="nx">hide</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">removeAttribute</span><span class="o">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="o">);</span>		    
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Show the navigationBar element</span>
+<span class="c">	 * @method show</span>
+<span class="c">	 */</span>
+	<span class="nx">show</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;x-mui-showing&#39;</span><span class="o">,</span> <span class="s1">&#39;true&#39;</span><span class="o">);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * NavigationBar initialization creates the elements</span>
+<span class="c">	 * and inserts itself into the &lt;header&gt; of the page</span>
+<span class="c">	 * @method initialize</span>
+<span class="c">	 */</span>
+	<span class="nx">initialize</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// Declare local variables</span>
+<span class="c"></span>		<span class="k">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;body &gt; header&#39;</span><span class="o">);</span>
+		
+		<span class="c">// Create the root element</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navbar&#39;</span> <span class="o">});</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">setAttribute</span><span class="o">(</span><span class="s1">&#39;x-mui-controller&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">navigationController</span><span class="o">.</span><span class="nx">NAME</span><span class="o">);</span>
+		
+		<span class="c">// Create wrapper element</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navbar-wrap&#39;</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">);</span>
+		
+		<span class="c">// Insert element as the last child in &lt;header&gt;</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(!</span><span class="nx">header</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">header</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;header&#39;</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">insertBefore</span><span class="o">(</span><span class="nx">header</span><span class="o">,</span> <span class="nb">document</span><span class="o">.</span><span class="nx">body</span><span class="o">.</span><span class="nx">firstChild</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="nx">header</span><span class="o">.</span><span class="nx">lastChild</span><span class="o">)</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">insertAfter</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="nx">header</span><span class="o">.</span><span class="nx">lastChild</span><span class="o">);</span>
+		<span class="k">else</span> <span class="nx">header</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+		
+		<span class="c">// Initialize items</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">items</span> <span class="o">=</span> <span class="o">{</span>
+			<span class="nx">back</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+			<span class="nx">leftBarItem</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+			<span class="nx">title</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+			<span class="nx">rightBarItem</span><span class="o">:</span> <span class="kc">null</span>
+		<span class="o">};</span>
+		
+		<span class="c">// Create items elements</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navback&#39;</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navleft&#39;</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_titleElement</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navtitle&#39;</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">,</span> <span class="o">{</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;mui-navright&#39;</span> <span class="o">});</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_backElement</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_leftBarItemElement</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_titleElement</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">itemsContainer</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_rightBarItemElement</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">NavigationBar</span> <span class="o">=</span> <span class="nx">NavigationBar</span><span class="o">;</span>
+
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class="selected"><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="NavigationBar.html" title="NavigationBar">NavigationBar</a></li>
+                                <li class=""><a href="Navigator.html" title="Navigator">Navigator</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="NavigationBar.js.html" title="NavigationBar.js">NavigationBar.js</a></li>
+                                <li class=""><a href="Navigator.js.html" title="Navigator.js">Navigator.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Navigator.html#method__checkWindow", "access": "private", "host": "Navigator", "type": "method", "name": "_checkWindow"}, {"url": "NavigationBar.html#property_element", "access": "", "host": "NavigationBar", "type": "property", "name": "element"}, {"url": "NavigationBar.html#method_handleEvent", "access": "private", "host": "NavigationBar", "type": "method", "name": "handleEvent"}, {"url": "Navigator.html#property__hash", "access": "private", "host": "Navigator", "type": "property", "name": "_hash"}, {"url": "NavigationBar.html#method_hide", "access": "", "host": "NavigationBar", "type": "method", "name": "hide"}, {"url": "NavigationBar.html#method_initialize", "access": "", "host": "NavigationBar", "type": "method", "name": "initialize"}, {"url": "Navigator.html#method__ioFailure", "access": "", "host": "Navigator", "type": "method", "name": "_ioFailure"}, {"url": "Navigator.html#method__ioSuccess", "access": "", "host": "Navigator", "type": "method", "name": "_ioSuccess"}, {"url": "NavigationBar.html#property_items", "access": "", "host": "NavigationBar", "type": "property", "name": "items"}, {"url": "NavigationBar.html#property_itemsContainer", "access": "", "host": "NavigationBar", "type": "property", "name": "itemsContainer"}, {"url": "Navigator.html#method_mapUrl", "access": "", "host": "Navigator", "type": "method", "name": "mapUrl"}, {"url": "Navigator.html#method_openUrl", "access": "", "host": "Navigator", "type": "method", "name": "openUrl"}, {"url": "NavigationBar.html#method_setBack", "access": "", "host": "NavigationBar", "type": "method", "name": "setBack"}, {"url": "NavigationBar.html#method_setItems", "access": "", "host": "NavigationBar", "type": "method", "name": "setItems"}, {"url": "NavigationBar.html#method_setItemsWithAnimation", "access": "", "host": "NavigationBar", "type": "method", "name": "setItemsWithAnimation"}, {"url": "NavigationBar.html#method_setLeftBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setLeftBarItem"}, {"url": "NavigationBar.html#method_setRightBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setRightBarItem"}, {"url": "NavigationBar.html#method_setTitle", "access": "", "host": "NavigationBar", "type": "method", "name": "setTitle"}, {"url": "NavigationBar.html#method_show", "access": "", "host": "NavigationBar", "type": "method", "name": "show"}];
+</script>
+</body>
+</html>

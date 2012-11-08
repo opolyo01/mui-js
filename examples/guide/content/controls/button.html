@@ -1,0 +1,18 @@
+<h1>Button</h1>
+
+<p>
+	The Button control provides a standard button control for use in your web application.  It can have a text title,
+	an optional image, an action which is executed upon activation, and supports 2 styles.  Buttons are typically
+	added to a <a href="#/content/detail?sectionId=controls&contentId=navbar&title=Navigation%20Bar">Navigation Bar</a>.
+</p>
+
+<p>
+	The Navigation Bar class will accept a Button as either the leftBarItem or rightBarItem element.  For example, adding a
+	Button with the label "Send" to a Navigation Bar:
+	<pre><code>myNavigationBar.setRightBarItem(new mui.Button({
+    title: 'Send',
+    action: function() {
+        alert('Clicked send!');
+    }
+}));</code></pre>
+</p>

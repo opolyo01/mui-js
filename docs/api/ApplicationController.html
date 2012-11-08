@@ -1,0 +1,1494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: web-app  ApplicationController   (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584795.6" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584795.6" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584795.6"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584795.6"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_web-app.html" title="web-app">web-app</a>
+	               		 <span class="gt"></span> ApplicationController 
+	               		
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <h2 class="api-class">
+                        
+
+                        
+                        
+                            Class <b property="yui:name">ApplicationController</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Application controller constructor
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">ApplicationController</strong>
+                                <code>
+                                    (
+  
+                                        
+                                                
+                                                config
+                                    )
+                                </code>
+                                <div class="description">
+                                        <dl rel="yui:parameters">
+                                            <dt>Parameters:</dt>
+                                                <dd rel="yui:parameter">
+                                                    <code><span property="yui:name">config</span>
+                                                    &lt;<span property="yui:type">Object</span>&gt;
+                                                    </code>
+                                                    <span property="yui:description">  Application configuration must include
+id, title, version</span>
+                                                </dd>
+                                        </dl>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="private" rel="yui:property" resource="#property__controllers">
+                                    <h4><a name="property__controllers" property="yui:name">_controllers</a>
+                                        - <code>private <span property="yui:type">Array</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Array of registered controllers
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property__instance">
+                                    <h4><a name="property__instance" property="yui:name">_instance</a>
+                                        - <code><span property="yui:type">object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Cache instance variable
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:property" resource="#property__tabView">
+                                    <h4><a name="property__tabView" property="yui:name">_tabView</a>
+                                        - <code>private <span property="yui:type">mui.TabView</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Reference to the mui.TabView object, if tabs are used
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_popping">
+                                    <h4><a name="property_popping" property="yui:name">popping</a>
+                                        - <code><span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            State variable used to determine if view is being popped
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_shouldScrollViews">
+                                    <h4><a name="property_shouldScrollViews" property="yui:name">shouldScrollViews</a>
+                                        - <code><span property="yui:type">Boolean</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Whether or not views should be made into mui.ScrollViews's
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_viewportInfo">
+                                    <h4><a name="property_viewportInfo" property="yui:name">viewportInfo</a>
+                                        - <code><span property="yui:type">Object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Information about the viewport, such as whether or not full-screen
+is activated
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_visibleViewController">
+                                    <h4><a name="property_visibleViewController" property="yui:name">visibleViewController</a>
+                                        - <code><span property="yui:type">mui.ViewController</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Reference to the currently visible view controller
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:property" resource="#property_window">
+                                    <h4><a name="property_window" property="yui:name">window</a>
+                                        - <code><span property="yui:type">object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Normalize window object
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="private" rel="yui:method" resource="#method__tabChanged">
+                                    <h4>
+                                        <a name="method__tabChanged">_tabChanged</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_tabChanged</strong>
+                                           (
+                                                
+                                                        
+                                                         index
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            TabChange event handler for the mui.TabView activates the navigation controller
+corresponding to the tab
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">index</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The index of the tab which the user selected</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method__tabRefreshed">
+                                    <h4>
+                                        <a name="method__tabRefreshed">_tabRefreshed</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_tabRefreshed</strong>
+                                           (
+                                                
+                                                        
+                                                         index
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            TabRefresh event handler for the mui.TabView activates the navigation controller's root view controller
+corresponding to the tab
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">index</span>
+                                                        &lt;<span property="yui:type">Number</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The index of the tab which the user selected</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method__transitionEnd">
+                                    <h4>
+                                        <a name="method__transitionEnd">_transitionEnd</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_transitionEnd</strong>
+                                           (
+                                                
+                                                        
+                                                         newVc
+                                                    
+                                                
+                                                        , 
+                                                         oldVc
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Callback invoked after a view controller transition
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">newVc</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The new visible view controller</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">oldVc</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The old visible view controller</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method__urlChanged">
+                                    <h4>
+                                        <a name="method__urlChanged">_urlChanged</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_urlChanged</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         params
+                                                    
+                                                
+                                                        , 
+                                                         navController
+                                                    
+                                                
+                                                        , 
+                                                         viewControllerName
+                                                    
+                                                
+                                                        , 
+                                                         unmatched
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Callback triggered whenever the URL is changed
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The current URL</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">params</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Any request parameters</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">navController</span>
+                                                        &lt;<span property="yui:type">mui.NavigationController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The navigation controller to appear</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">viewControllerName</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The NAME of the view controller to appear</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">unmatched</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  True if no navigation controller mapping found</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_dismissModalViewController">
+                                    <h4>
+                                        <a name="method_dismissModalViewController">dismissModalViewController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">dismissModalViewController</strong>
+                                           (
+                                                
+                                                        
+                                                         parentViewController
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Dismiss a modal view controller with transition
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">parentViewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The parent view controller for the modal</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getController">
+                                    <h4>
+                                        <a name="method_getController">getController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        
+                                            <strong property="yui:name">getController</strong>
+                                           (
+                                                
+                                                        
+                                                         name
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Get a navigation controller by name
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">name</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The name of the controller</span>
+                                                        </dd>
+                                                </dl>
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getInstance">
+                                    <h4>
+                                        <a name="method_getInstance">getInstance</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                         static 
+                                        
+                                        
+                                            <strong property="yui:name">getInstance</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Return the instance of mui.ApplicationController
+                                        </div>
+
+                                        <div class="description">
+
+
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_handleEvent">
+                                    <h4>
+                                        <a name="method_handleEvent">handleEvent</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">handleEvent</strong>
+                                           (
+                                                
+                                                        
+                                                         e
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Event disptcher
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">e</span>
+                                                        &lt;<span property="yui:type">Event</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The event</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_initialize">
+                                    <h4>
+                                        <a name="method_initialize">initialize</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">initialize</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Initialization method
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_objectsEqual">
+                                    <h4>
+                                        <a name="method_objectsEqual">objectsEqual</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                         static 
+                                        
+                                        Boolean
+                                            <strong property="yui:name">objectsEqual</strong>
+                                           (
+                                                
+                                                        
+                                                         o1
+                                                    
+                                                
+                                                        , 
+                                                         o2
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Convenience utility for detecting object equality
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">o1</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The first object</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">o2</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The second object</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Boolean
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">True if objects are equal, or false otherwise</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_openUrl">
+                                    <h4>
+                                        <a name="method_openUrl">openUrl</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Boolean
+                                            <strong property="yui:name">openUrl</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         quiet
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Open a URL - retrieve the navigationController to which
+the URL belongs to and trigger it's load/appear sequence. 
+This method will also perform the view transition, if defined.
+URL's are defined as the navigationController's name, followed by
+a slash, followed by the viewController's name, with any URL parameters
+following that. Leading slashes are ignored.
+Example: '/stories/list' is equivalent to 'stories/list'
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The URL to open</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">quiet</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  (Optional) Prevent the viewController load sequence. Pass
+true if you just want to set the window hash, and not trigger the load/appear sequence</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Boolean
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns false if url is not mapped to any 
+controller</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_openViewController">
+                                    <h4>
+                                        <a name="method_openViewController">openViewController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">openViewController</strong>
+                                           (
+                                                
+                                                        
+                                                         viewController
+                                                    
+                                                
+                                                        , 
+                                                         params
+                                                    
+                                                
+                                                        , 
+                                                         quiet
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            This is a convenience method for showing a viewController without constructing a URL.
+The URL is built based on the viewController's name + the params that are passed in.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">viewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  the ViewController</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">params</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Any request params</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">quiet</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Pass quiet flag to openUrl</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_positionViewController">
+                                    <h4>
+                                        <a name="method_positionViewController">positionViewController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        mui.ApplicationController
+                                            <strong property="yui:name">positionViewController</strong>
+                                           (
+                                                
+                                                        
+                                                         viewController
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Position the viewcontroller in the viewport, taking up as much vertical space as available
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">viewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The view controller</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        mui.ApplicationController
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The AppController instance</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_registerController">
+                                    <h4>
+                                        <a name="method_registerController">registerController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">registerController</strong>
+                                           (
+                                                
+                                                        
+                                                         controller
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Register a controller with the application. If tabEl is passed in, the
+navigationController will be mapped to that tab.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">controller</span>
+                                                        &lt;<span property="yui:type">mui.NavigationController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The controller to register</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_restore">
+                                    <h4>
+                                        <a name="method_restore">restore</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        mui.ApplicationController
+                                            <strong property="yui:name">restore</strong>
+                                           (
+                                                
+                                                        
+                                                         fallbackUrl
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Restore the state of the application. If no state is available,
+the fallback URL will be opened
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">fallbackUrl</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  URL to be opened if there is nothing to restore</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        mui.ApplicationController
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The AppController instance</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setData">
+                                    <h4>
+                                        <a name="method_setData">setData</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        variant
+                                            <strong property="yui:name">setData</strong>
+                                           (
+                                                
+                                                        
+                                                         propertyName
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">propertyName</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The name of the property to retrieve.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        variant
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The value of the property or =undefined= if it doesn't exist.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setTabsElement">
+                                    <h4>
+                                        <a name="method_setTabsElement">setTabsElement</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setTabsElement</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Set the element for the application. Use this method in conjuction with
+registerController to map a navigationController to a particular tab
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">String|HTMLElement</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Selector or HTMLElement for the tabs container</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_showModalViewController">
+                                    <h4>
+                                        <a name="method_showModalViewController">showModalViewController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">showModalViewController</strong>
+                                           (
+                                                
+                                                        
+                                                         viewController
+                                                    
+                                                
+                                                        , 
+                                                         params
+                                                    
+                                                
+                                                        , 
+                                                         parentViewController
+                                                    
+                                                
+                                                        , 
+                                                         animated
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Animate or show a modal view controller
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">viewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The modal view controller</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">params</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Request params for the view controller</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">parentViewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The parent view controller for the modal</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">animated</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  If true, use a transition when showing the view controller</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_showViewController">
+                                    <h4>
+                                        <a name="method_showViewController">showViewController</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">showViewController</strong>
+                                           (
+                                                
+                                                        
+                                                         viewController
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Show a viewController on-screen, making it the visibleViewController
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">viewController</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The ViewController to show.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_toggleEvents">
+                                    <h4>
+                                        <a name="method_toggleEvents">toggleEvents</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">toggleEvents</strong>
+                                           (
+                                                
+                                                        
+                                                         oldVc
+                                                    
+                                                
+                                                        , 
+                                                         newVc
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Remove any stale event listeners from the disappearing view controller, and attach event
+listeners to the appearing view controller
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">oldVc</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The disappearing view controller</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">newVc</span>
+                                                        &lt;<span property="yui:type">mui.ViewController</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The appearing view controller</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_test.html" title="test">test</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class="selected"><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="ApplicationController.html" title="ApplicationController">ApplicationController</a></li>
+                                <li class=""><a href="NavigationController.html" title="NavigationController">NavigationController</a></li>
+                                <li class=""><a href="ViewController.html" title="ViewController">ViewController</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="ApplicationController.js.html" title="ApplicationController.js">ApplicationController.js</a></li>
+                                <li class=""><a href="NavigationController.js.html" title="NavigationController.js">NavigationController.js</a></li>
+                                <li class=""><a href="ViewController.js.html" title="ViewController.js">ViewController.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#property__controllers" title="_controllers">_controllers</a></li>
+                                <li class=""><a href="#property__instance" title="_instance">_instance</a></li>
+                                <li class="private"><a href="#property__tabView" title="_tabView">_tabView</a></li>
+                                <li class=""><a href="#property_popping" title="popping">popping</a></li>
+                                <li class=""><a href="#property_shouldScrollViews" title="shouldScrollViews">shouldScrollViews</a></li>
+                                <li class=""><a href="#property_viewportInfo" title="viewportInfo">viewportInfo</a></li>
+                                <li class=""><a href="#property_visibleViewController" title="visibleViewController">visibleViewController</a></li>
+                                <li class=""><a href="#property_window" title="window">window</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#method__tabChanged" title="_tabChanged">_tabChanged</a></li>
+                                <li class="private"><a href="#method__tabRefreshed" title="_tabRefreshed">_tabRefreshed</a></li>
+                                <li class="private"><a href="#method__transitionEnd" title="_transitionEnd">_transitionEnd</a></li>
+                                <li class="private"><a href="#method__urlChanged" title="_urlChanged">_urlChanged</a></li>
+                                <li class=""><a href="#method_dismissModalViewController" title="dismissModalViewController">dismissModalViewController</a></li>
+                                <li class=""><a href="#method_getController" title="getController">getController</a></li>
+                                <li class=""><a href="#method_getInstance" title="getInstance">getInstance</a></li>
+                                <li class="private"><a href="#method_handleEvent" title="handleEvent">handleEvent</a></li>
+                                <li class=""><a href="#method_initialize" title="initialize">initialize</a></li>
+                                <li class=""><a href="#method_objectsEqual" title="objectsEqual">objectsEqual</a></li>
+                                <li class=""><a href="#method_openUrl" title="openUrl">openUrl</a></li>
+                                <li class=""><a href="#method_openViewController" title="openViewController">openViewController</a></li>
+                                <li class=""><a href="#method_positionViewController" title="positionViewController">positionViewController</a></li>
+                                <li class=""><a href="#method_registerController" title="registerController">registerController</a></li>
+                                <li class=""><a href="#method_restore" title="restore">restore</a></li>
+                                <li class=""><a href="#method_setData" title="setData">setData</a></li>
+                                <li class=""><a href="#method_setTabsElement" title="setTabsElement">setTabsElement</a></li>
+                                <li class=""><a href="#method_showModalViewController" title="showModalViewController">showModalViewController</a></li>
+                                <li class=""><a href="#method_showViewController" title="showViewController">showViewController</a></li>
+                                <li class=""><a href="#method_toggleEvents" title="toggleEvents">toggleEvents</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "ApplicationController.html#property__controllers", "access": "private", "host": "ApplicationController", "type": "property", "name": "_controllers"}, {"url": "ApplicationController.html#method_dismissModalViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "dismissModalViewController"}, {"url": "ApplicationController.html#method_getController", "access": "", "host": "ApplicationController", "type": "method", "name": "getController"}, {"url": "ApplicationController.html#method_getInstance", "access": "", "host": "ApplicationController", "type": "method", "name": "getInstance"}, {"url": "ApplicationController.html#method_handleEvent", "access": "private", "host": "ApplicationController", "type": "method", "name": "handleEvent"}, {"url": "ApplicationController.html#method_initialize", "access": "", "host": "ApplicationController", "type": "method", "name": "initialize"}, {"url": "ApplicationController.html#property__instance", "access": "", "host": "ApplicationController", "type": "property", "name": "_instance"}, {"url": "ApplicationController.html#method_objectsEqual", "access": "", "host": "ApplicationController", "type": "method", "name": "objectsEqual"}, {"url": "ApplicationController.html#method_openUrl", "access": "", "host": "ApplicationController", "type": "method", "name": "openUrl"}, {"url": "ApplicationController.html#method_openViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "openViewController"}, {"url": "ApplicationController.html#property_popping", "access": "", "host": "ApplicationController", "type": "property", "name": "popping"}, {"url": "ApplicationController.html#method_positionViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "positionViewController"}, {"url": "ApplicationController.html#method_registerController", "access": "", "host": "ApplicationController", "type": "method", "name": "registerController"}, {"url": "ApplicationController.html#method_restore", "access": "", "host": "ApplicationController", "type": "method", "name": "restore"}, {"url": "ApplicationController.html#method_setData", "access": "", "host": "ApplicationController", "type": "method", "name": "setData"}, {"url": "ApplicationController.html#method_setTabsElement", "access": "", "host": "ApplicationController", "type": "method", "name": "setTabsElement"}, {"url": "ApplicationController.html#property_shouldScrollViews", "access": "", "host": "ApplicationController", "type": "property", "name": "shouldScrollViews"}, {"url": "ApplicationController.html#method_showModalViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "showModalViewController"}, {"url": "ApplicationController.html#method_showViewController", "access": "", "host": "ApplicationController", "type": "method", "name": "showViewController"}, {"url": "ApplicationController.html#method__tabChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabChanged"}, {"url": "ApplicationController.html#method__tabRefreshed", "access": "private", "host": "ApplicationController", "type": "method", "name": "_tabRefreshed"}, {"url": "ApplicationController.html#property__tabView", "access": "private", "host": "ApplicationController", "type": "property", "name": "_tabView"}, {"url": "ApplicationController.html#method_toggleEvents", "access": "", "host": "ApplicationController", "type": "method", "name": "toggleEvents"}, {"url": "ApplicationController.html#method__transitionEnd", "access": "private", "host": "ApplicationController", "type": "method", "name": "_transitionEnd"}, {"url": "ApplicationController.html#method__urlChanged", "access": "private", "host": "ApplicationController", "type": "method", "name": "_urlChanged"}, {"url": "ApplicationController.html#property_viewportInfo", "access": "", "host": "ApplicationController", "type": "property", "name": "viewportInfo"}, {"url": "ApplicationController.html#property_visibleViewController", "access": "", "host": "ApplicationController", "type": "property", "name": "visibleViewController"}, {"url": "ApplicationController.html#property_window", "access": "", "host": "ApplicationController", "type": "property", "name": "window"}];
+</script>
+</body>
+</html>

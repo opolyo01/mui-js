@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		
+		<style type="text/css" media="screen">
+			body, html { margin: 0; padding: 0; font: 16px Helvetica; min-height: 460px; }
+			#main {
+				text-align: left;
+				padding: 20px 30px;
+			}
+
+			#main div{
+				display: block;
+				height: 30px;
+				border-bottom: 1px solid #CCC;
+				position: relative;
+			}
+
+			#main span {
+				margin-left: 5px;
+				font-weight: bold;
+				position: absolute;
+				top: 6px;
+
+			}
+
+			input[type="checkbox"].mui-checkbox {
+				-webkit-appearance: none;
+				-webkit-border-radius: 10px;
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+				border: 2px solid rgb(229,230,229);
+				width: 21px;
+				height: 21px;
+			}
+
+			input[type="checkbox"].mui-checkbox:checked {
+				border: 1px solid rgb(200,200,200);
+				-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.3);
+				background:url(../../action-sheet/assets/skins/default/form_checkbox.png) no-repeat 0px 0px;
+			}
+
+			input[type="checkbox"].mui-checkbox.blue:checked {
+				background-position: 0px -20px; 
+			}
+
+			input[type="checkbox"].mui-checkbox.red:checked {
+				background-position: 0px -40px; 
+			}
+			
+		</style>
+		<link rel="stylesheet" href="../../action-sheet/assets/skins/default/action-sheet-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	
+	<body>
+	<div id="toolbar">
+		<div id="main" > 
+			<form>
+				<div><input class="mui-checkbox" type="checkbox" value="0"/><span>Abby Aurther</span></div> 
+				<div><input class="mui-checkbox blue" type="checkbox" value="1"/><span>Bill beckman</span></div>
+				<div><input class="mui-checkbox red" type="checkbox" value="2"/><span>Cathy Colliage</span></div>
+			</form>
+		</div>
+	</div>
+	</body>
+</html>

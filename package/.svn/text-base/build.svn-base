@@ -1,0 +1,28 @@
+export PKG_NAME=ymobile_web_mui
+export PKG_FILE=$PKG_NAME-*.tgz
+
+rm -f $PKG_FILE
+rm -rf FreeBSD.*
+rm -rf rhel.*
+
+case $1 in
+	"local" )
+		yinst_create -t link $PKG_NAME
+		if [ $? == 0 ]; then 
+			yinst-pw yinst install $PKG_FILE -nostart
+		fi
+		;;
+	"psyduck" )
+		yinst_create $PKG_NAME
+		if [ $? == 0 ]; then
+			yinst-pw yinst install $PKG_FILE -nostart -h psyduck.mobile.sp1.yahoo.com -yroot webgw
+		fi
+		;;
+	"golduck" )
+		yinst_create $PKG_NAME
+		if [ $? == 0 ]; then
+			yinst-pw yinst install $PKG_FILE -nostart -h golduck.mobile.re2.yahoo.com -yroot webgw
+		fi
+		;;
+
+esac

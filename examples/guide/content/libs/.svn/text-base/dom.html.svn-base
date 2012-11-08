@@ -1,0 +1,40 @@
+<h1>DOM Manipulation</h1> 
+ 
+<p>mui's DOM class gives you simple methods to traverse and manipulate the HTML DOM. Some common things you can do with the DOM class are:</p> 
+ 
+<ul> 
+<li>Create a new element and append it to the DOM</li> 
+<li>Query the DOM for elements matching a CSS selector expression</li> 
+<li>Programmatically change an element's style</li> 
+</ul> 
+ 
+<p>Most of the time you'll be querying the DOM via the <code class="inline">mui.get()</code> and <code class="inline">mui.getAll()</code> methods. Each of these methods takes a CSS selector matching the element(s) you want to get back, and (optionally) a node at which to start the search (without that second argument, the whole document will be searched).</p> 
+ 
+<p>For instance, say we wanted to find the first list item that is the child of a list with the id <code class="inline">nav</code> and set a background color on it.</p> 
+ 
+<p>Here's the markup we're talking about:</p> 
+ 
+<pre><code>&lt;ul id="nav"&gt;
+  &lt;li&gt;Item one&lt;/li&gt;
+  &lt;li&gt;Item two&lt;/li&gt;
+  &lt;li&gt;Item three&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre> 
+ 
+<p>First we get the <code class="inline">li</code> via the <code class="inline">mui.get()</code> method:</p> 
+ 
+<pre><code>var listEl = mui.get('#nav li');
+</code></pre> 
+ 
+<p>Notice that there are actually three list items that match the selector we specified. However, <code class="inline">mui.get()</code> returns only the first element that the selector matches. Had we instead used <code class="inline">mui.getAll()</code>, it would have returned an array of all of the matching elements.</p> 
+ 
+<p>Now that we've got our node picked out, we can then set the style via the <code class="inline">mui.setStyles()</code>:</p> 
+ 
+<pre><code class="inline">mui.setStyles(listEl,{'background-color':'red'});
+</code></pre> 
+ 
+<p>That's it!</p> 
+ 
+<p>It's worth pointing out that we technically did not need to go through the first step of getting the DOM node via the <code class="inline">mui.get</code> method since <code class="inline">mui.setStyle()</code> accepts either a DOM node or a CSS selector as its first argument, so it can fetch an element on its own. Both techniques work equally well, although if you're planning on doing anything else with the element after setting the style, it's better to do it the way we've just done.</p> 
+ 
+<p>For more information on the mui DOM methods, check out the API documentation for the DOM class.</p>

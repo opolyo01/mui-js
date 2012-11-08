@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.DataSource</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<style type="text/css" media="screen">
+		html, body { margin: 0; padding: 0; font: 16px Helvetica; min-height: 460px; background: #fff; }
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../storage/js/Storage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../datasource/js/DataSource.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.setLogLevel('trace');
+
+		// Create a datasource instance
+		mui.log('Creating datasource');
+		var myDataSource = new mui.DataSource({
+			source: 'data.php',
+			cache: {
+				id: 'test_datasource',
+				version: '0.1',
+				title: 'Test of mui.DataSource',
+				keepalive: {
+					minutes: 3
+				}
+			},
+			onRestore: function() {
+				mui.log('DataSource restored');
+			}
+		});
+		
+		var myDataSource2 = new mui.DataSource({
+			source: 'data.php',
+			cache: {
+				id: 'test_datasource_2',
+				version: '0.1',
+				title: 'Test of mui.DataSource 2',
+				keepalive: {
+					minutes: 3
+				}
+			},
+			onRestore: function() {
+				mui.log('DataSource2 restored');
+			}
+		});
+		
+		
+		mui.on(window, 'load', function() {
+			setTimeout(scrollTo, 100, 0, 1);
+
+			mui.on('#the-element', 'click', function() {
+				myDataSource.sendRequest('', {
+					success: function(o) {
+						alert('1: Got response: '+o);
+					},
+					failure: function() {
+						alert('fail');
+					}
+				});
+				
+				myDataSource2.sendRequest('', {
+					success: function(o) {
+						alert('2: Got response: '+o);
+					},
+					failure: function() {
+						alert('fail');
+					}
+				});
+			});
+
+		});
+		</script>
+	</head>
+	
+	<body>
+		<div id="the-element">
+			<strong>Click to fetch data</strong>
+		</div>
+	</body>
+</html>

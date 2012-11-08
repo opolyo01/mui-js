@@ -1,0 +1,19 @@
+MUI Testing README
+------------------
+
+Mui testing is executed via the ant file in this directory, which is a subant task of the main mui build file.
+
+For now the tests themselves are run on the dev mac box gavegrayhome-lm.corp.yahoo.com, which requires the selenium RC server to be running.  Iain/Matt or Mark know the password etc.  This is a laptop and will not restart in the event of power going out etc., but can be started using java -jar /usr/local/bin/selenium-server.jar.
+
+The tests are launched via the YUITest selenium client driver after the files are scp'd to the machine for access via a file:/// URL.  Passphrase-less keys for user buildmob are set up.
+
+As of Dec 23 2009 both the selenium driver and the javascript for YUItest are not released to production, so are have been built/aggregated from github and included in this directory.  Coverage does not yet work for the selenium driver.
+
+Desired improvements etc.:
+
+* make paths in and build file into properties
+* use another deploy solution other than passphraseless keys
+* use permanent server not laptop (perhaps consider existing windows farms)
+* move test .js and .jar out of mui dir and put in central location for sharing between other tests
+* clean up files after testing
+* ...more to add here...

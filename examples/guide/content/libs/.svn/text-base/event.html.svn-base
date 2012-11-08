@@ -1,0 +1,32 @@
+<h1>Event Handling</h1> 
+ 
+<p>mui's Event class provides several methods for working with events. Use mui's event methods to:</p> 
+ 
+<ul> 
+<li>Make browser touch events behave more like native touch events.</li> 
+<li>Add support for touch events to browsers that don't have it.</li> 
+<li>Attach and remove event handlers, optionally specifying the scope in which to execute the callback.</li> 
+</ul> 
+ 
+<p>As an example, imagine we wanted to display an alert whenever a user tapped on a particular link. First we'd query the DOM for the element containing the link we want to work with, and then we would attach the event listener to the element using the <code>mui.on()</code> method. Say this is the link on which we want to listen for events:</p> 
+ 
+<pre><code>&lt;a href="foo.html" id="alertLink"&gt;Touch here&lt;/a&gt;
+</code></pre> 
+ 
+<p>Adding the event handler is as simple as this:</p> 
+ 
+<pre><code>// get the link element
+var alertLink = mui.get('#alertLink');
+ 
+// attach the event handler
+mui.on(alertLink,'touchstart',function(e){
+    e.preventDefault();  // don't follow the link
+    alert('I'm touched')
+},this,false);
+</code></pre> 
+ 
+<p>So we just pass in the element we care about, tell it what event we want it to respond to, and then pass in a function that should be executed when the event occurs. The other arguments are important too, but you probably won't change their values very often, so let's leave them alone for now.</p> 
+ 
+<h4>Touch Events</h4> 
+ 
+<p>A quick note about how MUI deals with touch events. Most of how mui handles touch events goes on behind the scenes, so you won't interact with mui's touch methods directly. Essentially, mui just provides support for touch events on devices that don't support it natively, and it normalizes how touch events "feel" to the user. Again, this is all stuff that you won't need to worry about, but you should know that mui is taking care of it for you.</p>

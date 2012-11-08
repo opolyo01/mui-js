@@ -1,0 +1,399 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: storage   Storage.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.4" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.4" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.4"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.4"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_storage.html" title="storage">storage</a>
+	               		
+	               		 <span class="gt"></span> Storage.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * Storage module</span>
+<span class="c"> * @module storage</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="c">/**</span>
+<span class="c"> * The ResultSet class is a wrapper for Gears which emulates</span>
+<span class="c"> * the HTML5 SQLResultSet class.</span>
+<span class="c"> * @class ResultSet</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param db {Database} A Gears database instance</span>
+<span class="c"> * @param rs {*} The Gears ResultSet from a call to database.execute</span>
+<span class="c"> */</span>
+<span class="k">var</span> <span class="nx">ResultSet</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">db</span><span class="o">,</span> <span class="nx">rs</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">insertId</span> <span class="o">=</span> <span class="nx">db</span><span class="o">.</span><span class="nx">lastInsertId</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">rowsAffected</span> <span class="o">=</span> <span class="nx">db</span><span class="o">.</span><span class="nx">rowsAffected</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">rows</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResultSetRowList</span><span class="o">(</span><span class="nx">rs</span><span class="o">);</span>
+<span class="o">};</span>
+
+<span class="nx">ResultSet</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * The id of the last SQL insert operation</span>
+<span class="c">	 * @property insertId</span>
+<span class="c">	 * @type Number</span>
+<span class="c">	 */</span>
+	<span class="nx">insertId</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The number of rows affected by the last SQL transaction</span>
+<span class="c">	 * @property rowsAffected</span>
+<span class="c">	 * @type Number</span>
+<span class="c">	 */</span>
+	<span class="nx">rowsAffected</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The result set rows for the SQL transaction</span>
+<span class="c">	 * @property rows</span>
+<span class="c">	 * @type ResultSetRowList</span>
+<span class="c">	 */</span>
+	<span class="nx">rows</span><span class="o">:</span> <span class="kc">null</span>
+
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * The ResultSetRowList class is a wrapper for Gears which emulates</span>
+<span class="c"> * the HTML5 SQLResultSetRowList class.</span>
+<span class="c"> * @class ResultSetRowList</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param rs {*} The Gears ResultSet from a call to database.execute</span>
+<span class="c"> */</span>
+<span class="k">var</span> <span class="nx">ResultSetRowList</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">rs</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">length</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_items</span> <span class="o">=</span> <span class="o">[];</span>
+	<span class="k">while</span><span class="o">(</span><span class="nx">rs</span><span class="o">.</span><span class="nx">isValidRow</span><span class="o">())</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="o">{};</span>
+		<span class="k">for</span><span class="o">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">=</span><span class="m">0</span><span class="o">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">rs</span><span class="o">.</span><span class="nx">fieldCount</span><span class="o">();</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="o">;</span> <span class="nx">i</span><span class="o">++)</span>
+		<span class="o">{</span>
+			<span class="nx">result</span><span class="o">[</span><span class="nx">rs</span><span class="o">.</span><span class="nx">fieldName</span><span class="o">(</span><span class="nx">i</span><span class="o">)]</span> <span class="o">=</span> <span class="nx">rs</span><span class="o">.</span><span class="nx">field</span><span class="o">(</span><span class="nx">i</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_items</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">result</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">length</span><span class="o">++;</span>
+		<span class="nx">rs</span><span class="o">.</span><span class="nx">next</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nx">ResultSetRowList</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Private property to store array of items in the result set list</span>
+<span class="c">	 * @property _items</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">_items</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The length of the current result set of items</span>
+<span class="c">	 * @property length</span>
+<span class="c">	 * @type Number</span>
+<span class="c">	 */</span>
+	<span class="nx">length</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Retrieve the result item at a given index</span>
+<span class="c">	 * @method item</span>
+<span class="c">	 * @param index {Number} The index</span>
+<span class="c">	 * @return {Object} The result item at the index</span>
+<span class="c">	 */</span>
+	<span class="nx">item</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">_items</span><span class="o">[</span><span class="nx">index</span><span class="o">];</span>
+	<span class="o">}</span>
+
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * The Transaction class is a wrapper for Gears which emulates</span>
+<span class="c"> * the HTML5 Transaction class.</span>
+<span class="c"> * @class Transaction</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param database {Database} The Gears database instance</span>
+<span class="c"> * @param error {Function} Error handler</span>
+<span class="c"> * @param success {Function} Success handler</span>
+<span class="c"> */</span>
+<span class="k">var</span> <span class="nx">Transaction</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">database</span><span class="o">,</span> <span class="nx">error</span><span class="o">,</span> <span class="nx">success</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_db</span> <span class="o">=</span> <span class="nx">database</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_error</span> <span class="o">=</span> <span class="nx">error</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_success</span> <span class="o">=</span> <span class="nx">success</span><span class="o">;</span>
+<span class="o">};</span>
+
+<span class="nx">Transaction</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Reference to the Gears database</span>
+<span class="c">	 * @property _db</span>
+<span class="c">	 * @type Database</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">_db</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Execute a SQL statement</span>
+<span class="c">	 * @method executeSql</span>
+<span class="c">	 * @param sql {String} The SQL statement</span>
+<span class="c">	 * @param params {Array} Array of param values for SQL </span>
+<span class="c">	 * @param success {Function} Success callback function</span>
+<span class="c">	 * @param error {Function} Error callback function</span>
+<span class="c">	 */</span>
+	<span class="nx">executeSql</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">sql</span><span class="o">,</span> <span class="nx">params</span><span class="o">,</span> <span class="nx">success</span><span class="o">,</span> <span class="nx">error</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="k">var</span> <span class="nx">rs</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResultSet</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_db</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">_db</span><span class="o">.</span><span class="nx">execute</span><span class="o">(</span><span class="nx">sql</span><span class="o">,</span> <span class="nx">params</span><span class="o">));</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">rs</span> <span class="o">&amp;&amp;</span> <span class="nx">success</span><span class="o">)</span> <span class="nx">success</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="nx">rs</span><span class="o">);</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">error</span><span class="o">)</span> <span class="nx">error</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_error</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">_error</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_success</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">_success</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c">/**</span>
+<span class="c"> * The Storage class provides a facility for storing data. A full HTMl5 or</span>
+<span class="c"> * Gears database will be created using the open method. This class implements</span>
+<span class="c"> * the HTML5 Storage interface, in addition to exposing the database functionality</span>
+<span class="c"> * through executeSql</span>
+<span class="c"> * @class Storage</span>
+<span class="c"> * @static</span>
+<span class="c"> */</span>
+
+<span class="c">/*</span>
+<span class="c"> * Branch Storage for Gears</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">StorageGears</span><span class="o">(</span><span class="nx">db</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_db</span> <span class="o">=</span> <span class="nx">db</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c">/**</span>
+<span class="c"> * Open a database</span>
+<span class="c"> * @method open</span>
+<span class="c"> * @static</span>
+<span class="c"> * @param id {String} The id of the database to open</span>
+<span class="c"> * @param version {String} The version of the database to open</span>
+<span class="c"> * @param title {String} The title of the database to open	</span>
+<span class="c"> * @return {mui.Storage} The storage object</span>
+<span class="c"> */</span>
+<span class="nx">StorageGears</span><span class="o">.</span><span class="nx">open</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">id</span><span class="o">,</span> <span class="nx">version</span><span class="o">,</span> <span class="nx">title</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">var</span> <span class="nx">db</span><span class="o">;</span>
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="nx">db</span> <span class="o">=</span> <span class="nx">google</span><span class="o">.</span><span class="nx">gears</span><span class="o">.</span><span class="nx">factory</span><span class="o">.</span><span class="nx">create</span><span class="o">(</span><span class="s1">&#39;beta.database&#39;</span><span class="o">);</span>
+		<span class="nx">db</span><span class="o">.</span><span class="nx">open</span><span class="o">(</span><span class="nx">id</span><span class="o">);</span>	
+	<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="k">return</span> <span class="k">new</span> <span class="nx">StorageGears</span><span class="o">(</span><span class="nx">db</span><span class="o">);</span>
+<span class="o">};</span>
+
+<span class="nx">StorageGears</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Execute a database transaction. The first argument is the transaction</span>
+<span class="c">	 * callback which will execute SQL statements against the database. The</span>
+<span class="c">	 * second argument is the error callback, and the third argument is the</span>
+<span class="c">	 * success callback.</span>
+<span class="c">	 * @param transCb {Function} The transaction callback </span>
+<span class="c">	 * @param errorCb {Function} The error callback</span>
+<span class="c">	 * @param successCb {Function} The success callback</span>
+<span class="c">	 */</span>
+	<span class="nx">transaction</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">transCb</span><span class="o">,</span> <span class="nx">errorCb</span><span class="o">,</span> <span class="nx">successCb</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">transCb</span><span class="o">(</span><span class="k">new</span> <span class="nx">Transaction</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_db</span><span class="o">,</span> <span class="nx">errorCb</span><span class="o">,</span> <span class="nx">successCb</span><span class="o">));</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c">/*</span>
+<span class="c"> * Branch Storage for HTML5</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">StorageHtml5</span><span class="o">(</span><span class="nx">db</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">_db</span> <span class="o">=</span> <span class="nx">db</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c">/**</span>
+<span class="c"> * Open a database</span>
+<span class="c"> * @method open</span>
+<span class="c"> * @static</span>
+<span class="c"> * @param id {String} The id of the database to open</span>
+<span class="c"> * @param version {String} The version of the database to open</span>
+<span class="c"> * @param title {String} The title of the database to open	</span>
+<span class="c"> * @return {mui.Storage} The storage object</span>
+<span class="c"> */</span>
+<span class="nx">StorageHtml5</span><span class="o">.</span><span class="nx">open</span> <span class="o">=</span> <span class="k">function</span><span class="o">(</span><span class="nx">id</span><span class="o">,</span> <span class="nx">version</span><span class="o">,</span> <span class="nx">title</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">var</span> <span class="nx">db</span><span class="o">;</span>
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="c">// Open or create database if not exists</span>
+<span class="c"></span>		<span class="nx">db</span> <span class="o">=</span> <span class="nx">openDatabase</span><span class="o">(</span><span class="nx">id</span><span class="o">,</span> <span class="s1">&#39;&#39;</span><span class="o">,</span> <span class="nx">title</span><span class="o">,</span> <span class="m">200000</span><span class="o">);</span>
+	<span class="o">}</span> <span class="k">catch</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="k">new</span> <span class="nx">StorageHtml5</span><span class="o">(</span><span class="nx">db</span><span class="o">);</span>
+<span class="o">};</span>
+
+<span class="nx">StorageHtml5</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+	<span class="c">/**</span>
+<span class="c">	 * Execute a database transaction. The first argument is the transaction</span>
+<span class="c">	 * callback which will execute SQL statements against the database. The</span>
+<span class="c">	 * second argument is the error callback, and the third argument is the</span>
+<span class="c">	 * success callback.</span>
+<span class="c">	 * @param transCb {Function} The transaction callback </span>
+<span class="c">	 * @param errorCb {Function} The error callback</span>
+<span class="c">	 * @param successCb {Function} The success callback</span>
+<span class="c">	 */</span>
+	<span class="nx">transaction</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">transCb</span><span class="o">,</span> <span class="nx">errorCb</span><span class="o">,</span> <span class="nx">successCb</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">_db</span><span class="o">.</span><span class="nx">transaction</span><span class="o">.</span><span class="nx">apply</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">_db</span><span class="o">,</span> <span class="nx">arguments</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="c">// Ensure mui namesapce</span>
+<span class="c"></span><span class="nx">mui</span> <span class="o">=</span> <span class="nx">mui</span> <span class="o">||</span> <span class="o">{};</span>
+
+<span class="c">// Define Storage</span>
+<span class="c"></span><span class="nx">mui</span><span class="o">.</span><span class="nx">Storage</span> <span class="o">=</span> <span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">if</span><span class="o">(</span><span class="k">typeof</span> <span class="nx">openDatabase</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="o">)</span> <span class="k">return</span> <span class="nx">StorageGears</span><span class="o">;</span>
+	<span class="k">return</span> <span class="nx">StorageHtml5</span><span class="o">;</span>
+<span class="o">})();</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class="selected"><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="ResultSet.html" title="ResultSet">ResultSet</a></li>
+                                <li class=""><a href="ResultSetRowList.html" title="ResultSetRowList">ResultSetRowList</a></li>
+                                <li class=""><a href="Storage.html" title="Storage">Storage</a></li>
+                                <li class=""><a href="Transaction.html" title="Transaction">Transaction</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="Storage.js.html" title="Storage.js">Storage.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Transaction.html#property__db", "access": "private", "host": "Transaction", "type": "property", "name": "_db"}, {"url": "Transaction.html#method_executeSql", "access": "", "host": "Transaction", "type": "method", "name": "executeSql"}, {"url": "ResultSet.html#property_insertId", "access": "", "host": "ResultSet", "type": "property", "name": "insertId"}, {"url": "ResultSetRowList.html#method_item", "access": "", "host": "ResultSetRowList", "type": "method", "name": "item"}, {"url": "ResultSetRowList.html#property__items", "access": "private", "host": "ResultSetRowList", "type": "property", "name": "_items"}, {"url": "ResultSetRowList.html#property_length", "access": "", "host": "ResultSetRowList", "type": "property", "name": "length"}, {"url": "Storage.html#method_open", "access": "", "host": "Storage", "type": "method", "name": "open"}, {"url": "ResultSet.html#property_rows", "access": "", "host": "ResultSet", "type": "property", "name": "rows"}, {"url": "ResultSet.html#property_rowsAffected", "access": "", "host": "ResultSet", "type": "property", "name": "rowsAffected"}, {"url": "Storage.html#method_transaction", "access": "", "host": "Storage", "type": "method", "name": "transaction"}];
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.ScrollView Paging</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+		
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="../../mui/scroll-view/assets/skins/default/scroll-view-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		
+		<style type="text/css" media="screen">
+        
+        html, body {
+            background: #000;
+        }
+        
+        #container {
+            width: 320px;
+            margin: 0 auto;
+            overflow: hidden;
+            white-space: nowrap;
+            background: #fff;
+            position: relative;
+        }
+        
+        body[orient=landscape] #container {
+            width: 480px;
+        }
+        
+        #slideshow .item {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        #slideshow img {
+            max-width: 320px;
+            vertical-align: middle;
+            -webkit-transform: translate3d(0, 0, 0); /* Prevent flicker when images are sliding */
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: right;
+        }        
+        
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../scroll-view/js/ScrollView.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.on(window, 'load', function() {
+		    
+		    // Create a paged scroll view
+			var scrollView = new mui.ScrollView({
+				element: '#slideshow',
+				axis: 'x',
+				size: '100%',
+				pagingEnabled: true,
+				paginator: {
+					pageSelector: '.item'
+				},
+				showsHorizontalScrollIndicator: false
+			});
+			
+			// Bind the next and prev UI elements to the pager
+			mui.on('#next', 'click', mui.bind(scrollView.nextPage, scrollView));
+			mui.on('#prev', 'click', mui.bind(scrollView.prevPage, scrollView));
+			
+			// Hide the address bar
+			setTimeout(scrollTo, 0, 1, 200);
+		});
+		</script>
+	</head>
+	
+	<body orient="portrait">
+		<div id="container">
+			<div id="slideshow">
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/afp/20100304/capt.photo_1267745526069-1-0.jpg?x=237&y=345&q=85&sig=ScMwdm7GpfQjkF8pwrqy1w--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100305/capt.fdd85e0cdf0a47ee88a469be3aafdc57.western_spotted_skunk_nyr102.jpg?x=400&y=265&q=85&sig=CBhvWEpaf62clMq331vxBA--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/afp/20100305/capt.photo_1267807908947-1-0.jpg?x=400&y=257&q=85&sig=Mk_88WyYnVSsFU4VVrpMDg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/rids/20100224/i/r178796900.jpg?x=400&y=262&q=85&sig=tb6qGbWMNkYlbBKsBuD0Kg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100305/capt.65c1f97d48e54fc889d49ce59476d4ef.singapore_zoo_sin104.jpg?x=400&y=241&q=85&sig=nT0cfLybVNwPGHHDNGPq.A--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/afp/20100305/capt.photo_1267745346852-3-0.jpg?x=400&y=275&q=85&sig=qTphonzNkwLUCtrTc4vwgg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100305/capt.d165880a9b3c42df9dbed73db5308a11.hungary_new_born_giraffe_bud102.jpg?x=400&y=274&q=85&sig=xa47bU1XSvc0o7N4DuewSg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100304/capt.36981ff51d004896a91048a7d8ecb525.rel_chelsea_clinton_wedding_ny116.jpg?x=250&y=345&q=85&sig=XzsKy_1QMQNHsom3.7n5GQ--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/rids/20100305/i/r1110580497.jpg?x=400&y=266&q=85&sig=JVnXSqZjD8nxx4M2Wk_xcg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100305/capt.1e2655014a43454cb7981e2e3918a8a9.pentagon_metro_shooting_nvren501.jpg?x=237&y=345&q=85&sig=DWi3QbOrS3E.__HWStYJOg--" />
+				</div>
+				<div class="item">
+					<img src="http://d.yimg.com/a/p/ap/20100306/capt.7232bd4d0bcd426ebbc157cab41867b1.mideast_iran_iraq_election_vah105.jpg?x=262&y=345&q=85&sig=.QmpanA11aDoh7YUv7OhTA--" />
+				</div>
+			</div>
+			
+			<div id="controls">
+			    <span id="prev">Prev</span>
+			    <span id="next">Next</span>
+			</div>
+		</div>
+	</body>
+</html>

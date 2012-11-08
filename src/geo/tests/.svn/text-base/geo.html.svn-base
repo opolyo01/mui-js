@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../geo/js/geo.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			mui.Geo.getLocation(function(loc) {
+				if(!loc) alert('Fail!');
+				else alert('Your location is ['+loc.join(',')+']');
+			});
+		</script>
+	</head>
+	
+	<body>
+		
+	</body>
+</html>

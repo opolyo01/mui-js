@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>example one</title>
+	<meta name="author" content="Natalie Downe">
+	
+	<style type="text/css">
+	
+	body {
+		width: 80%;
+		margin: 0 auto;
+		max-width: 70em;
+		background-color: #E9E9E9;
+		color: #333;
+		font-family:"Helvetica Neue",Arial,Helvetica,sans-serif;
+	}
+	
+	.polaroid {
+		width: 150px;
+		padding: 10px 10px 20px 10px;
+		border: 1px solid #BFBFBF;
+		background-color: white;
+		-webkit-transform: rotate(9deg);
+		-moz-transform: rotate(9deg);
+		transform: rotate(9deg);
+		-webkit-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+		-moz-box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+		box-shadow: 2px 2px 3px rgba(135, 139, 144, 0.4);
+	}
+	
+	.polaroid img {
+		margin: 0 0 15px;
+	}
+	
+	.polaroid .caption {
+		margin: 0;
+		font-size: 0.7em;
+	}
+	
+	.pull-right {
+		float: right;
+		margin: 0.8em 0 2em 2em;
+	}
+	.pull-left {
+		float: left;
+		margin: 0.8em 3em 2em 0;
+	}
+	.pull-left.polaroid {
+		-webkit-transform: rotate(-9deg);
+		-moz-transform: rotate(-9deg);
+		transform: rotate(-9deg);
+	}
+	
+
+	</style>
+	
+</head>
+<body>
+	
+	<h1>Example one</h1>
+	
+	<div class="polaroid pull-right">
+		<img src="http://media.24ways.org/2009/14/img/seal.jpg" alt="">
+		<p class="caption">Found this little cutie on a walk in New Zealand!</p>
+	</div>
+	
+	<div class="polaroid pull-left">
+		<img src="http://media.24ways.org/2009/14/img/seal.jpg" alt="">
+		<p class="caption">Found this little cutie on a walk in New Zealand!</p>
+	</div>
+	
+</body>
+</html>

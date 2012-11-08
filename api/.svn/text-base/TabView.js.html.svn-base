@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: tab-view   TabView.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.24" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.24" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.24"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.24"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_tab-view.html" title="tab-view">tab-view</a>
+	               		
+	               		 <span class="gt"></span> TabView.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * TabView module</span>
+<span class="c"> * @module tab-view</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+
+<span class="k">const</span> <span class="nx">CLASS_SHOWING</span> <span class="o">=</span> <span class="s1">&#39;mui-showing&#39;</span><span class="o">;</span>
+
+<span class="c">/**</span>
+<span class="c"> * The TabView class provides a tabbed navigation model for related</span>
+<span class="c"> * contents. TabViews can be embedded inside the header of a page for</span>
+<span class="c"> * global navigation, or inside the content of the page</span>
+<span class="c"> * @class TabView</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param el {String|HTMLElement} CSS Selector or HTMLElement for the tabs container</span>
+<span class="c"> * @param options {Object} TabView configuration options</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">TabView</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">options</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="c">// Declare locals</span>
+<span class="c"></span>	<span class="k">var</span> <span class="nx">active</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="o">{};</span>
+	
+	<span class="c">// Initialize element</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">);</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;mui-tab-view&#39;</span><span class="o">);</span>
+	
+	<span class="c">// Initialize list</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">tabs</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getAll</span><span class="o">(</span><span class="s1">&#39;li&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+	<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">t</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nx">t</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nb">Math</span><span class="o">.</span><span class="nx">round</span><span class="o">(</span><span class="m">100</span><span class="o">/</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">.</span><span class="nx">length</span><span class="o">)+</span><span class="s1">&#39;%&#39;</span><span class="o">;</span>
+	<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+	
+	<span class="c">// Check active index</span>
+<span class="c"></span>	<span class="nx">active</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;.mui-showing&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span> <span class="o">=</span> <span class="nx">active</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">.</span><span class="nx">indexOf</span><span class="o">(</span><span class="nx">active</span><span class="o">)</span> <span class="o">:</span> <span class="m">0</span><span class="o">;</span>
+	<span class="k">if</span><span class="o">(!</span><span class="nx">mui</span><span class="o">.</span><span class="nx">hasClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">],</span> <span class="nx">CLASS_SHOWING</span><span class="o">))</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">],</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+
+	<span class="c">// Iniitalize tabContents</span>
+<span class="c"></span>	<span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span> <span class="o">=</span> <span class="o">[];</span>
+	<span class="k">if</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="nx">options</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">tc</span><span class="o">,</span> <span class="nx">i</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">tc</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="s1">&#39;mui-tab-content&#39;</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">i</span> <span class="o">===</span> <span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">tc</span><span class="o">));</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="c">// Initialize events</span>
+<span class="c"></span>	<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;click&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nx">TabView</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * The HTMLElement containing the tabs</span>
+<span class="c">	 * @property element</span>
+<span class="c">	 * @type HTMLElement</span>
+<span class="c">	 */</span>
+	<span class="nx">element</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * The index of the currently selected tab</span>
+<span class="c">	 * @property activeIndex</span>
+<span class="c">	 * @type Number</span>
+<span class="c">	 */</span>
+	<span class="nx">activeIndex</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Array of elements which are the contents for each tab</span>
+<span class="c">	 * @property tabContents</span>
+<span class="c">	 * @type Array</span>
+<span class="c">	 */</span>
+	<span class="nx">tabContents</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * DOM Event handler</span>
+<span class="c">	 * @method handleEvent</span>
+<span class="c">	 * @param e {Event} The DOM event</span>
+<span class="c">	 * @private</span>
+<span class="c">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">tabTarget</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getAncestorByTagName</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">target</span><span class="o">,</span> <span class="s1">&#39;li&#39;</span><span class="o">);</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">tabTarget</span><span class="o">)</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;click&#39;</span><span class="o">:</span>
+				<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+				
+				<span class="k">var</span> <span class="nx">active</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;.mui-showing&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+				<span class="k">if</span><span class="o">(</span><span class="nx">active</span> <span class="o">&amp;&amp;</span> <span class="nx">tabTarget</span> <span class="o">===</span> <span class="nx">active</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">tabRefreshed</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">active</span> <span class="o">&amp;&amp;</span> <span class="nx">tabTarget</span> <span class="o">!==</span> <span class="nx">active</span><span class="o">)</span>
+				<span class="o">{</span>
+					<span class="k">this</span><span class="o">.</span><span class="nx">activateTabAtIndex</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">.</span><span class="nx">indexOf</span><span class="o">(</span><span class="nx">tabTarget</span><span class="o">)).</span><span class="nx">tabChanged</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Tab change event handler which is invoked every time a tab is activated.</span>
+<span class="c">	 * Override this method in implementation. The first argument to the method</span>
+<span class="c">	 * is the index of the selected tab.</span>
+<span class="c">	 * @method tabChanged</span>
+<span class="c">	 * @param index {Number} The index of the selected tab</span>
+<span class="c">	 */</span>
+	<span class="nx">tabChanged</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Override this method</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * This method is invoked whenever the currently active tab is reactivated.</span>
+<span class="c">	 * Override this method in implementation. The first argument to the method</span>
+<span class="c">	 * is the index of the selected tab.</span>
+<span class="c">	 * @method tabRefreshed</span>
+<span class="c">	 * @param index {Number} The index of the selected tab</span>
+<span class="c">	 */</span>
+	<span class="nx">tabRefreshed</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">// Override this method	</span>
+<span class="c"></span>	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Set the tabContent for a particular tab at a given index</span>
+<span class="c">	 * @method setTabContent</span>
+<span class="c">	 * @param index {Number} The index of the tab</span>
+<span class="c">	 * @param tabContent {String|HTMLElement} The tabContent element</span>
+<span class="c">	 */</span>
+	<span class="nx">setTabContent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">,</span> <span class="nx">tabContent</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">[</span><span class="nx">index</span><span class="o">]</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">tabContent</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Activate a tab at a given index by activating the selected state of the tab, as well</span>
+<span class="c">	 * as showing any tab content for the tab</span>
+<span class="c">	 * @method activateTabAtIndex</span>
+<span class="c">	 * @param index {Number} The index of the tab to activate</span>
+<span class="c">	 * @return {mui.TabView} The TabView instance</span>
+<span class="c">	 */</span>
+	<span class="nx">activateTabAtIndex</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">index</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">active</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;.mui-showing&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">);</span>
+		<span class="k">var</span> <span class="nx">activeContent</span><span class="o">;</span>
+		
+		<span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span> <span class="o">=</span> <span class="nx">index</span><span class="o">;</span>
+		
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">active</span><span class="o">,</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">],</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">)</span> <span class="nx">activeContent</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">tabs</span><span class="o">.</span><span class="nx">indexOf</span><span class="o">(</span><span class="nx">active</span><span class="o">)];</span>
+
+		<span class="k">if</span><span class="o">(</span><span class="nx">activeContent</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">removeClass</span><span class="o">(</span><span class="nx">activeContent</span><span class="o">,</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">addClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">tabContents</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="nx">activeIndex</span><span class="o">],</span> <span class="nx">CLASS_SHOWING</span><span class="o">);</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">TabView</span> <span class="o">=</span> <span class="nx">TabView</span><span class="o">;</span>
+	
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class="selected"><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="TabView.html" title="TabView">TabView</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="TabView.js.html" title="TabView.js">TabView.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "TabView.html#method_activateTabAtIndex", "access": "", "host": "TabView", "type": "method", "name": "activateTabAtIndex"}, {"url": "TabView.html#property_activeIndex", "access": "", "host": "TabView", "type": "property", "name": "activeIndex"}, {"url": "TabView.html#property_element", "access": "", "host": "TabView", "type": "property", "name": "element"}, {"url": "TabView.html#method_handleEvent", "access": "private", "host": "TabView", "type": "method", "name": "handleEvent"}, {"url": "TabView.html#method_setTabContent", "access": "", "host": "TabView", "type": "method", "name": "setTabContent"}, {"url": "TabView.html#method_tabChanged", "access": "", "host": "TabView", "type": "method", "name": "tabChanged"}, {"url": "TabView.html#property_tabContents", "access": "", "host": "TabView", "type": "property", "name": "tabContents"}, {"url": "TabView.html#method_tabRefreshed", "access": "", "host": "TabView", "type": "method", "name": "tabRefreshed"}];
+</script>
+</body>
+</html>

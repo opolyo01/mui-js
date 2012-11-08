@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.ScrollView Paging</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+		
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="../../mui/scroll-view/assets/skins/default/scroll-view-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		
+		<style type="text/css" media="screen">
+        
+        html, body {
+            background: #000;
+			width: 100%;
+        }
+        
+        #container {
+			width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+/*        body[orient=landscape] #container {
+            width: 480px;
+        }*/
+        
+        #slideshow .item {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+			margin-right: 30px;
+        }
+
+		#slideshow .item:last-child {
+			margin-right: 0;
+		}
+        
+        #slideshow img {
+			width: 100%;
+			height: auto;
+            vertical-align: middle;
+            -webkit-transform: translate3d(0, 0, 0); /* Prevent flicker when images are sliding */
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: right;
+        }        
+        
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../scroll-view/js/ScrollView.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.on(window, 'load', function() {
+		    
+		    // Create a paged scroll view
+			var scrollView = new mui.ScrollView({
+				element: '#slideshow',
+				axis: 'x',
+				size: '100%',
+				pagingEnabled: true,
+				paginator: {
+					pageSelector: '.item'
+				},
+				showsHorizontalScrollIndicator: false
+			});
+			
+			// Bind the next and prev UI elements to the pager
+			mui.on('#next', 'click', mui.bind(scrollView.nextPage, scrollView));
+			mui.on('#prev', 'click', mui.bind(scrollView.prevPage, scrollView));
+			
+			// Hide the address bar
+			setTimeout(scrollTo, 0, 1, 200);
+		});
+		</script>
+	</head>
+	
+	<body>
+		<div id="container">
+			<div id="slideshow">
+				<div class="item">
+					<img src="http://virtualfieldtrip.marylynnewilliams.com/BridgingGaps/images/RainbowBridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.sftravel.com/images/goldengate/golden-gate-bridge-3.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.adhwaasinjar.com/butterfly_bridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.richard-seaman.com/Travel/UK/London/Highlights/DigitalTowerBridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://virtualfieldtrip.marylynnewilliams.com/BridgingGaps/images/RainbowBridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.sftravel.com/images/goldengate/golden-gate-bridge-3.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.adhwaasinjar.com/butterfly_bridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.richard-seaman.com/Travel/UK/London/Highlights/DigitalTowerBridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://virtualfieldtrip.marylynnewilliams.com/BridgingGaps/images/RainbowBridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.sftravel.com/images/goldengate/golden-gate-bridge-3.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.adhwaasinjar.com/butterfly_bridge.jpg" />
+				</div>
+				<div class="item">
+					<img src="http://www.richard-seaman.com/Travel/UK/London/Highlights/DigitalTowerBridge.jpg" />
+				</div>
+			</div>
+			
+			<div id="controls">
+			    <span id="prev">Prev</span>
+			    <span id="next">Next</span>
+			</div>
+		</div>
+	</body>
+</html>

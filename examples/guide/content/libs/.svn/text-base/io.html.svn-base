@@ -1,0 +1,6 @@
+<h1>Ajax</h1> 
+ 
+<ul> 
+<li>Fetch external scripts</li> 
+<li>Update elements on a page with content fetched asynchronously from another resource.</li> 
+</ul>

@@ -1,0 +1,98 @@
+YUI().use('node', 'io', 'json-parse', function(Y){
+  var request, onComplete,
+  Viewer = {};
+
+  Viewer._hash = "";
+  
+  /****************************************
+   * Load docs
+   ****************************************/
+
+  Viewer.loadSource = function(){
+    var classname, docframe, hiddenFrame;
+
+    hiddenFrame = document.createElement
+    docframe = document.getElementById('viewer-frame');
+    classname = Viewer._hash.replace('#','');
+    docframe.src = classname+'.html';
+    Viewer.embeddedDoc = (docframe.contentWindow || docframe.contentDocument);
+    // console.log(Viewer.embeddedDoc.frames);
+  }
+
+  /****************************************
+   * Location-related methods/properties
+   ****************************************/
+  Viewer.normalizePath = function(){
+    var path = window.location.pathname,
+    extPattern = /\.(html|php)/;
+
+    path = path.split('/');
+    if (path[path.length-1].match(extPattern)){
+      Viewer.currentClass = path.pop().replace(extPattern,'');
+      path[path.length-1] = path[path.length-1] + '/';
+    }
+    return path.join('/');
+  }
+
+  Viewer.apiDocPath = Viewer.normalizePath().replace("viewer","api");
+
+  Viewer.checkHash = function(){
+    var hash = window.location.hash;
+    if (hash == Viewer._hash)
+      return;
+    else {
+      Viewer._hash = hash;
+      Viewer.handleHashChange(hash);
+    }
+  }
+
+  /****************************************
+   * Build doc DOM nodes
+   ****************************************/
+  Viewer.buildMethodDoc = function(){
+    var classname = Viewer.currentClass,
+    methodContainer = Y.one('#methods ul'),
+    methods = Viewer.classlist[classname].methods,
+    methodNode;
+    console.log(methodContainer);
+    for (var i in methods){
+      methodNode = Viewer.buildMethodNode(methods[i]);
+      methodContainer.insert(methodNode);
+    }
+  }
+
+  Viewer.buildMethodNode = function(methodObj){
+    var node = document.createElement('li');
+    console.log(methodObj);
+    node.innerHTML = methodObj.guessedname;
+    return node;
+  }
+
+  /****************************************
+   * Event Callbacks
+   ****************************************/
+  // Viewer.handleNavClick = function(e){
+  //   e.preventDefault();
+  //   window.location.hash = e.target._node.innerText;
+  // }
+
+  Viewer.handleHashChange = function(hash){
+    Viewer.loadSource();
+    Viewer.buildMethodDoc();
+  }
+
+  // register events
+  Y.on("click",Viewer.handleNavClick, ".nav a");
+  setInterval(Viewer.checkHash, 100);
+
+  // Do Ajax-y things  
+  onComplete = function(transactionId,data){
+    Viewer.apiJson = Y.JSON.parse(data.responseText);
+    Viewer.classlist = Viewer.apiJson.classmap;
+//    Viewer.buildMethodDoc();
+  }
+    
+  Y.on('io:complete',onComplete);
+  request = Y.io(Viewer.apiDocPath + "raw.json");
+})
+

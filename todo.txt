@@ -1,0 +1,24 @@
+- Break Widgets into MVC 
+	view: Button, action-sheet, navigation-bar, pager, popover, scroll-view, search-box, swipe-view, tab-view, transition
+	controllers: web-app
+	model: Ajax, DataSource
+- Create a Component base class for our Widgets
+- Provide render/destroy/sync support to Widgets from base class
+- Possibly re-use the pattern for calling the right event
+		handleEvent : function(event) {
+		    if (typeof(this[event.type]) === 'function')
+		        return this[event.type](event);
+		}
+- Why do we use evals?  don't want to include json lib because of extra size overhead?
+- Is there an elegant way to move mouse events into separate module, so it doesn't add up logic to mobile touch events?
+- Should we remove all the images from buttons (rounded corners) - size improvements?
+- Ways to leverage YUI library (2 or 3)?
+
+Another cool pattern from YUI
+var EVENT = ("ontouchstart" in Y.config.win && !Y.UA.chrome) ? {
+        start: "touchstart",
+        end: "touchend"
+    } : {
+        start: "mousedown",
+        end: "mouseup"
+    },

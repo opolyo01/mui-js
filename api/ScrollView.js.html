@@ -1,0 +1,528 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: scroll-view   ScrollView.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1259613749.22" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1259613749.22" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1259613749.22"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1259613749.22"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_scroll-view.html" title="scroll-view">scroll-view</a>
+	               		
+	               		 <span class="gt"></span> ScrollView.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight" ><pre><span class="c">/**</span>
+<span class="c"> * ScrollView module</span>
+<span class="c"> * @module scroll-view</span>
+<span class="c"> */</span>
+
+<span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+	
+<span class="c">/**</span>
+<span class="c"> * ScrollView class</span>
+<span class="c"> * Provides ability to create a scrollable container.</span>
+<span class="c"> * @class ScrollView</span>
+<span class="c"> * @constructor</span>
+<span class="c"> * @param el {HTMLElement|String} Selector string or HTMLelement for the node</span>
+<span class="c"> * @param heightOrWidth {Number} The height (if y-axis) or width (if x-axis) of the scrollview in px</span>
+<span class="c"> * @param axis {String} Either &#39;x&#39; or &#39;y&#39; determines the axis of scrolling</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">ScrollView</span><span class="o">(</span><span class="nx">el</span><span class="o">,</span> <span class="nx">height</span><span class="o">,</span> <span class="nx">axis</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">element</span> <span class="o">=</span> <span class="o">(</span><span class="k">typeof</span> <span class="nx">el</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span> <span class="o">:</span> <span class="nx">el</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span> <span class="o">||</span> <span class="s1">&#39;100%&#39;</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">=</span> <span class="nx">axis</span> <span class="o">||</span> <span class="s1">&#39;y&#39;</span><span class="o">;</span>
+	<span class="k">this</span><span class="o">.</span><span class="nx">initialize</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c">/**</span>
+<span class="c"> * Private helper for getting the x,y,z translation values</span>
+<span class="c"> * of an element</span>
+<span class="c"> */</span>
+<span class="k">function</span> <span class="nx">_getTranslation</span><span class="o">(</span><span class="nx">el</span><span class="o">)</span>
+<span class="o">{</span>
+	<span class="k">var</span> <span class="nx">trans</span> <span class="o">=</span> <span class="o">[</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">];</span>
+	<span class="k">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nb">window</span><span class="o">.</span><span class="nx">getComputedStyle</span><span class="o">(</span><span class="nx">el</span><span class="o">).</span><span class="nx">webkitTransform</span><span class="o">;</span>
+	<span class="k">var</span> <span class="nx">tSpl</span> <span class="o">=</span> <span class="nx">t</span><span class="o">.</span><span class="nx">replace</span><span class="o">(</span><span class="s1">&#39;)&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">).</span><span class="nx">split</span><span class="o">(</span><span class="s1">&#39;,&#39;</span><span class="o">);</span>
+	<span class="k">if</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="m">1</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="c">/* </span>
+<span class="c">		   For translate(0px, 0px)...</span>
+<span class="c">		   iPhone 2: matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1)</span>
+<span class="c">		   iPhone 3: matrix3d(1,0,0,1,0,0)</span>
+<span class="c">		*/</span>
+		<span class="nx">trans</span><span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="nx">tSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">6</span><span class="o">)</span> <span class="o">?</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">4</span><span class="o">])</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">12</span><span class="o">]);</span>
+		<span class="nx">trans</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="nx">tSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">6</span><span class="o">)</span> <span class="o">?</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">5</span><span class="o">])</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">13</span><span class="o">]);</span>
+		<span class="nx">trans</span><span class="o">[</span><span class="m">2</span><span class="o">]</span> <span class="o">=</span> <span class="o">(</span><span class="nx">tSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">6</span><span class="o">)</span> <span class="o">?</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">6</span><span class="o">])</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">tSpl</span><span class="o">[</span><span class="m">14</span><span class="o">]);</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="nx">trans</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nx">ScrollView</span><span class="o">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="o">{</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Event Dispatcher</span>
+<span class="c">	 * @method handleEvent</span>
+<span class="c">	 * @param e {Event} The events</span>
+<span class="c">	 */</span>
+	<span class="nx">handleEvent</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span> 
+	<span class="o">{</span>
+		<span class="nx">switch</span><span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">type</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">case</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">onTransitionEnd</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousedown&#39;</span><span class="o">:</span>			
+				<span class="k">this</span><span class="o">.</span><span class="nx">onTouchStart</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mousemove&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">onTouchMove</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;touchend&#39;</span><span class="o">:</span>
+			<span class="nx">case</span> <span class="s1">&#39;mouseup&#39;</span><span class="o">:</span>						
+				<span class="k">this</span><span class="o">.</span><span class="nx">onTouchEnd</span><span class="o">(</span><span class="nx">e</span><span class="o">);</span>
+				<span class="k">break</span><span class="o">;</span>
+			<span class="nx">case</span> <span class="s1">&#39;orientationchange&#39;</span><span class="o">:</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">onOrientationChange</span><span class="o">();</span>
+				<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * orientationchange event handler</span>
+<span class="c">	 * @method onOrientationChange</span>
+<span class="c">	 */</span>
+	<span class="nx">onOrientationChange</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="c">// If this method is invoked, the height is set to 100%</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerWidth</span> <span class="o">:</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">;</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+		<span class="k">else</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * transitionEnd event handler</span>
+<span class="c">	 * @method onTransitionEnd</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">onTransitionEnd</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * touchStart event handler</span>
+<span class="c">	 * @method onTouchStart</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">onTouchStart</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(!</span><span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">||</span> <span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span><span class="o">.</span><span class="nx">length</span> <span class="o">==</span> <span class="m">1</span><span class="o">))</span>
+		<span class="o">{</span>
+			<span class="k">var</span> <span class="nx">touch</span> <span class="o">=</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">?</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span><span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">:</span> <span class="nx">e</span><span class="o">;</span>
+			<span class="k">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;header&#39;</span><span class="o">);</span>
+			<span class="k">var</span> <span class="nx">footer</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">get</span><span class="o">(</span><span class="s1">&#39;footer&#39;</span><span class="o">);</span>
+
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+			<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+
+			<span class="k">var</span> <span class="nx">transformSpl</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">getStyle</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="o">).</span><span class="nx">replace</span><span class="o">(</span><span class="s1">&#39;)&#39;</span><span class="o">,</span><span class="s1">&#39;&#39;</span><span class="o">).</span><span class="nx">split</span><span class="o">(</span><span class="s1">&#39;,&#39;</span><span class="o">);</span>
+			<span class="k">var</span> <span class="nx">currentTranslate</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">1</span><span class="o">)</span> <span class="c">// No transform applied</span>
+<span class="c"></span>			<span class="o">{</span>
+				<span class="nx">currentTranslate</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">6</span><span class="o">)</span> <span class="c">// iPhone 3</span>
+<span class="c"></span>			<span class="o">{</span>
+				<span class="nx">currentTranslate</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">[</span><span class="m">4</span><span class="o">])</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">[</span><span class="m">5</span><span class="o">]);</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="c">// iPhone 2</span>
+<span class="c"></span>			<span class="o">{</span>
+				<span class="nx">currentTranslate</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">[</span><span class="m">12</span><span class="o">])</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">(</span><span class="nx">transformSpl</span><span class="o">[</span><span class="m">13</span><span class="o">]);</span>
+			<span class="o">}</span>
+
+			<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="nx">currentTranslate</span><span class="o">,</span> <span class="s1">&#39;0s&#39;</span><span class="o">);</span>
+			
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">pageX</span> <span class="o">=</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientX</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">pageY</span> <span class="o">=</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientY</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientX</span> <span class="o">-</span> <span class="nx">currentTranslate</span> <span class="o">:</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientY</span> <span class="o">-</span> <span class="nx">currentTranslate</span><span class="o">;</span> 
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startClientPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientX</span> <span class="o">:</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientY</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startTime</span> <span class="o">=</span> <span class="o">(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">()).</span><span class="nx">getTime</span><span class="o">();</span>
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">isTouching</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+			<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span> <span class="o">:</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">)</span> <span class="o">*</span> <span class="o">-</span><span class="m">1</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;y&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">header</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">*-</span><span class="m">1</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span> <span class="o">-</span> <span class="nx">header</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;y&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">header</span> <span class="o">&amp;&amp;</span> <span class="nx">footer</span><span class="o">)</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">*-</span><span class="m">1</span><span class="o">)</span> <span class="o">+</span> <span class="o">(</span><span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span> <span class="o">-</span> <span class="nx">header</span><span class="o">.</span><span class="nx">offsetHeight</span> <span class="o">-</span> <span class="nx">footer</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * touchmove event handler</span>
+<span class="c">	 * @method onTouchMove</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">onTouchMove</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">isTouching</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">stopScroll</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">e</span><span class="o">.</span><span class="nx">preventDefault</span><span class="o">();</span>
+			<span class="k">if</span><span class="o">(!</span><span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">||</span> <span class="o">(</span><span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span><span class="o">.</span><span class="nx">length</span> <span class="o">===</span> <span class="m">1</span><span class="o">))</span>
+			<span class="o">{</span>
+				<span class="k">var</span> <span class="nx">touch</span> <span class="o">=</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span> <span class="o">?</span> <span class="nx">e</span><span class="o">.</span><span class="nx">touches</span><span class="o">[</span><span class="m">0</span><span class="o">]</span> <span class="o">:</span> <span class="nx">e</span><span class="o">;</span>
+				<span class="k">var</span> <span class="nx">delta</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientX</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startPos</span> <span class="o">:</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientY</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startPos</span><span class="o">;</span>
+				<span class="k">var</span> <span class="nx">newTranslate</span> <span class="o">=</span> <span class="nx">delta</span><span class="o">;</span>
+
+				<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">endClientPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientX</span> <span class="o">:</span> <span class="nx">touch</span><span class="o">.</span><span class="nx">clientY</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">newTranslate</span><span class="o">);</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">lastMoved</span> <span class="o">=</span> <span class="o">(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">()).</span><span class="nx">getTime</span><span class="o">();</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="nx">newTranslate</span><span class="o">,</span> <span class="s1">&#39;0s&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * touchend event handler</span>
+<span class="c">	 * @method onTouchEnd</span>
+<span class="c">	 * @param e {Event} The event</span>
+<span class="c">	 */</span>
+	<span class="nx">onTouchEnd</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">e</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchmove&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">removeEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchend&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;-webkit-transition-property&#39;</span><span class="o">,</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="o">);</span>
+		
+		<span class="c">// Check staleness</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span> <span class="o">(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">()).</span><span class="nx">getTime</span><span class="o">()</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">lastMoved</span> <span class="o">&gt;</span> <span class="m">75</span> <span class="o">||</span> <span class="nb">Math</span><span class="o">.</span><span class="nx">abs</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">0</span><span class="o">])</span>  <span class="o">&lt;=</span> <span class="m">10</span> <span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="s1">&#39;0.3s&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">,</span> <span class="s1">&#39;0.3s&#39;</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;webkitTransitionEnd&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+		
+		<span class="k">var</span> <span class="nx">translate</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">duration</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">distance</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startClientPos</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">endClientPos</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">timeElapsed</span> <span class="o">=</span> <span class="o">+(</span><span class="k">new</span> <span class="nb">Date</span><span class="o">)</span> <span class="o">-</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">startTime</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">speed</span> <span class="o">=</span> <span class="nx">distance</span> <span class="o">/</span> <span class="nx">timeElapsed</span><span class="o">;</span>
+
+		<span class="c">// Account for min translation</span>
+<span class="c"></span>		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">duration</span> <span class="o">=</span> <span class="s1">&#39;0.3s&#39;</span><span class="o">;</span>
+			<span class="nx">translate</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="c">// Account for max translation</span>
+<span class="c"></span>		<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="nx">duration</span> <span class="o">=</span> <span class="s1">&#39;0.3s&#39;</span><span class="o">;</span>
+			<span class="nx">translate</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="c">// Account for flick</span>
+<span class="c"></span>		<span class="k">else</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nb">Math</span><span class="o">.</span><span class="nx">abs</span><span class="o">(</span><span class="nx">speed</span><span class="o">)</span> <span class="o">&gt;</span> <span class="m">1</span><span class="o">.</span><span class="m">5</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">duration</span> <span class="o">=</span> <span class="s1">&#39;2.5s&#39;</span><span class="o">;</span>
+				<span class="nx">translate</span> <span class="o">=</span> <span class="o">(</span><span class="nx">speed</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">-</span> <span class="m">1500</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">+</span> <span class="m">1500</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nb">Math</span><span class="o">.</span><span class="nx">abs</span><span class="o">(</span><span class="nx">speed</span><span class="o">)</span> <span class="o">&gt;</span> <span class="m">1</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">duration</span> <span class="o">=</span> <span class="s1">&#39;2s&#39;</span><span class="o">;</span>
+				<span class="nx">translate</span> <span class="o">=</span> <span class="o">(</span><span class="nx">speed</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">-</span> <span class="m">800</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">+</span> <span class="m">800</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="nx">duration</span> <span class="o">=</span> <span class="s1">&#39;1s&#39;</span><span class="o">;</span>
+				<span class="nx">translate</span> <span class="o">=</span> <span class="o">(</span><span class="nx">speed</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="o">?</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">-</span> <span class="m">200</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">]</span> <span class="o">+</span> <span class="m">200</span><span class="o">;</span>
+			<span class="o">}</span>			
+			
+			<span class="c">// Don&#39;t go past the boundaries</span>
+<span class="c"></span>			<span class="k">if</span><span class="o">(</span><span class="nx">translate</span> <span class="o">&gt;</span> <span class="m">0</span><span class="o">)</span> <span class="nx">translate</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">translate</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">)</span> <span class="nx">translate</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">.</span><span class="nx">splice</span><span class="o">(</span><span class="m">0</span><span class="o">,</span> <span class="m">1</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">.</span><span class="nx">push</span><span class="o">(</span><span class="nx">translate</span><span class="o">);</span>
+
+		<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">translations</span><span class="o">[</span><span class="m">1</span><span class="o">],</span> <span class="nx">duration</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>		
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Scroll the element to a given y coordinate at a specified time.</span>
+<span class="c">	 * The default transition is a cubic-bezier function.</span>
+<span class="c">	 * @method scrollTo</span>
+<span class="c">	 * @param pos {Number} The x or y position to scroll to</span>
+<span class="c">	 * @param duration {String} How long, i.e. &#39;350ms&#39;</span>
+<span class="c">	 * @timing {String} The timing transition function</span>
+<span class="c">	 */</span>
+	<span class="nx">scrollTo</span><span class="o">:</span> <span class="k">function</span><span class="o">(</span><span class="nx">pos</span><span class="o">,</span> <span class="nx">duration</span><span class="o">,</span> <span class="nx">transition</span><span class="o">)</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">translation</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="s1">&#39;translate3d(&#39;</span><span class="o">+</span><span class="nx">pos</span><span class="o">+</span><span class="s1">&#39;px, 0, 0)&#39;</span> <span class="o">:</span> <span class="s1">&#39;translate3d(0, &#39;</span><span class="o">+</span><span class="nx">pos</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>
+		
+		<span class="nx">transition</span> <span class="o">=</span> <span class="nx">transition</span> <span class="o">||</span> <span class="s1">&#39;cubic-bezier(0, 0.1, 0, 1.0)&#39;</span><span class="o">;</span>
+		<span class="nx">duration</span> <span class="o">=</span> <span class="nx">duration</span> <span class="o">||</span> <span class="s1">&#39;350ms&#39;</span><span class="o">;</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;-webkit-transition-timing-function&#39;</span><span class="o">,</span> <span class="nx">transition</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;-webkit-transition-duration&#39;</span><span class="o">,</span> <span class="nx">duration</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">setStyle</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">,</span> <span class="s1">&#39;-webkit-transform&#39;</span><span class="o">,</span> <span class="nx">translation</span><span class="o">);</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Lock the ScrollView, preventing it from scrolling </span>
+<span class="c">	 * @method lockScroll</span>
+<span class="c">	 */</span>
+	<span class="nx">lockScroll</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span> 
+	<span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="nx">scrollInfo</span><span class="o">.</span><span class="nx">stopScroll</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="o">},</span>
+
+	<span class="c">/**</span>
+<span class="c">	 * Return a reference to the root HTML node</span>
+<span class="c">	 * @method getElement</span>
+<span class="c">	 * @return {HTMLElement} The root node</span>
+<span class="c">	 */</span>
+	<span class="nx">getElement</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span> 
+	<span class="o">{</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">;</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * This method renders the element into a texture by setting </span>
+<span class="c">	 * an initial translation. It then positions it off-screen </span>
+<span class="c">	 * (minus 1px) and scrolls the element via translations until</span>
+<span class="c">	 * the entire element&#39;s content has been rendered in the texture.</span>
+<span class="c">	 * Finally, it is placed back on screen.</span>
+<span class="c">	 * @method renderTexture</span>
+<span class="c">	 */</span>
+	<span class="nx">renderTexture</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span>
+	<span class="o">{</span>
+		<span class="k">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="m">0</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">offsetHeight</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">l</span> <span class="o">=</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerWidth</span> <span class="o">-</span> <span class="m">1</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">transY</span> <span class="o">=</span> <span class="nx">_getTranslation</span><span class="o">(</span><span class="nx">el</span><span class="o">)[</span><span class="m">1</span><span class="o">];</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerWidth</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;0s&#39;</span><span class="o">;</span>
+		<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(-&#39;</span><span class="o">+</span><span class="nx">l</span><span class="o">+</span><span class="s1">&#39;px, &#39;</span><span class="o">+</span><span class="nx">transY</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>
+		<span class="k">var</span> <span class="nx">pid</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="o">(</span><span class="k">function</span><span class="o">()</span> <span class="o">{</span>
+			<span class="nx">c</span> <span class="o">+=</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerHeight</span><span class="o">;</span>
+			<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(-&#39;</span><span class="o">+</span><span class="nx">l</span><span class="o">+</span><span class="s1">&#39;px, -&#39;</span><span class="o">+</span><span class="nx">c</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">c</span> <span class="o">&gt;=</span> <span class="nx">max</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">clearInterval</span><span class="o">(</span><span class="nx">pid</span><span class="o">);</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransitionDuration</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">webkitTransform</span> <span class="o">=</span> <span class="s1">&#39;translate3d(0, &#39;</span><span class="o">+</span><span class="nx">transY</span><span class="o">+</span><span class="s1">&#39;px, 0)&#39;</span><span class="o">;</span>
+				<span class="nx">el</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">},</span> <span class="m">0</span><span class="o">);</span>
+	<span class="o">},</span>
+	
+	<span class="c">/**</span>
+<span class="c">	 * Initialize the scroll view.</span>
+<span class="c">	 * @method initialize</span>
+<span class="c">	 */</span>
+	<span class="nx">initialize</span><span class="o">:</span> <span class="k">function</span><span class="o">()</span> 
+	<span class="o">{</span>
+		
+		<span class="c">// Initialize touch info object</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span> <span class="o">=</span> <span class="o">{</span>
+			<span class="nx">target</span><span class="o">:</span> <span class="kc">null</span><span class="o">,</span>
+			<span class="nx">pageX</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+			<span class="nx">pageY</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+			<span class="nx">isTouching</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">isScrolling</span><span class="o">:</span> <span class="kc">false</span><span class="o">,</span>
+			<span class="nx">startPos</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+			<span class="nx">translations</span><span class="o">:</span> <span class="o">[</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">],</span>
+			<span class="nx">lastMoved</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+			<span class="nx">maxPos</span><span class="o">:</span> <span class="m">0</span><span class="o">,</span>
+			<span class="nx">stopScroll</span><span class="o">:</span> <span class="kc">false</span>
+		<span class="o">};</span>
+
+		<span class="c">// Create wrapper element</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">mui</span><span class="o">.</span><span class="nx">createElement</span><span class="o">(</span><span class="s1">&#39;div&#39;</span><span class="o">);</span>
+		
+		<span class="c">// Clean element</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">childNodes</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">c</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">c</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="m">3</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nb">document</span><span class="o">.</span><span class="nx">createTextNode</span><span class="o">(</span><span class="nx">c</span><span class="o">.</span><span class="nx">wholeText</span><span class="o">));</span>
+			<span class="o">}</span>
+			<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="nx">c</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="m">1</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="nx">c</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+		<span class="nx">mui</span><span class="o">.</span><span class="nx">each</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">childNodes</span><span class="o">,</span> <span class="k">function</span><span class="o">(</span><span class="nx">c</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="nx">c</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="o">.</span><span class="nx">nodeType</span> <span class="o">===</span> <span class="m">3</span><span class="o">)</span> <span class="nx">c</span><span class="o">.</span><span class="nx">parentNode</span><span class="o">.</span><span class="nx">removeChild</span><span class="o">(</span><span class="nx">c</span><span class="o">);</span>
+		<span class="o">},</span> <span class="k">this</span><span class="o">);</span>
+
+		<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">appendChild</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">);</span>
+
+		<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">)</span>
+		<span class="o">{</span>
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">height</span> <span class="o">===</span> <span class="s1">&#39;100%&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="nb">window</span><span class="o">,</span> <span class="s1">&#39;orientationchange&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span> <span class="o">?</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerWidth</span> <span class="o">:</span> <span class="nb">window</span><span class="o">.</span><span class="nx">innerWidth</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">axis</span> <span class="o">===</span> <span class="s1">&#39;x&#39;</span><span class="o">)</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">touchInfo</span><span class="o">.</span><span class="nx">maxPos</span> <span class="o">=</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">wrapper</span><span class="o">.</span><span class="nx">offsetWidth</span><span class="o">-</span><span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">)*-</span><span class="m">1</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">width</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">overflowX</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">else</span>
+			<span class="o">{</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">height</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="nx">height</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="o">;</span>
+				<span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">.</span><span class="nx">style</span><span class="o">.</span><span class="nx">overflowY</span> <span class="o">=</span> <span class="s1">&#39;hidden&#39;</span><span class="o">;</span>				
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="c">// this.wrapper.style.webkitTransform = &#39;translate3d(0,0,0)&#39;;</span>
+<span class="c"></span>		<span class="k">this</span><span class="o">.</span><span class="nx">scrollTo</span><span class="o">(</span><span class="m">0</span><span class="o">);</span>
+		
+		<span class="c">// Initialize element events</span>
+<span class="c"></span>		<span class="nx">mui</span><span class="o">.</span><span class="nx">on</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="nx">element</span><span class="o">,</span> <span class="s1">&#39;touchstart&#39;</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>	
+	<span class="o">}</span>
+
+<span class="o">};</span>
+
+<span class="nx">mui</span><span class="o">.</span><span class="nx">ScrollView</span> <span class="o">=</span> <span class="nx">ScrollView</span><span class="o">;</span>
+
+<span class="o">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_framework.html" title="framework">framework</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_loader.html" title="loader">loader</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class="selected"><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_swipe-view.html" title="swipe-view">swipe-view</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="ScrollView.html" title="ScrollView">ScrollView</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="ScrollView.js.html" title="ScrollView.js">ScrollView.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2009 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "ScrollView.html#method_getElement", "access": "", "host": "ScrollView", "type": "method", "name": "getElement"}, {"url": "ScrollView.html#method_handleEvent", "access": "", "host": "ScrollView", "type": "method", "name": "handleEvent"}, {"url": "ScrollView.html#method_initialize", "access": "", "host": "ScrollView", "type": "method", "name": "initialize"}, {"url": "ScrollView.html#method_lockScroll", "access": "", "host": "ScrollView", "type": "method", "name": "lockScroll"}, {"url": "ScrollView.html#method_onOrientationChange", "access": "", "host": "ScrollView", "type": "method", "name": "onOrientationChange"}, {"url": "ScrollView.html#method_onTouchEnd", "access": "", "host": "ScrollView", "type": "method", "name": "onTouchEnd"}, {"url": "ScrollView.html#method_onTouchMove", "access": "", "host": "ScrollView", "type": "method", "name": "onTouchMove"}, {"url": "ScrollView.html#method_onTouchStart", "access": "", "host": "ScrollView", "type": "method", "name": "onTouchStart"}, {"url": "ScrollView.html#method_onTransitionEnd", "access": "", "host": "ScrollView", "type": "method", "name": "onTransitionEnd"}, {"url": "ScrollView.html#method_renderTexture", "access": "", "host": "ScrollView", "type": "method", "name": "renderTexture"}, {"url": "ScrollView.html#method_scrollTo", "access": "", "host": "ScrollView", "type": "method", "name": "scrollTo"}];
+</script>
+</body>
+</html>

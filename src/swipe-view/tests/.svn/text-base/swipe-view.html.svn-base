@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.SwipeView</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<style type="text/css" media="screen">
+		html, body { margin: 0; padding: 0; font: 16px Helvetica; min-height: 460px; background: #fff; }
+		ul, li { margin: 0; padding: 0; list-style-type: none; }
+		header { position: relative; z-index: 2; }
+		footer { position: absolute; bottom: 0; z-index: 2; }
+		header, footer { background: black; display: block; width: 100%; height: 40px; color: #fff; }
+		#the-element { z-index: 1; }
+		#the-element li { font-size: 90px; font-weight: bold; text-align: center; padding-top: 50px; }
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../swipe-view/js/SwipeView.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.setLogLevel('trace');
+		mui.on(window, 'load', function() {
+			var swipeView = new mui.SwipeView( { element: '#the-element' } );
+			setTimeout(scrollTo, 100, 0, 1);
+			// mui.on(document.body, 'touchmove', function(e) { e.preventDefault(); });
+		});
+		</script>
+	</head>
+	
+	<body>
+		<div id="the-element">
+			<ul>
+				
+				<li>
+					<img src="http://farm3.static.flickr.com/2534/4009711388_66ae983c7e_m.jpg" />
+				</li>
+				<li>
+					<img src="http://farm3.static.flickr.com/2666/4007267005_aa5cae7de6_m.jpg" />
+				</li>
+				<li>
+					<img src="http://farm3.static.flickr.com/2666/4007267005_aa5cae7de6_m.jpg" />
+				</li>
+				<li>
+					<img src="http://farm3.static.flickr.com/2666/4007267005_aa5cae7de6_m.jpg" />
+				</li>
+				<li>
+					<img src="http://farm3.static.flickr.com/2666/4007267005_aa5cae7de6_m.jpg" />
+				</li>
+				<li>
+					<img src="http://farm3.static.flickr.com/2666/4007267005_aa5cae7de6_m.jpg" />
+				</li>
+				
+			</ul>
+		</div>
+	</body>
+</html>

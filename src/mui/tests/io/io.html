@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		
+		<style type="text/css" media="screen">
+			body { min-height: 480px; font-size: 40px; }
+		</style>
+		
+		<script src="../../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		
+		function appendScript(){
+			mui.getScript('hello.js', {
+				callback: {
+					success: function(o) {
+						alert('GET JS response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('GET JS failure');
+					}
+				}
+			});
+		}
+		
+		function callback(){
+			alert("hello.js is appended to head");
+		}
+		
+		function doGet()
+		{
+			mui.io('get.html', {
+				callback: {
+					success: function(o) {
+						alert('GET response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('GET failure');
+					}
+				}
+			});
+		}
+		
+		function doPost()
+		{
+			mui.io('post.html', {
+				method: 'post',
+				callback: {
+					success: function(o) {
+						alert('POST response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('POST failure');
+					}
+				}
+			});
+		}
+		
+		function doPostWithHeaders()
+		{
+			document.cookie = 'keyCookie=Cookie Value; expires=Fri, 3 Aug 2011 20:47:11 UTC; path=/';
+			mui.io('postHeaders.html', {
+				method: 'post',
+				headers: [
+					{ 'Content-Type': 'application/x-www-form-urlencoded',
+					'Cookie': document.cookie }
+				],
+				callback: {
+					success: function(o) {
+						alert('POST response: '+o.responseText);
+					},
+					failure: function(o) {
+						alert('POST failure');
+					}
+				}
+			});
+		}
+		
+		mui.on(document, 'DOMContentLoaded', function() {
+				document.cookie = 'keyCookie=datastore cookie Value; expires=Fri, 3 Aug 2011 20:47:11 UTC; path=/';	mui.io("http://yosgamma.internal.query.yahoo.com/v1/public/yql?q=select%20*%20from%20Movies.Mobile.Html5.MovieTheaters%20where%20yprop%3D%22mobile%22%20and%20lat%3D%2237.3688889%22%20and%20lon%3D%22-122.0352778%22%20and%20sortby%3D%22adistance%22&format=json&env=http%3A%2F%2Fdev-mps1-vm5.mobile.sp2.yahoo.com%2Fyql%2FMovies.Mobile.Html5.env&debug=true&diagnostics=true",     
+				{ method: 'get',
+				        headers: [ { 'Cookie': "document.cookie", }],
+				        callback: { success: this.loadTheaters, scope: this }
+				});
+			mui.on('#append-script', 'click', appendScript);	
+			mui.on('#xhr-get', 'click', doGet);
+			mui.on('#xhr-post', 'click', doPost);
+			mui.on('#xhr-post-headers', 'click', doPostWithHeaders);						
+			
+		});
+		
+		</script>
+	</head>
+	
+	<body>
+		<button id="append-script">Append hello.js</button><br/>
+		<button id="xhr-get">GET</button><br/>
+		<button id="xhr-post">POST</button><br/>
+		<button id="xhr-post-headers">POST w/ headers</button><br/>
+	</body>
+</html>

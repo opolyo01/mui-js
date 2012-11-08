@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.ScrollView Paging</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<style type="text/css" media="screen">
+      #slideshow { z-index: 1 }
+      #slideshow li { height: 100%; text-align: center }
+		</style>
+		
+		<script src="../js/mui/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../swipe-view/js/SwipeView.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.on(window, 'load', function() {
+			var swipeView = new mui.SwipeView({
+				element: '#slideshow'
+			});
+    });
+		</script>
+	</head>
+	
+	<body>
+    <ul id="slideshow">
+      <li>
+        <img src="http://farm4.static.flickr.com/3075/2780196013_b5e2db2286.jpg" />
+      </li>
+      <li>
+        <img src="http://farm3.static.flickr.com/2331/2179925802_d41fc4a497.jpg" />
+      </li>
+      <li>
+        <img src="http://farm3.static.flickr.com/2110/2488800747_fe080c16f9.jpg" />
+      </li>
+    </ul>
+	</body>
+</html>

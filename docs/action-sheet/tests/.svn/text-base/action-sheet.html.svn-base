@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+		<style type="text/css" media="screen">
+			body, html { margin: 0; padding: 0; font: 16px Helvetica; min-height: 460px; }
+			button, input[type="button"] { width: 75%}
+			#toolbar 
+			{
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#fff), 
+					to(#dedede),
+					color-stop(.3, #fdfdfd)
+					); 
+				height:460px;
+				padding-top:50px; 
+			}
+			
+			.mui-button-default { 
+				-webkit-border-radius: 6px; 
+				-webkit-tap-highlight-color: rgba(0,0,0,0);  
+				-webkit-appearance: none; 
+				padding: 6px 9px; 
+				color: #fff; 
+				font-weight: bold; 
+				font-size: 16px; 
+				text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+				border: 1px solid #4177a1; 
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#5ba2d8), 
+					to(#006ec2),
+					color-stop(.49, #1d7ec9),
+					color-stop(.50, #0772c4)
+				); 
+			}
+			.mui-button-default:active { 
+				border-top: 1px solid #BED3F9;
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(176,183,202);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#0c69f5),
+					to(#0036da)
+				);
+			}
+
+			.mui-button-mail{ 
+				-webkit-border-radius: 6px; 
+				-webkit-tap-highlight-color: rgba(0,0,0,0);  
+				-webkit-appearance: none; 
+				padding: 6px 9px; 
+				color: #5e605e; 
+				font-weight: bold; 
+				font-size: 15px; 
+				text-shadow: 0 1px 1px rgb(255,255,255);
+				border: 1px solid #b2b2b2; 
+				border-bottom: 1px solid #c2c2c2; 
+				border-top: 2px solid #d6d6d6;
+				-webkit-box-shadow: 0 1px 1px rgb(255,255,255);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#fff), 
+					to(#DEE0E2),
+					color-stop(.49, #ECECEC),
+					color-stop(.50, #D9DAD9)
+				); 
+			}
+			.mui-button-mail:active { 
+				border: 1px solid #b8b8b8;
+				color: #fff;
+				text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(176,183,202);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#e0e0e0),
+					to(#a9aaaa),
+					color-stop(.49, #cacccc),
+					color-stop(.50, #c2c4c5)
+				);
+			}
+
+			.mui-button-submit{ 
+				-webkit-border-radius: 6px; 
+				-webkit-tap-highlight-color: rgba(0,0,0,0);  
+				-webkit-appearance: none; 
+				padding: 6px 9px; 
+				color: #fff; 
+				font-weight: bold; 
+				font-size: 15px; 
+				text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+				border: 1px solid #264262; 
+				border-top: 1px solid #869EB7;
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(112,133,155);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#507092), 
+					to(#2D4F74),
+					color-stop(.49, #304F70),
+					color-stop(.50, #234265)
+				); 
+			}
+			.mui-button-submit:active { 
+				border-top: 1px solid #BED3F9;
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(176,183,202);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#0c69f5),
+					to(#0036da)
+				);
+			}
+
+			.mui-button-warning{ 
+				-webkit-border-radius: 6px; 
+				-webkit-tap-highlight-color: rgba(0,0,0,0);  
+				-webkit-appearance: none; 
+				padding: 6px 9px; 
+				color: #fff; 
+				font-weight: bold; 
+				font-size: 15px; 
+				text-shadow: 0 -1px 1px rgba(0,0,0,0.7); 
+				border: 1px solid #965550; 
+				border-top: 1px solid #D79597; 
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(150,85,80);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(#C35C5D), 
+					to(#AA2726),
+					color-stop(.49, #AC2828),
+					color-stop(.50, #91230F)
+				); 
+			}
+			.mui-button-warning:active { 
+				border-top: 1px solid #C38586; 
+				-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.4),0px -1px 1px rgb(150,85,80);
+				background: -webkit-gradient(linear, 
+					left top, 
+					left bottom, 
+					from(rgb(164,68,67)), 
+					to(rgb(127,31,35)),
+					color-stop(.49, rgb(128,28,28)),
+					color-stop(.50, rgb(102,25,15))
+				); 
+			}
+		</style>
+		<link rel="stylesheet" href="../../action-sheet/assets/skins/default/action-sheet-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../action-sheet/js/ActionSheet.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		mui.on(window, 'load', function() {
+			
+			function destroy()
+			{
+				alert('destroy');
+			}
+			
+			function option1()
+			{
+				alert('Option 1');
+			}
+			
+			var actionSheet = new mui.ActionSheet({
+				title: 'Blah blah blah blah blah',
+				destructiveButton: {
+					title: 'Destroy!',
+					action: destroy
+				},
+				otherButtons: [
+					{ title: 'Option 1', action: option1 },
+					{ title: 'Option 2 with a really long title', action: 'http://yahoo.com/' }
+				],
+				cancelButton: {
+					title: 'Cancel'
+				}
+			});
+
+			mui.on('#click-me', 'click', mui.bind(actionSheet.show, actionSheet));
+			
+			setTimeout(scrollTo, 100, 0, 1);
+			
+		});
+		</script>
+		
+		<style type="text/css" media="screen">
+		input[type="checkbox"] {
+			width: 30px;
+			height: 30px; 
+			-webkit-appearance: none;
+			-webkit-border-radius: 14px;
+			border: 3px solid #999;
+			background: #fff;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+		}
+		input[type="checkbox"]:checked {
+			background: yellow;
+			-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+		}
+		</style>
+	</head>
+	
+	<body>
+	<div id="toolbar">
+		<div id="main" style="font-size:40px; text-align: center; line-height: 1.4em; font-weight: bold; padding:0 0;">
+			
+			<input type="checkbox" name="some_name" value="Radio button" />
+			<br/><br/>
+			
+			<button id="click-me" class="mui-button-default">Click Me(ActionSheet)</button>
+			<button class="mui-button-mail">Check </button>
+			<input class="mui-button-submit" type="button" name="test" value="Submit Button" />
+			<input class="mui-button-warning" type="button" name="test" value="Warning Button" />
+		</div>
+	</div>
+	</body>
+</html>

@@ -1,0 +1,91 @@
+.mui-actionsheet { 
+	background: rgba(0,0,0,0.9);
+	position: absolute; 
+	overflow: hidden;
+	width: 0;
+	height: 0;
+	top: 0;
+	left: 0;
+	width: 100%; 
+	opacity: 0;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 350ms;
+}
+
+.mui-actionsheet[x-mui-showing=true] {
+	visibility: visible;
+	overflow: visible;
+	width: 100%;
+	height: auto;
+	opacity: 1;
+	z-index: 10000;
+}
+
+.mui-actionsheet > .mui-actioncontainer { 
+	background: -webkit-gradient( linear, left top, left bottom, from(rgba(200,205,212,0.9)), color-stop(0.01, rgba(180,185,197,0.9)), color-stop(0.22, rgba(111,122,139,0.9)), color-stop(0.221, rgba(94,104,125,0.9)), to(rgba(51,65,81,0.9)) ); 
+	border-top: 1px solid rgba(22,26,37,0.9);
+	padding: 8px;	
+	position: absolute;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-webkit-transform: translate3d(0, 100%, 0);
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 200ms;
+	-webkit-transition-timing-function: linear;
+}
+
+.mui-actionsheet .mui-title {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	margin-bottom: 12px;
+	text-align: center;
+	font-size: 93%;
+}
+
+.mui-action-button {
+	padding: 10px 0;
+	-webkit-border-image: url(buttons.png) 0 13 154 13; 
+	border-width: 0 13px 0 13px;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.mui-action-button .mui-action-a {
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	text-decoration: none;
+	font-weight: bold; 	
+	font-size: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;	
+}
+
+.mui-action-button.mui-depressed {
+	-webkit-border-image: url(buttons.png) 154 13 0 13 !important;  	
+}
+
+.mui-action-button.mui-depressed .mui-action-a {
+	color: #fff !important;
+	text-shadow: 0 -1px 0 #000 !important;	
+}
+
+.mui-action-button.mui-cancel {
+	-webkit-border-image: url(buttons.png) 54 13 100 13; 
+}
+
+.mui-action-button.mui-cancel .mui-action-a {
+	color: #fff;
+	text-shadow: 0 -1px 0 #000;	
+}
+
+.mui-action-button.mui-destructive {
+	-webkit-border-image: url(buttons.png) 104 13 50 13; 
+}
+
+.mui-action-button.mui-destructive .mui-action-a {
+	color: #fff;
+	text-shadow: 0 -1px 0 #000;	
+}

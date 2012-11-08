@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mui Navigator</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<style type="text/css" media="screen">
+			html, body { margin: 0; padding: 0; font: 16px Helvetica; }
+			
+			body > * { display: none; }
+		</style>
+		
+		<script src="../../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../../navigator/js/Navigator.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.on(window, 'load', function() {
+				// Create the navigator instance
+				var navigator = new mui.Navigator();
+				navigator.openUrl('page1');
+			});
+		</script>
+	</head>
+
+	<body>
+
+		<div id="page1" x-mui-href="page1.html">
+		</div>
+		
+		<div id="page2">
+			page 2
+		</div>
+		
+	</body>
+</html>

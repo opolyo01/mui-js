@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		<link rel="stylesheet" href="../../search-box/assets/skins/default/search-box-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="../../tab-view/assets/skins/default/tab-view-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="../../navigation-bar/assets/skins/default/navigation-bar-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+
+		<style type="text/css" media="screen">
+			#tabs {
+				background: -webkit-gradient(linear, left top, left bottom, from(#304d97), to(#0d102d), color-stop(0.48, #1d295a));
+				padding: 10px 8px 0 8px;
+			}
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../tab-view/js/TabView.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../search-box/js/SearchBox.js" type="text/javascript" charset="utf-8"></script>		
+		<script src="../../navigation-bar/js/NavigationBar.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			mui.on(window, 'load', function() {
+
+			// Create a tabview
+			var tabView = new mui.TabView('#tabs', {
+				tabContents: [ '#page-1', '#page-2', '#page-3' ]
+			});
+
+			// Create a navigation bar
+			var navigationBar = new mui.NavigationBar();
+			
+			// Create a search box
+			var searchBox = new mui.SearchBox({
+				placeholder: 'search...'
+			});
+			
+			// Set initial title for navigtion bar and show it
+			navigationBar.setTitle('Tab 1 Title');
+			navigationBar.show();
+			
+			tabView.tabChanged = function(index)
+			{
+				switch(index)
+				{
+					case 0:
+						navigationBar.setBack(null);
+						navigationBar.setTitle('Tab 1 Title');
+						break;
+					case 1:
+						navigationBar.setBack(null);
+						navigationBar.setTitle(searchBox);
+						break;
+					case 2:
+						navigationBar.setBack('Back', function() {
+							alert('Clicked Back!');
+						});
+						navigationBar.setTitle('Tab 3 Title');
+						break;
+				}
+			};
+			
+			});
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<div id="tabs">
+				<ul>
+					<li class="mui-selected"><a href="#">Tab 1</a></li>
+					<li><a href="#">Tab 2</a></li>
+					<li><a href="#">Tab 3</a></li>
+				</ul>
+			</div>
+		</header>
+
+		<div id="main">
+			
+							<div id="page-1">
+			In lobortis, metus eu feugiat molestie, diam magna tincidunt lacus, ut rutrum odio mauris fringilla diam. Proin pulvinar elementum tellus nec interdum. Donec et euismod nulla. Etiam quis nunc metus, et mollis erat. Fusce id leo est, in faucibus purus. Nullam metus velit, varius et lobortis vel, dignissim ac ante. Integer consequat dictum leo a pretium. Donec neque risus, faucibus in eleifend aliquet, tempus ut tellus. Sed imperdiet quam vel nunc semper vulputate. Aenean vel ante arcu, sagittis malesuada ipsum. Maecenas iaculis, velit ut bibendum ornare, sapien erat pellentesque sem, ac gravida augue risus vitae sapien. Etiam et justo in lorem bibendum iaculis et ut erat. Mauris blandit arcu ac felis semper et iaculis mi porta. Ut accumsan aliquam faucibus. Aenean gravida interdum lorem in condimentum. Phasellus vel felis sed odio eleifend mattis eget sed orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer tempor aliquet purus, vitae malesuada lectus commodo nec. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</div>
+
+							<div id="page-2">
+			Pellentesque non risus velit, quis accumsan arcu. Vestibulum id lectus eu libero venenatis pharetra. Morbi ullamcorper malesuada diam, id facilisis leo dignissim a. Etiam tempor, lectus a mollis commodo, purus erat ullamcorper mi, vel gravida libero neque ut eros. Nunc quis elit est, condimentum imperdiet augue. Suspendisse sit amet sapien tristique lorem dictum auctor. Sed et augue arcu, eu ultrices odio. Mauris arcu odio, vestibulum non pulvinar et, varius vel tortor. Aliquam eu lectus ipsum, nec tristique felis. Nunc metus nisl, faucibus eget viverra et, laoreet sed lacus. Aliquam fermentum lectus eget nunc interdum blandit. Nulla ut tellus sed enim consectetur vulputate. Duis eu magna laoreet orci porta hendrerit ut vitae tellus. Proin pulvinar tellus purus, a placerat mauris.
+							</div>
+
+							<div id="page-3">
+			Integer erat augue, rhoncus sed euismod a, dignissim et leo. Pellentesque ac scelerisque leo. Phasellus gravida adipiscing feugiat. Maecenas volutpat massa vitae purus ornare consequat ut eu dolor. Aliquam pretium, augue sed vestibulum lacinia, erat nisl dignissim justo, quis sodales lacus orci ac dui. Curabitur adipiscing, tellus at molestie placerat, est eros faucibus nibh, at tempor elit tellus a nunc. Maecenas ut justo ac enim posuere dapibus. Morbi dolor justo, laoreet id euismod ac, viverra ut diam. Morbi nec posuere tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus auctor consectetur varius. Aliquam erat volutpat. Pellentesque eget nunc dolor, et fermentum libero. Duis blandit, sem eget laoreet gravida, risus nisi molestie turpis, iaculis scelerisque diam lorem at tellus. Vivamus suscipit turpis quis elit elementum dapibus. Fusce faucibus est purus, ultricies pretium magna. Maecenas consectetur sagittis bibendum. Etiam convallis accumsan orci, at congue felis congue a.
+							</div>
+		</div>
+	</body>
+</html>

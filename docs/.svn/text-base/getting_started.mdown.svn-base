@@ -1,0 +1,243 @@
+## Getting Started with MUI
+
+### Getting the code
+You can get the MUI source in a few ways, depending on your particular needs.
+
+* End-users who simply want the latest stable release of MUI can simply link to the library code in a script tag like so:
+
+      `<script src="http://us.i1.yimg.com/us.yimg.com/combo?mui/1.0.0/build/mui/mui.js"></script>`
+
+The source links are combo-handled, so to include multiple modules, you just add the path to the library as another url parameter. For instance, if you wanted to include the ScrollView module along with the MUI core, you would use this URL:
+
+        http://us.i1.yimg.com/us.yimg.com/combo?mui/1.0.0/build/mui/mui-min.js&mui/1.0.0/build/scroll-view/scroll-view-min.js
+
+The paths for each module can be determined by looking at the source tree in [Subversion](http://svn.corp.yahoo.com/view/yahoo/mobile/web/mui/trunk/)
+. Additionally, if you want the unminified source, simply omit the `-min` from the filename.
+
+* Alternatively, you can get MUI by [downloading an archive of the most recent release](http://mui.corp.yahoo.com/releases/mui-1.0.0.zip).
+* Lastly, if you want to help develop MUI, you can [check out the full source from Subversion](http://svn.corp.yahoo.com/view/yahoo/mobile/web/mui/trunk/)
+
+### MUI basics
+
+Even if you're not using MUI's full-stack MVC capabilities, you can still take advantage of the lightweight but powerful utility methods that provide the kinds of functionality you might be used to from desktop Javascript libraries. MUI gives you a simple way to interact with the DOM, handle events, perform animations, as well as several other tasks. Let's take a look at how to perform some common tasks with MUI.
+
+#### DOM Manipulation
+
+MUI's DOM class gives you simple methods to traverse and manipulate the HTML DOM. Some common things you can do with the DOM class are:
+
+* Create a new element and append it to the DOM
+* Query the DOM for elements matching a CSS selector expression
+* Programmatically change an element's style
+
+Most of the time you'll be querying the DOM via the `mui.get()` and `mui.getAll()` methods. Each of these methods takes a CSS selector matching the element(s) you want to get back, and (optionally) a node at which to start the search (without that second argument, the whole document will be searched).
+
+For instance, say we wanted to find the first list item that is the child of a list with the id `nav` and set a background color on it.
+
+Here's the markup we're talking about:
+
+    <ul id="nav">
+      <li>Item one</li>
+      <li>Item two</li>
+      <li>Item three</li>
+    </ul>
+
+First we get the `li` via the `mui.get()` method:
+
+    var listEl = mui.get('#nav li');
+    
+Notice that there are actually three list items that match the selector we specified. However, `mui.get()` returns only the first element that the selector matches. Had we instead used `mui.getAll()`, it would have returned an array of all of the matching elements.
+
+Now that we've got our node picked out, we can then set the style via the `mui.setStyles()`:
+
+    mui.setStyles(listEl,{'background-color':'red'});
+    
+That's it!
+
+It's worth pointing out that we technically did not need to go through the first step of getting the DOM node via the `mui.get` method since `mui.setStyle()` accepts either a DOM node or a CSS selector as its first argument, so it can fetch an element on its own. Both techniques work equally well, although if you're planning on doing anything else with the element after setting the style, it's better to do it the way we've just done.
+
+For more information on the MUI DOM methods, check out the API documentation for the DOM class.
+
+#### Ajax
+
+* Fetch external scripts
+* Update elements on a page with content fetched asynchronously from another resource.
+
+#### Event Handling
+
+MUI's Event class provides several methods for working with events. Use MUI's event methods to:
+
+* Make browser touch events behave more like native touch events.
+* Add support for touch events to browsers that don't have it.
+* Attach and remove event handlers, optionally specifying the scope in which to execute the callback.
+
+As an example, imagine we wanted to display an alert whenever a user tapped on a particular link. First we'd query the DOM for the element containing the link we want to work with, and then we would attach the event listener to the element using the `mui.on()` method. Say this is the link on which we want to listen for events:
+
+    <a href="foo.html" id="alertLink">Touch here</a>
+
+Adding the event handler is as simple as this:
+
+    // get the link element
+    var alertLink = mui.get('#alertLink');
+    
+    // attach the event handler
+    mui.on(alertLink,'touchstart',function(e){
+        e.preventDefault();  // don't follow the link
+        alert('I'm touched')
+    },this,false);
+    
+So we just pass in the element we care about, tell it what event we want it to respond to, and then pass in a function that should be executed when the event occurs. The other arguments are important too, but you probably won't change their values very often, so let's leave them alone for now.
+
+##### Touch Events
+
+A quick note about how MUI deals with touch events. Most of how MUI handles touch events goes on behind the scenes, so you won't interact with MUI's touch methods directly. Essentially, MUI just provides support for touch events on devices that don't support it natively, and it normalizes how touch events "feel" to the user. Again, this is all stuff that you won't need to worry about, but you should know that MUI is taking care of it for you.
+
+#### Animation
+
+MUI's Animation class lets you Easily take advantage of browser-native animation capabilities. Any CSS property can be animated, from `border-width` to `background-color` to `position`. Under the hood, all of these animations utilize Webkit's transition and transformation functions, so they're going to be fast, smooth, and hardware-accelerated (where the device supports it).
+
+A simple example might involve animating an element to move diagonally 100 pixels down and to the right. All you'd have to do is something like this:
+
+    mui.animate('#my-animated-element', {
+      properties: {
+        /* Any CSS properties can be used in here. 
+           We just happen to be animating position */
+        top: '100px',
+        left: '100px' 
+      },
+      duration: '0.5s' // How long the animation should take to complete
+    });
+
+And that's all you need to do to animate CSS properties.
+
+Note: to animate an element's position, you don't need to worry about whether there is already a position style property set--the library will handle that for you.
+
+Note also that in this instance, we went ahead and took advantage of the fact that any method in MUI that takes an element as an argument will also take a selector.
+
+### Building Webapps with MUI
+
+While the MUI library has a robust set of utilities for day to day DOM scripting and Ajax, it also includes a full Model View Controller (MVC) framework for building web applications (although only the View and Controller components are currently used).
+
+In addition to giving you the architechture you need right out of the box, you also get:
+
+* A library of common mobile-style UI widgets
+* Back-button and history support via URL hashes
+* Native-looking, Cocoa-style transitions (fade, slide, card flip, etc.)
+* Native-like scrolling
+
+There's lots more, but you get the idea. Basically, MUI lets you quickly build mobile web applications that are as fast and responsive as native apps. So let's dive in and see how it all works.
+
+#### MUI Controllers
+
+Most of the code you write while building a MUI app will end up in some kind of controller.
+
+##### Application Controller
+
+Application controllers, as you may have guessed, are the main controllers that administer views and manage an application's state. They act as "first responders" when an application is launched, and will subsequently delegate some control to other controllers (either navigation controllers or view controllers). 
+
+You can only have one application controller per application. If you try to initialize a second one, you'll get an error.
+
+##### Navigation Controller
+
+Navigation controllers essentially contain a stack of View Controllers. As such, navigation in the app corresponds to operations on that stack. So for instance, in the case of an application with three tabs, the application controller might have three navaigation controllers (one for each tab) which in turn might have any number of view controllers corresponding to the various states of each tab.
+
+##### View Controller
+
+View controllers are where the content of your application will be displayed. If you're new to this idea, it might be helpful to think of view controllers as filling the role that pages might have played in a traditional desktop website. 
+
+#### Hello, World!
+
+Now that we have a basic idea of the moving parts that make up a MUI web application, let's see how those pieces fit together in a very basic sample app. Our 'Hello, MUI' app doesn't do a whole heck of a lot, but it will show you the bare minimum you need to do to build a working MUI app. All that said, let's take a look at the sample app:
+
+The first thing we do is build a simple HTML page. We'll just use a simple unordered list for our three 'tabs', and then three divs that will correspond to those tabs. The only thing we need to make sure of is that the main content of the app (i.e. everything but the nav) is inside a div with the id `mui-views`. The framework needs this so it knows where the views will be loaded.
+
+With the markup in place, let's dive into the Javascript. First we create an empty object just to namespace our application's code:
+
+    HelloMUI = {};
+
+Then we need to create a configuration object for the app. At a minimum, this object needs properties for id, version, and title.
+
+    HelloMUI.AppConfig = {
+      id: 'hello_mui',
+      version: '1.0',
+      title: 'Hello, MUI'
+    };
+
+Notice also that we added the AppConfig object to the HelloMUI namespace. We'll do that for just about every line of code we write in this app (all but one, to be precise).
+
+Next we'll create some navigation controllers. The minimum structure that we need to provide for a navigation controller is a `NAME` property, and a `viewControllers` array. So let's build those:
+
+    HelloMUI.FirstNavController = new mui.NavigationController({
+      NAME: 'section1',
+
+      viewControllers: [
+        ...
+        we'll put a view controller in here in just a minute 
+        ...
+      ]
+    })
+
+That's a basic navigation controller. The `NAME` property is important, since it's how MUI determines routes for the application. So if a url ends with a hash like `#section1/screen1`, that means we're in the screen1 view controller that belongs to the section1 navigation controller.
+
+Speaking of view controllers, here's what goes in that `viewControllers` array:
+
+    new mui.ViewController({
+      NAME: 'screen1',
+      title: 'first tab',
+      loadView: function(){
+        this.setView('#tab-1-view-1', true);
+      },
+
+      clicked: function(e){
+        alert('Hello, MUI!');
+      }
+    })
+
+Again, that `NAME` property must be set, since it's used for routing as we just saw. In the `loadView` property, we invoke the `setView` method on the view controller, passing in the id of the element we want to load. This sets the root node for the view. The second argument, `true` just indicates that the content for the view is already loaded (which it is, since we're just using the hard-coded content in the markup).
+
+Just so we have something for the tabs to navigate to, we'll make another couple of navigation controllers, each with only one view controller just like the first one. Take a look at the code for the sample app if you're still not sure how we would do that.
+
+Now that we've built our navigation controllers, all that's left is to make an application controller. The application controller is the entry point for the app's execution, and it is responsible for parsing routes and invoking the proper navigation controller.
+
+To get started with the application controller, we just need to call the `ApplicationController` constructor, passing in the AppConfig object as the only argument:
+
+    HelloMUI.AppController = new mui.ApplicationController(HelloMUI.AppConfig);
+
+Next we need to specify what should happen when the application has finished launching. This is easy enough to do with the `appDidFinishLaunching` property. The value of that property should be a function that sets up the initial state of our app. For HelloMUI app, we set that property to the following:
+
+    HelloMUI.AppController.appDidFinishLaunching = function(){
+      this.setTabsElement('#tabs');
+
+      this.registerController(HelloMUI.FirstNavController, '#first');
+      this.registerController(HelloMUI.SecondNavController, '#second');
+      this.registerController(HelloMUI.ThirdNavController, '#third');
+
+      this.restore('/section1/screen1');
+    }
+
+Now let's slow down and examine what we just did:
+
+1. First, we told the app what DOM element contains the navigation. We did this with the `setTabsElement` method.
+2. Next, we registered the navigation controllers with the application controller, and told the app controller which tabs are associated with each navigation controller.
+3. Lastly, we tell the application controller which view to load when the app launches.
+
+The code that is attached to the `appDidFinishLaunching` property will automatically be executed when MUI is done loading your application's code, so you don't need to (and shouldn't) invoke it directly. This kind of event-driven model is central to building web applications with MUI, so make sure you understand how this works.
+
+We're almost done, now. The last thing we need to do is to bind the application controller's `initialize` method to the `DOMContentLoaded` event:
+
+    mui.on(document, 'DOMContentLoaded', mui.bind(HelloMUI.AppController.initialize, HelloMUI.AppController));
+
+And that's it! You've got a working (if extremely basic) MUI app.
+
+##### Summary
+
+Even though the app we just built was extremely simple, there was a lot going on in the above walkthrough. So it might be helpful to distill everything that we just did into the essential points. So assuming you've got your markup in place, the 50,000 foot view of the process of building the Javascript looks something like this:
+
+1. Make an empty namespace object for your app.
+2. Create a configuration object that contains properties for (at the very least) the app's id, version, and title.
+3. Build one or more navigation controllers.
+4. For each navigation controller, build one or more view controllers.
+5. Implement a new application controller.
+6. Set the application's initial state via the application controller's `appDidFinishLaunching` method (An important part of this is to register the navigation controllers with the application controller).
+7. Bind the application controller's `initialize` method to the `DOMContentLoaded` event.
+
+That's the core of the MUI framework. To dig deeper, peruse the API documentation and get building (a look at the framework source would probably be a good idea, as well).

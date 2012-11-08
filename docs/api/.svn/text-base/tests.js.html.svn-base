@@ -1,0 +1,706 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: test   tests.js  (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584795.78" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584795.78" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584795.78"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584795.78"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_test.html" title="test">test</a>
+	               		
+	               		 <span class="gt"></span> tests.js (source view) 
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * mui/tests/tests.js</span>
+<span class="cm"> * Tests the core of the mui library</span>
+<span class="cm"> * </span>
+<span class="cm"> * TODO: test mui.bind</span>
+<span class="cm"> **/</span>
+
+<span class="nx">YUI</span><span class="p">({</span> <span class="nx">logInclude</span><span class="o">:</span> <span class="p">{</span> <span class="nx">TestRunner</span><span class="o">:</span> <span class="kc">true</span> <span class="p">},</span> <span class="nx">useBrowserConsole</span><span class="o">:</span> <span class="kc">true</span> <span class="p">}).</span><span class="nx">use</span><span class="p">(</span><span class="s2">&quot;node&quot;</span><span class="p">,</span><span class="s2">&quot;event&quot;</span><span class="p">,</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;console&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Y</span><span class="p">){</span>
+
+  <span class="cm">/*</span>
+<span class="cm">   ** Configure the test runner</span>
+<span class="cm">   */</span>
+  
+  <span class="c1">// selenium driver needs global Y object </span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">Y</span> <span class="o">=</span> <span class="nx">Y</span><span class="p">;</span>  
+
+  <span class="c1">// utility method: returns only the HTML element children of the element given as an argument</span>
+  <span class="kd">var</span> <span class="nx">getElementChildren</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">nodeList</span> <span class="o">=</span> <span class="p">[],</span> <span class="nx">children</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">nodeType</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">children</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">nodeType</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="nx">nodeList</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">children</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">nodeList</span><span class="p">;</span>
+    <span class="p">}</span> 
+    <span class="k">else</span> 
+    <span class="p">{</span>
+      <span class="k">throw</span> <span class="s2">&quot;getElementChildren requires an HTML element&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * Test Util class methods</span>
+<span class="cm">   **/</span>
+
+  <span class="kd">var</span> <span class="nx">utilTests</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Suite</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Util class methods&quot;</span> <span class="p">});</span>
+
+  <span class="c1">// mui.each</span>
+  <span class="nx">utilTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">(</span>
+    <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.each&quot;</span><span class="p">,</span>
+ 
+   <span class="s2">&quot;should apply a function to each item in an array&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+      <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">myArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">];</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">myArray</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span><span class="nx">i</span><span class="p">){</span> 
+        <span class="nx">myArray</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">myArray</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> 
+      <span class="p">});</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nx">myArray</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.iterate</span>
+  <span class="nx">utilTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.iterate&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;should apply a function to each property of an object&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">myObj</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;one&quot;</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span> <span class="o">:</span> <span class="mi">2</span> <span class="p">};</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">iterate</span><span class="p">(</span><span class="nx">myObj</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">key</span><span class="p">){</span>
+        <span class="nx">myObj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">myObj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">})</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nx">myObj</span><span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nx">myObj</span><span class="p">[</span><span class="s2">&quot;two&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="cm">/**</span>
+<span class="cm">   * Test DOM class methods</span>
+<span class="cm">   **/</span>
+
+  <span class="kd">var</span> <span class="nx">domTests</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Suite</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;DOM class methods&quot;</span> <span class="p">});</span>
+
+  <span class="c1">// mui.get</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.get&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;should return the first element matching a selector if one exists&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">li</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;li.foo&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">li</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">,</span> <span class="s2">&quot;First list item&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.getAll</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.getAll&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;should return an array of elements matching a selector if any exist&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">lis</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">getAll</span><span class="p">(</span><span class="s1">&#39;li.foo&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">lis</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.createElement</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.createElement&quot;</span><span class="p">,</span>
+
+    <span class="nx">setUp</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>      
+      <span class="k">this</span><span class="p">.</span><span class="nx">ul</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">childrenBefore</span> <span class="o">=</span> <span class="nx">getElementChildren</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ul</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">newLi</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">innerHTML</span><span class="o">:</span> <span class="s2">&quot;New list item&quot;</span> <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">ul</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">newLi</span><span class="p">);</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">childrenAfter</span> <span class="o">=</span> <span class="nx">getElementChildren</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ul</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">ul</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">newLi</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should create a DOM node with the attributes supplied as arguments&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">childrenBefore</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">childrenAfter</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;new DOM node should have the attributes passed as arguments to mui.createElement&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">lastLi</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">childrenAfter</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">childrenAfter</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">lastLi</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">,</span> <span class="s2">&quot;New list item&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.removeElement</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.removeElement&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">ul</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">listItems</span> <span class="o">=</span> <span class="nx">getElementChildren</span><span class="p">(</span><span class="nx">ul</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;First list item&quot;</span><span class="p">;</span>
+      <span class="nx">ul</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">newLi</span><span class="p">,</span> <span class="nx">listItems</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should remove the DOM node given as an argument&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">li</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;first&quot;</span><span class="p">);</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">removeElement</span><span class="p">(</span><span class="nx">li</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">isNull</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;first&quot;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.insertBefore</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.insertBefore&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;newLi&quot;</span><span class="p">);</span>
+      <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">newLi</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should add a node before a specified existing node&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">ul</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">origFirstChild</span> <span class="o">=</span> <span class="nx">getElementChildren</span><span class="p">(</span><span class="nx">ul</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;newLi&#39;</span><span class="p">);</span> 
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;New list item&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">newLi</span><span class="p">,</span><span class="nx">origFirstChild</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.insertAfter</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.insertAfter&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;newLi&quot;</span><span class="p">);</span>
+      <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">newLi</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should add a node after a specified existing node&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">ul</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;ul&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">firstLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">);</span>
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span><span class="s1">&#39;newLi&#39;</span><span class="p">);</span> 
+      <span class="nx">newLi</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s2">&quot;New list item&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">insertAfter</span><span class="p">(</span><span class="nx">newLi</span><span class="p">,</span><span class="nx">firstLi</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">listItems</span> <span class="o">=</span> <span class="nx">getElementChildren</span><span class="p">(</span><span class="nx">ul</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">listItems</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">innerHTML</span><span class="p">,</span> <span class="s2">&quot;New list item&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.getStyle</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.getStyle&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;should get the computed style of an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">getStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;background-color&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">style</span><span class="p">,</span> <span class="s2">&quot;rgb(186, 218, 85)&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.setStyle</span>
+	
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.setStyle&quot;</span><span class="p">,</span>
+    
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+     <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="s1">&#39;background-color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#bada55&quot;</span><span class="p">;</span>
+    <span class="p">},</span>
+  
+    <span class="s2">&quot;should set the style of an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">setStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;background-color&#39;</span><span class="p">,</span> <span class="s1">&#39;#666&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">bgColor</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span><span class="kc">null</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;background-color&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">bgColor</span><span class="p">,</span><span class="s2">&quot;rgb(102, 102, 102)&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.setStyles</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.setStyles should set multiple styles on an element&quot;</span><span class="p">,</span>
+
+    <span class="nx">setUp</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;first&#39;</span><span class="p">);</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">setStyles</span><span class="p">(</span><span class="nx">el</span><span class="p">,{</span>
+        <span class="s2">&quot;background-color&quot;</span> <span class="o">:</span> <span class="s2">&quot;#ccc&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;color&quot;</span>            <span class="o">:</span> <span class="s2">&quot;#666&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;border&quot;</span>           <span class="o">:</span> <span class="s2">&quot;1px solid black&quot;</span>
+      <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">el</span> <span class="o">=</span> <span class="nx">el</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;background-color&#39;</span><span class="o">:</span> <span class="s1">&#39;#bada55&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;color&#39;</span> <span class="o">:</span> <span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;border&#39;</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    
+    <span class="s2">&quot;background-color&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">bgColor</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">,</span> <span class="kc">null</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;background-color&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">bgColor</span><span class="p">,</span> <span class="s2">&quot;rgb(204, 204, 204)&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+                               
+    <span class="s2">&quot;border-top-width&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">borderTopWidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">,</span> <span class="kc">null</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;border-top-width&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">borderTopWidth</span><span class="p">,</span> <span class="s2">&quot;1px&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;border-top-color&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">borderTopColor</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">,</span> <span class="kc">null</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;border-top-width&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">borderTopColor</span><span class="p">,</span> <span class="s2">&quot;rgb(0, 0, 0)&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;text color&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">color</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">,</span> <span class="kc">null</span><span class="p">).</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">color</span><span class="p">,</span> <span class="s2">&quot;rgb(102, 102, 102)&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.getXY</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="cm">/* TODO: there&#39;s a weird type mismatch happening here, </span>
+<span class="cm">    so for the time being, I&#39;m just checking the first value </span>
+<span class="cm">    in the array */</span>
+    
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;getXY&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;should return the X &amp; Y coordinates of an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">xy</span> <span class="o">=</span> <span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">offsetLeft</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offsetTop</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">pos</span> <span class="o">=</span> <span class="nx">mui</span><span class="p">.</span><span class="nx">getXY</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.setXY</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;setXY&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should set the X &amp; Y coordinates of an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">newPos</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span><span class="mi">30</span><span class="p">]</span>
+
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">setXY</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">newPos</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">newPos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offsetLeft</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+  
+  <span class="c1">// mui.addClass</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;addClass&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should add a class attribute to an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">newClass</span> <span class="o">=</span> <span class="s2">&quot;point&quot;</span><span class="p">;</span>
+
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">newClass</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="s2">&quot; point&quot;</span><span class="p">,</span> <span class="nx">el</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.removeClass</span>
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;removeClass&quot;</span><span class="p">,</span>
+
+    <span class="nx">setUp</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;testClass&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;Should remove a class attribute to an element&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;testClass&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">isNull</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">).</span><span class="nx">match</span><span class="p">(</span><span class="s1">&#39;testClass&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.hasClass</span>
+
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;hasClass&quot;</span><span class="p">,</span>
+
+    <span class="nx">setUp</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;testClass&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;Should return true if an element has the specified class&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nx">mui</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;testClass&#39;</span><span class="p">))</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.toggleClass</span>
+
+  <span class="nx">domTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;toggleClass&quot;</span><span class="p">,</span>
+
+    <span class="nx">tearDown</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">removeAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should add a class to an element if it isn&#39;t already there&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">toggleClass</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;testClass&#39;</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">isNotNull</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">).</span><span class="nx">match</span><span class="p">(</span><span class="s1">&#39;testClass&#39;</span><span class="p">));</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should remove a class from an element if it is already there&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;point&#39;</span><span class="p">);</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;testClass&#39;</span><span class="p">);</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">toggleClass</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="s1">&#39;testClass&#39;</span><span class="p">)</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">isNull</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">).</span><span class="nx">match</span><span class="p">(</span><span class="s1">&#39;testClass&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+
+  <span class="cm">/**</span>
+<span class="cm">   * Test OOP class methods</span>
+<span class="cm">   **/</span>
+
+  <span class="kd">var</span> <span class="nx">oopTests</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Suite</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;OOP class methods&quot;</span> <span class="p">});</span>
+
+  <span class="c1">// mui.provide</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.provide&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;should make a namespace a property of the window object&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+       <span class="kd">var</span> <span class="nx">ns</span> <span class="o">=</span> <span class="s2">&quot;Foo&quot;</span><span class="p">;</span>
+       <span class="nx">mui</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="nx">ns</span><span class="p">);</span>
+       <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">Foo</span><span class="p">);</span>
+    <span class="p">},</span>
+       
+    <span class="s2">&quot;should be able to create chained namespaces&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">ns</span> <span class="o">=</span> <span class="s2">&quot;Foo.Bar.Baz&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">provide</span><span class="p">(</span><span class="nx">ns</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">assert</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">Foo</span><span class="p">.</span><span class="nx">Bar</span><span class="p">.</span><span class="nx">Baz</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.extend</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.extend&quot;</span><span class="p">,</span>
+
+    <span class="c1">// &quot;SubClass.superclass should be SuperClass&quot; : function()</span>
+    <span class="c1">// {</span>
+    <span class="c1">//   var SuperClass = function(){};</span>
+    <span class="c1">//   var SubClass = function(){};</span>
+    <span class="c1">//   mui.extend(SubClass, SuperClass);</span>
+    <span class="c1">//   Y.assert (SubClass.prototype.superclass == &quot;SuperClass&quot;);</span>
+    <span class="c1">// },</span>
+
+    <span class="s2">&quot;Subclass should inherit prototype properties of superclass&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">SuperClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+      <span class="kd">var</span> <span class="nx">SubClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+      <span class="nx">SuperClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fooProp</span> <span class="o">=</span> <span class="s2">&quot;SuperClass property&quot;</span><span class="p">,</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">SubClass</span><span class="p">,</span><span class="nx">SuperClass</span><span class="p">,</span><span class="nx">SuperClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fooProp</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span> <span class="p">(</span><span class="nx">SuperClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fooProp</span><span class="p">,</span> <span class="nx">SubClass</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">fooProp</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// &quot;Subclass should inherit static (class) properties of superclass&quot; : function()</span>
+    <span class="c1">// {</span>
+    <span class="c1">//   var SuperClass = function(){};</span>
+    <span class="c1">//   var SubClass = function(){};</span>
+    <span class="c1">//   SuperClass.fooProp = &quot;SuperClass property&quot;,</span>
+    <span class="c1">//   mui.extend(SubClass, SuperClass, null, SuperClass.fooProp);</span>
+    <span class="c1">//   Y.Assert.areSame (SuperClass.fooProp, SubClass.fooProp);</span>
+    <span class="c1">// }</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.mix</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.mix&quot;</span><span class="p">,</span>
+    
+    <span class="s2">&quot;should add one object&#39;s static and prototype members to another&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Test Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should not overwrite existing methods by default&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should overwrite methods when we tell it to&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">mix</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;New Property&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.augment</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.augment&quot;</span><span class="p">,</span>
+    
+    <span class="s2">&quot;should add one object&#39;s properties to another&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Test Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should not overwrite existing methods by default&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should overwrite methods when we tell it to&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;New Property&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.augmentProto</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.augmentProto&quot;</span><span class="p">,</span>
+    
+    <span class="s2">&quot;should add one object&#39;s prototype members to another&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Test Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augmentProto</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should not overwrite existing methods by default&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augmentProto</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;should overwrite methods when we tell it to&quot;</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span>
+    <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">initObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span> <span class="nx">augObj</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+      <span class="nx">initObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;Original Property&quot;</span><span class="p">;</span>
+      <span class="nx">augObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s2">&quot;New Property&quot;</span><span class="p">;</span>
+      <span class="nx">mui</span><span class="p">.</span><span class="nx">augmentProto</span><span class="p">(</span><span class="nx">initObj</span><span class="p">,</span> <span class="nx">augObj</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+      <span class="nx">Y</span><span class="p">.</span><span class="nx">Assert</span><span class="p">.</span><span class="nx">areSame</span><span class="p">(</span><span class="nx">initObj</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">foo</span><span class="p">,</span> <span class="s2">&quot;New Property&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}))</span>
+
+  <span class="c1">// mui.bind</span>
+  <span class="nx">oopTests</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Case</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;mui.bind should create a new function with the context of the function given as an argument&quot;</span>
+  <span class="p">}))</span>
+
+  <span class="c1">//run the tests</span>
+  <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Runner</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">utilTests</span><span class="p">);</span>
+  <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Runner</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">domTests</span><span class="p">);</span>
+  <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Runner</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">oopTests</span><span class="p">);</span>
+  <span class="nx">Y</span><span class="p">.</span><span class="nx">Test</span><span class="p">.</span><span class="nx">Runner</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+
+<span class="p">})</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class=""><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class="selected"><a href="module_test.html" title="test">test</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class=""><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="Assert.ArrayAssert.html" title="Assert.ArrayAssert">Assert.ArrayAssert</a></li>
+                                <li class=""><a href="Assert.ComparisonFailure.html" title="Assert.ComparisonFailure">Assert.ComparisonFailure</a></li>
+                                <li class=""><a href="Assert.DateAssert.html" title="Assert.DateAssert">Assert.DateAssert</a></li>
+                                <li class=""><a href="Assert.Error.html" title="Assert.Error">Assert.Error</a></li>
+                                <li class=""><a href="Assert.ObjectAssert.html" title="Assert.ObjectAssert">Assert.ObjectAssert</a></li>
+                                <li class=""><a href="Assert.ShouldError.html" title="Assert.ShouldError">Assert.ShouldError</a></li>
+                                <li class=""><a href="Assert.ShouldFail.html" title="Assert.ShouldFail">Assert.ShouldFail</a></li>
+                                <li class=""><a href="Assert.UnexpectedError.html" title="Assert.UnexpectedError">Assert.UnexpectedError</a></li>
+                                <li class=""><a href="Assert.UnexpectedValue.html" title="Assert.UnexpectedValue">Assert.UnexpectedValue</a></li>
+                                <li class=""><a href="Test.Assert.html" title="Test.Assert">Test.Assert</a></li>
+                                <li class=""><a href="Test.Case.html" title="Test.Case">Test.Case</a></li>
+                                <li class=""><a href="Test.Mock.html" title="Test.Mock">Test.Mock</a></li>
+                                <li class=""><a href="Test.Reporter.html" title="Test.Reporter">Test.Reporter</a></li>
+                                <li class=""><a href="Test.Runner.html" title="Test.Runner">Test.Runner</a></li>
+                                <li class=""><a href="Test.Suite.html" title="Test.Suite">Test.Suite</a></li>
+                                <li class=""><a href="Test.TestNode.html" title="Test.TestNode">Test.TestNode</a></li>
+                                <li class=""><a href="Test.Wait.html" title="Test.Wait">Test.Wait</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="tests.js.html" title="tests.js">tests.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Assert.ComparisonFailure.html#property_actual", "access": "", "host": "Assert.ComparisonFailure", "type": "property", "name": "actual"}, {"url": "Test.Suite.html#method_add", "access": "", "host": "Test.Suite", "type": "method", "name": "add"}, {"url": "Test.Runner.html#method_add", "access": "", "host": "Test.Runner", "type": "method", "name": "add"}, {"url": "Test.Reporter.html#method_addField", "access": "", "host": "Test.Reporter", "type": "method", "name": "addField"}, {"url": "Test.Runner.html#method__addTestCaseToTestTree", "access": "private", "host": "Test.Runner", "type": "method", "name": "_addTestCaseToTestTree"}, {"url": "Test.Runner.html#method__addTestSuiteToTestTree", "access": "private", "host": "Test.Runner", "type": "method", "name": "_addTestSuiteToTestTree"}, {"url": "Test.TestNode.html#method_appendChild", "access": "", "host": "Test.TestNode", "type": "method", "name": "appendChild"}, {"url": "Test.Assert.html#method_areEqual", "access": "", "host": "Test.Assert", "type": "method", "name": "areEqual"}, {"url": "Test.Assert.html#method_areNotEqual", "access": "", "host": "Test.Assert", "type": "method", "name": "areNotEqual"}, {"url": "Test.Assert.html#method_areNotSame", "access": "", "host": "Test.Assert", "type": "method", "name": "areNotSame"}, {"url": "Test.Assert.html#method_areSame", "access": "", "host": "Test.Assert", "type": "method", "name": "areSame"}, {"url": "Test.Assert.html#property__asserts", "access": "private", "host": "Test.Assert", "type": "property", "name": "_asserts"}, {"url": "Test.Runner.html#event_begin", "access": "", "host": "Test.Runner", "type": "event", "name": "begin"}, {"url": "Test.Runner.html#method__buildTestTree", "access": "private", "host": "Test.Runner", "type": "method", "name": "_buildTestTree"}, {"url": "Assert.UnexpectedError.html#property_cause", "access": "", "host": "Assert.UnexpectedError", "type": "property", "name": "cause"}, {"url": "Test.Runner.html#method_clear", "access": "", "host": "Test.Runner", "type": "method", "name": "clear"}, {"url": "Test.Runner.html#event_complete", "access": "", "host": "Test.Runner", "type": "event", "name": "complete"}, {"url": "Assert.ArrayAssert.html#method_contains", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "contains"}, {"url": "Assert.ArrayAssert.html#method_containsItems", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "containsItems"}, {"url": "Assert.ArrayAssert.html#method_containsMatch", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "containsMatch"}, {"url": "Test.Runner.html#property__cur", "access": "private", "host": "Test.Runner", "type": "property", "name": "_cur"}, {"url": "Assert.DateAssert.html#method_datesAreEqual", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "datesAreEqual"}, {"url": "Test.Wait.html#property_delay", "access": "", "host": "Test.Wait", "type": "property", "name": "delay"}, {"url": "Test.Reporter.html#method_destroy", "access": "", "host": "Test.Reporter", "type": "method", "name": "destroy"}, {"url": "Test.Runner.html#method_disableLogging", "access": "", "host": "Test.Runner", "type": "method", "name": "disableLogging"}, {"url": "Assert.ArrayAssert.html#method_doesNotContain", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "doesNotContain"}, {"url": "Assert.ArrayAssert.html#method_doesNotContainItems", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "doesNotContainItems"}, {"url": "Assert.ArrayAssert.html#method_doesNotContainMatch", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "doesNotContainMatch"}, {"url": "Test.Mock.html#property_domTests", "access": "", "host": "Test.Mock", "type": "property", "name": "domTests"}, {"url": "Test.Runner.html#method_enableLogging", "access": "", "host": "Test.Runner", "type": "method", "name": "enableLogging"}, {"url": "Test.Mock.html#method_expect", "access": "", "host": "Test.Mock", "type": "method", "name": "expect"}, {"url": "Assert.ComparisonFailure.html#property_expected", "access": "", "host": "Assert.ComparisonFailure", "type": "property", "name": "expected"}, {"url": "Test.Runner.html#event_fail", "access": "", "host": "Test.Runner", "type": "event", "name": "fail"}, {"url": "Test.Assert.html#method_fail", "access": "", "host": "Test.Assert", "type": "method", "name": "fail"}, {"url": "Test.Reporter.html#property__fields", "access": "private", "host": "Test.Reporter", "type": "property", "name": "_fields"}, {"url": "Test.TestNode.html#property_firstChild", "access": "", "host": "Test.TestNode", "type": "property", "name": "firstChild"}, {"url": "Test.Reporter.html#property__form", "access": "private", "host": "Test.Reporter", "type": "property", "name": "_form"}, {"url": "Test.Reporter.html#property_format", "access": "", "host": "Test.Reporter", "type": "property", "name": "format"}, {"url": "Test.Assert.html#method__formatMessage", "access": "protected", "host": "Test.Assert", "type": "method", "name": "_formatMessage"}, {"url": "Test.Assert.html#method__getCount", "access": "protected", "host": "Test.Assert", "type": "method", "name": "_getCount"}, {"url": "Test.Runner.html#method_getCoverage", "access": "", "host": "Test.Runner", "type": "method", "name": "getCoverage"}, {"url": "Assert.Error.html#method_getMessage", "access": "", "host": "Assert.Error", "type": "method", "name": "getMessage"}, {"url": "Assert.UnexpectedValue.html#method_getMessage", "access": "", "host": "Assert.UnexpectedValue", "type": "method", "name": "getMessage"}, {"url": "Test.Runner.html#method_getName", "access": "", "host": "Test.Runner", "type": "method", "name": "getName"}, {"url": "Test.Runner.html#method_getResults", "access": "", "host": "Test.Runner", "type": "method", "name": "getResults"}, {"url": "Test.Runner.html#method__handleError", "access": "private", "host": "Test.Runner", "type": "method", "name": "_handleError"}, {"url": "Test.Runner.html#method__handleTestObjectComplete", "access": "private", "host": "Test.Runner", "type": "method", "name": "_handleTestObjectComplete"}, {"url": "Assert.ObjectAssert.html#method_hasKey", "access": "", "host": "Assert.ObjectAssert", "type": "method", "name": "hasKey"}, {"url": "Assert.ObjectAssert.html#method_hasKeys", "access": "", "host": "Assert.ObjectAssert", "type": "method", "name": "hasKeys"}, {"url": "Test.Reporter.html#property__iframe", "access": "private", "host": "Test.Reporter", "type": "property", "name": "_iframe"}, {"url": "Test.Runner.html#event_ignore", "access": "", "host": "Test.Runner", "type": "event", "name": "ignore"}, {"url": "Test.Assert.html#method__increment", "access": "protected", "host": "Test.Assert", "type": "method", "name": "_increment"}, {"url": "Assert.ArrayAssert.html#method_indexOf", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "indexOf"}, {"url": "Test.Assert.html#method_isArray", "access": "", "host": "Test.Assert", "type": "method", "name": "isArray"}, {"url": "Test.Assert.html#method_isBoolean", "access": "", "host": "Test.Assert", "type": "method", "name": "isBoolean"}, {"url": "Assert.ArrayAssert.html#method_isEmpty", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "isEmpty"}, {"url": "Test.Assert.html#method_isFalse", "access": "", "host": "Test.Assert", "type": "method", "name": "isFalse"}, {"url": "Test.Assert.html#method_isFunction", "access": "", "host": "Test.Assert", "type": "method", "name": "isFunction"}, {"url": "Test.Assert.html#method_isInstanceOf", "access": "", "host": "Test.Assert", "type": "method", "name": "isInstanceOf"}, {"url": "Test.Assert.html#method_isNaN", "access": "", "host": "Test.Assert", "type": "method", "name": "isNaN"}, {"url": "Assert.ArrayAssert.html#method_isNotEmpty", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "isNotEmpty"}, {"url": "Test.Assert.html#method_isNotNaN", "access": "", "host": "Test.Assert", "type": "method", "name": "isNotNaN"}, {"url": "Test.Assert.html#method_isNotNull", "access": "", "host": "Test.Assert", "type": "method", "name": "isNotNull"}, {"url": "Test.Assert.html#method_isNotUndefined", "access": "", "host": "Test.Assert", "type": "method", "name": "isNotUndefined"}, {"url": "Test.Assert.html#method_isNull", "access": "", "host": "Test.Assert", "type": "method", "name": "isNull"}, {"url": "Test.Assert.html#method_isNumber", "access": "", "host": "Test.Assert", "type": "method", "name": "isNumber"}, {"url": "Test.Assert.html#method_isObject", "access": "", "host": "Test.Assert", "type": "method", "name": "isObject"}, {"url": "Test.Runner.html#method_isRunning", "access": "", "host": "Test.Runner", "type": "method", "name": "isRunning"}, {"url": "Test.Assert.html#method_isString", "access": "", "host": "Test.Assert", "type": "method", "name": "isString"}, {"url": "Test.Assert.html#method_isTrue", "access": "", "host": "Test.Assert", "type": "method", "name": "isTrue"}, {"url": "Test.Assert.html#method_isTypeOf", "access": "", "host": "Test.Assert", "type": "method", "name": "isTypeOf"}, {"url": "Test.Assert.html#method_isUndefined", "access": "", "host": "Test.Assert", "type": "method", "name": "isUndefined"}, {"url": "Test.Runner.html#method_isWaiting", "access": "", "host": "Test.Runner", "type": "method", "name": "isWaiting"}, {"url": "Test.Suite.html#property_items", "access": "private", "host": "Test.Suite", "type": "property", "name": "items"}, {"url": "Assert.ArrayAssert.html#method_itemsAreEqual", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "itemsAreEqual"}, {"url": "Assert.ArrayAssert.html#method_itemsAreEquivalent", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "itemsAreEquivalent"}, {"url": "Assert.ArrayAssert.html#method_itemsAreSame", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "itemsAreSame"}, {"url": "Assert.DateAssert.html#method_JSON", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "JSON"}, {"url": "Assert.DateAssert.html#method_JUnitXML", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "JUnitXML"}, {"url": "Test.TestNode.html#property_lastChild", "access": "", "host": "Test.TestNode", "type": "property", "name": "lastChild"}, {"url": "Assert.ArrayAssert.html#method_lastIndexOf", "access": "", "host": "Assert.ArrayAssert", "type": "method", "name": "lastIndexOf"}, {"url": "Test.Runner.html#property__lastResults", "access": "private", "host": "Test.Runner", "type": "property", "name": "_lastResults"}, {"url": "Test.Runner.html#property__log", "access": "private", "host": "Test.Runner", "type": "property", "name": "_log"}, {"url": "Test.Runner.html#method__logEvent", "access": "private", "host": "Test.Runner", "type": "method", "name": "_logEvent"}, {"url": "Test.Mock.html#method_logInclude", "access": "", "host": "Test.Mock", "type": "method", "name": "logInclude"}, {"url": "Test.Runner.html#property_masterSuite", "access": "private", "host": "Test.Runner", "type": "property", "name": "masterSuite"}, {"url": "Test.Case.html#property_name", "access": "", "host": "Test.Case", "type": "property", "name": "name"}, {"url": "Test.Suite.html#property_name", "access": "", "host": "Test.Suite", "type": "property", "name": "name"}, {"url": "Assert.Error.html#property_name", "access": "", "host": "Assert.Error", "type": "property", "name": "name"}, {"url": "Assert.ComparisonFailure.html#property_name", "access": "", "host": "Assert.ComparisonFailure", "type": "property", "name": "name"}, {"url": "Assert.UnexpectedValue.html#property_name", "access": "", "host": "Assert.UnexpectedValue", "type": "property", "name": "name"}, {"url": "Assert.ShouldFail.html#property_name", "access": "", "host": "Assert.ShouldFail", "type": "property", "name": "name"}, {"url": "Assert.ShouldError.html#property_name", "access": "", "host": "Assert.ShouldError", "type": "property", "name": "name"}, {"url": "Assert.UnexpectedError.html#property_name", "access": "", "host": "Assert.UnexpectedError", "type": "property", "name": "name"}, {"url": "Test.TestNode.html#property_next", "access": "", "host": "Test.TestNode", "type": "property", "name": "next"}, {"url": "Test.Runner.html#method__next", "access": "private", "host": "Test.Runner", "type": "method", "name": "_next"}, {"url": "Test.Mock.html#property_oopTests", "access": "", "host": "Test.Mock", "type": "property", "name": "oopTests"}, {"url": "Assert.ObjectAssert.html#method_ownsKey", "access": "", "host": "Assert.ObjectAssert", "type": "method", "name": "ownsKey"}, {"url": "Assert.ObjectAssert.html#method_ownsKeys", "access": "", "host": "Assert.ObjectAssert", "type": "method", "name": "ownsKeys"}, {"url": "Assert.ObjectAssert.html#method_ownsNoKeys", "access": "", "host": "Assert.ObjectAssert", "type": "method", "name": "ownsNoKeys"}, {"url": "Test.TestNode.html#property_parent", "access": "", "host": "Test.TestNode", "type": "property", "name": "parent"}, {"url": "Test.Runner.html#event_pass", "access": "", "host": "Test.Runner", "type": "event", "name": "pass"}, {"url": "Test.Reporter.html#method_report", "access": "", "host": "Test.Reporter", "type": "method", "name": "report"}, {"url": "Test.Assert.html#method__reset", "access": "protected", "host": "Test.Assert", "type": "method", "name": "_reset"}, {"url": "Test.TestNode.html#property_results", "access": "", "host": "Test.TestNode", "type": "property", "name": "results"}, {"url": "Test.Case.html#method_resume", "access": "", "host": "Test.Case", "type": "method", "name": "resume"}, {"url": "Test.Runner.html#method_resume", "access": "", "host": "Test.Runner", "type": "method", "name": "resume"}, {"url": "Test.Runner.html#property__root", "access": "private", "host": "Test.Runner", "type": "property", "name": "_root"}, {"url": "Test.Runner.html#method__run", "access": "private", "host": "Test.Runner", "type": "method", "name": "_run"}, {"url": "Test.Runner.html#method_run", "access": "", "host": "Test.Runner", "type": "method", "name": "run"}, {"url": "Test.Runner.html#property__running", "access": "private", "host": "Test.Runner", "type": "property", "name": "_running"}, {"url": "Test.Runner.html#method__runTest", "access": "private", "host": "Test.Runner", "type": "method", "name": "_runTest"}, {"url": "Test.Wait.html#property_segment", "access": "", "host": "Test.Wait", "type": "property", "name": "segment"}, {"url": "Test.Runner.html#method_setName", "access": "", "host": "Test.Runner", "type": "method", "name": "setName"}, {"url": "Test.Case.html#method_setUp", "access": "", "host": "Test.Case", "type": "method", "name": "setUp"}, {"url": "Test.Suite.html#method_setUp", "access": "", "host": "Test.Suite", "type": "method", "name": "setUp"}, {"url": "Test.Case.html#property__should", "access": "", "host": "Test.Case", "type": "property", "name": "_should"}, {"url": "Assert.UnexpectedError.html#property_stack", "access": "", "host": "Assert.UnexpectedError", "type": "property", "name": "stack"}, {"url": "Assert.DateAssert.html#method_TAP", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "TAP"}, {"url": "Test.Case.html#method_tearDown", "access": "", "host": "Test.Case", "type": "method", "name": "tearDown"}, {"url": "Test.Suite.html#method_tearDown", "access": "", "host": "Test.Suite", "type": "method", "name": "tearDown"}, {"url": "Test.Runner.html#event_testcasebegin", "access": "", "host": "Test.Runner", "type": "event", "name": "testcasebegin"}, {"url": "Test.Runner.html#event_testcasecomplete", "access": "", "host": "Test.Runner", "type": "event", "name": "testcasecomplete"}, {"url": "Test.TestNode.html#property_testObject", "access": "", "host": "Test.TestNode", "type": "property", "name": "testObject"}, {"url": "Test.Runner.html#event_testsuitebegin", "access": "", "host": "Test.Runner", "type": "event", "name": "testsuitebegin"}, {"url": "Test.Runner.html#event_testsuitecomplete", "access": "", "host": "Test.Runner", "type": "event", "name": "testsuitecomplete"}, {"url": "Assert.DateAssert.html#method_timesAreEqual", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "timesAreEqual"}, {"url": "Assert.Error.html#method_toString", "access": "", "host": "Assert.Error", "type": "method", "name": "toString"}, {"url": "Assert.ComparisonFailure.html#method_toString", "access": "", "host": "Assert.ComparisonFailure", "type": "method", "name": "toString"}, {"url": "Assert.UnexpectedValue.html#property_unexpected", "access": "", "host": "Assert.UnexpectedValue", "type": "property", "name": "unexpected"}, {"url": "Test.Reporter.html#property_url", "access": "", "host": "Test.Reporter", "type": "property", "name": "url"}, {"url": "Test.Mock.html#property_utilTests", "access": "", "host": "Test.Mock", "type": "property", "name": "utilTests"}, {"url": "Assert.Error.html#method_valueOf", "access": "", "host": "Assert.Error", "type": "method", "name": "valueOf"}, {"url": "Test.Mock.html#method_verify", "access": "", "host": "Test.Mock", "type": "method", "name": "verify"}, {"url": "Test.Case.html#method_wait", "access": "", "host": "Test.Case", "type": "method", "name": "wait"}, {"url": "Test.Runner.html#property__waiting", "access": "private", "host": "Test.Runner", "type": "property", "name": "_waiting"}, {"url": "Assert.DateAssert.html#method_XdebugJSON", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "XdebugJSON"}, {"url": "Assert.DateAssert.html#method_XML", "access": "", "host": "Assert.DateAssert", "type": "method", "name": "XML"}, {"url": "Test.Assert.html#method_Y.assert", "access": "", "host": "Test.Assert", "type": "method", "name": "Y.assert"}, {"url": "Test.Assert.html#method_Y.fail", "access": "", "host": "Test.Assert", "type": "method", "name": "Y.fail"}];
+</script>
+</body>
+</html>

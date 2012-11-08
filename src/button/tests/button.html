@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		<link rel="stylesheet" href="../../button/assets/skins/default/button-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../button/js/Button.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	
+	<body>
+	</body>
+	<script type="text/javascript" charset="utf-8">
+		var oButton = new mui.Button({title:"Click Here", action: buttonAction});
+		oButton.render(document.body);
+		//document.body.appendChild(oButton.element);
+		
+		function buttonAction(){
+			console.log("button clicked");
+		}
+	</script>
+</html>

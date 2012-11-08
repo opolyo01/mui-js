@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>mui HelloWorld</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		
+		<link rel="apple-touch-startup-image" href="images/splash.png" />
+		<link rel="apple-touch-icon" href="images/icon.png"/>
+
+		<link rel="stylesheet" href="../../build/web-app/assets/skins/default/web-app.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+		<link rel="stylesheet" href="css/helloworld.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+
+		<script src="../../build/web-app/web-app-min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	
+	<body x-mui-loading="true">
+		<header>
+			<!-- You can put any content in the header. It will become fixed to the top in full-screen mode -->
+			<div id="branding">
+				<h1>HelloWorld</h1>
+			</div>
+			
+			<!-- Tabbed navigation -->
+			<nav id="tabs">
+				<ul>
+					<li id="tab-1"><a title="tab 1">Tab 1</a></li>
+					<li id="tab-2"><a title="tab 2">Tab 2</a></li>
+					<li id="tab-3"><a title="tab 3">Tab 3</a></li>
+				</ul>
+			</nav>
+		</header>
+		
+		<div id="mui-views">
+			<div id="tab-1-view-1">
+				Tab 1, Screen 1
+				<strong>(Click)</strong>
+				<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+			<div id="tab-1-view-2">
+				<h2>Saved Items</h2>
+				<div class="wrap">
+					<div id="items">
+					
+					</div>
+					<div id="new-item">
+						<h3>New Item</h3>
+						<form id="new-item-form" action="#">
+							<input type="text" id="new-name" placeholder="Name" />
+							<input type="text" id="new-value" placeholder="Value" />
+							<input type="submit" class="save-item" value="Save" />
+							<input type="button" id="remove-all" value="Remove All" />
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="tab-1-view-3">
+				Tab 1, Screen 3
+			</div>
+			<div id="tab-2-view-1"></div>
+			<div id="tab-2-view-2"></div>
+			<div id="tab-3-view-1"></div>
+		</div>
+		
+		<div id="templates" style="display:none;">
+		
+			<div id="tpl-saved-item">
+				<!--
+				<div class="item">
+					Name: %{name}, Value: %{value}
+				</div>
+				-->
+			</div>
+			
+		</div>
+		
+		<footer>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<h1>Action Sheet</h1>
+
+<p>
+	The Action Sheet presents a set of action buttons in an overlay which slides up from the bottom of the screen.
+	Action Sheets should be used when you need to present the user with a choice of decisions, for instance, an action
+	menu in a mail message might give the user the option to reply, reply all, or forward the message. 
+</p>
+
+<p>
+	Action Sheets can have an optional title, and 3 types of buttons.  The cancel button allows the user to dismiss the 
+	control, and the destructive button is presented with a strong style to indicate a destructive action (such as deleting a mail).
+	You can also use a variable number of "default" buttons, which are bound to some action.
+</p>
+<pre><code>// Create the Action Sheet
+var myActionSheet = new mui.ActionSheet({
+    title: 'Blah blah blah',
+    cancelButton: { title: 'Cancel' },
+    destructiveButton: { title: 'Alert!', action: myAlertMethod },
+    otherButtons: [
+        { title: 'Option 1', action: '/options/1' },
+        { title: 'Option 2', action: myOption2 }
+    ]
+});
+
+// Show it (slide up from the bottom)
+myActionSheet.show();</code></pre>
+
+<div class="example">
+	<h4 class="heading">
+		Example 1 <span class="description">Action Sheet with a title, destructive button, cancel button, and 2 buttons.</span>		
+	</h4>
+	<img src="assets/content/actionsheet/actionsheet.png" />
+</div>

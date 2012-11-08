@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../core/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+		
+		<style type="text/css" media="screen">
+			body { min-height: 480px; font-size: 40px; }
+		</style>
+		
+		<!--<script src="../../../build/loader/loader.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="../../../src/loader/js/Loader.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+		var myApp = {
+			load: function() {
+				alert('All components loaded');
+			}
+		};
+		
+		
+		mui.load(['web-app', 'transition', 'search-box'], {
+			base: '../../../src/',
+			debug: true,
+			developmentMode: true,
+			extras: {
+				js: [
+					{ name: 'Base', path: 'base.js' },
+					{ name: 'MainModule', path: 'main-module.js', requires: [ 'Base' ] },
+					{ name: 'SubModule', path: 'submodule.js', requires: [ 'MainModule' ] }
+				],
+				css: [
+					'myCss.css'
+				]
+			},
+			callback: {
+				complete: myApp.load,
+				scope: myApp
+			}
+		});
+		</script>
+	</head>
+	
+	<body>
+	</body>
+</html>

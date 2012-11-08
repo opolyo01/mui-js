@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">		
+	</head>
+	
+	<body>
+		<div id="main">
+			
+			<div id="page-1">		
+				Page1Page1Page1Page1 Page1Page1Page1Page1Pag e1Page1Page1Page1Pag e1Page1Page1Page1Page1Page1Page1
+			</div>
+
+			<div id="page-2">
+				Page2Page2Page2Page 2Page2Page2Page2Page2Page 2Page2Page2Page2Page2 Page2Page2Page2Page2Page2Page2Page2
+				Page2Page2Page2Page 2Page2P age2Page2Pag e2Page2Page2 Page2Page2P Page2Page2Page2Page
+				2Page2Page2Page2Page2
+			</div>
+			<button id="click-me" style="position:absolute;top:100px;">Flip Transition</button>
+		</div>		
+		<script src="../../../build/mui/mui-min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../transition/js/Transition.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">
+			mui.on(window, 'load', function() {
+					var inView = mui.get("#page-2"),
+						outView = mui.get("#page-1"),
+						options = {type: 'flip'};
+					var trans = new mui.Transition(inView, outView, options);
+					
+					mui.on('#click-me', 'click', function(){
+						outView.style.position = "absolute";
+						outView.style.left = -(window.innerWidth) + "px";
+						mui.get("#click-me").style.display = "none";
+						trans.execute();
+					});
+			});
+		</script>
+	</body>
+</html>

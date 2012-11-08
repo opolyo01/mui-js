@@ -1,0 +1,803 @@
+(function() {
+
+/**
+ * Regular expression for template building
+ * @property templateRegExp
+ * @static
+ * @private
+ */
+const templateRegExp = new RegExp('%{([\\w-.]+)}', 'g');
+
+/**
+ * Idle delay for flashing the scrollview indicators
+ * @property scrollViewIdleDelay
+ * @static
+ * @private
+ */
+const scrollViewIdleDelay = 500;
+
+/**
+ * Convert a params object to a string
+ * @property paramsToString
+ * @private
+ */
+function paramsToString(params)
+{
+	var str = '';
+	mui.iterate(params, function(v, n) {
+		str += n+'='+v+'&';
+	});
+	str = str.substring(0, str.length-2);
+	return str;
+}
+ 
+
+/**
+ * ViewController class
+ * This class provides the behavior layer for one screen of the app.
+ * All built-in view controller classes and any custom
+ * view controller classes inherit from this class.
+ * @class ViewController
+ * @constructor
+ * @param definition {Object} View controller definition
+ */
+function ViewController(def)
+{
+	// Iterate over defintion
+	mui.iterate(def, function(v, n) { this[n] = v; }, this);	
+	
+	// Initialize navigation items
+	this.navigationItems = {};
+};
+
+/**
+ * Modal ViewController type: full screen
+ * @property MODAL_FULL
+ * @type String
+ * @static
+ */
+ViewController.MODAL_FULL = 'full';
+
+/**
+ * Modal ViewController type: master
+ * @property MODAL_FULL
+ * @type String
+ * @static
+ */
+ViewController.MODAL_MASTER = 'master';
+
+
+ViewController.prototype = {
+	
+	/**
+	 * Flag to determine if view data has been loaded
+	 * @property _viewLoaded
+	 * @type Boolean
+	 * @private
+	 */
+	_viewLoaded: false,
+	
+	/**
+	 * Flag to determine if view DOM element has been set
+	 * @property _contentLoaded
+	 * @type Boolean
+	 * @private
+	 */
+	_contentLoaded: false,
+	
+	/**
+	 * Flag to determine if ViewController should be persisted. If set to
+	 * false, then this ViewController will not be restored when the
+	 * navigationController's stack is restored
+	 * @property persistView
+	 * @type Boolean
+	 * @default true
+	 */
+	persistView: true,
+	
+	/**
+	 * Optional rendering context, if views need to be rendered in multiple containers
+	 * i.e., a view inside a popover 
+	 * @property renderingContext
+	 * @type HTMLElement
+	 */
+	renderingContext: null,
+	
+	/**
+     * Flag to determine if ViewController should be cached when it disappears.
+     * @property cacheView
+     * @type Boolean
+     * @default true
+     */
+    cacheView: true,
+    
+	/**
+     * Flag to determine if ViewController should be reloaded when it 
+     * is pushed into the navigation stack. If set to true then reloadView
+     * will be called everytime the view is pushed
+     * 
+     * @property reloadOnPush
+     * @type Boolean
+     * @default false
+     */
+	reloadOnPush: false,
+	
+	/**
+	 * Root node for the view
+	 * @property view
+	 * @type HTMLElement
+	 */
+	view: null,
+	
+	/**
+	 * Request parameters object
+	 * @property params
+	 * @type Object
+	 */
+	params: null,
+	
+	/**
+	 * The navigationItems property is used to allow view controllers to specify
+	 * the contents for the navigation-bar. There are 3 possible locations for 
+	 * navigation items.  Left (back button), Center (title), Right (custom view).
+	 * You can use the viewWillAppear callback to set navigation items for a 
+	 * view controller.
+	 * See: http://developer.apple.com/iphone/library/featuredarticles/ViewControllerPGforiPhoneOS/UsingNavigationControllers/UsingNavigationControllers.html#//apple_ref/doc/uid/TP40007457-CH7-SW1
+	 * for a detailed explanation of navigation item's in context of native 
+	 * iPhone development, as the rules are similar.
+	 * @method navigationItems
+	 * @type Object
+	 */
+	navigationItems: null,
+	
+	/**
+	 * Check to see whether the view has been loaded or not.
+	 * @method isViewLoaded
+	 * @return Boolean indicating if the view has been loaded.
+	 */
+	isViewLoaded: function()
+	{
+		return this._viewLoaded;
+	},
+	
+	/**
+	 * Check to see whether the view with a a given set of params has been loaded or not.
+	 * @method isViewLoadedWithParams
+	 * @param params {Object} The params object
+	 * @return Boolean indicating if the view has been loaded.
+	 */
+	isViewLoadedWithParams: function(params)
+	{
+		var isLoaded = this._viewLoaded;
+		if(isLoaded)
+		{
+			isLoaded = this._viewContents && typeof this._viewContents[paramsToString(params)] !== 'undefined';
+		}
+		return isLoaded;
+	},
+	
+	/**
+	 * Trigger the callback sequence for when the view contents have
+	 * been loaded
+	 * @method _viewDidLoad
+	 * @private
+	 */
+	_viewDidLoad: function()
+	{
+		this._viewLoaded = true;
+		this.view.removeAttribute(MUI_DOM.loadingAttr);
+		this.viewDidLoad();
+		if(this.scrollView) setTimeout(mui.bind(this.scrollView.flashScrollBars, this.scrollView), scrollViewIdleDelay);
+	},
+	
+	/**
+	 * Callback triggered when the view controller has finished animating in or out
+	 * @method _onModalTransitionEnd 
+	 * @param dismissed {Boolean} If true, the view controller was just dismissed
+	 * @private
+	 */
+	_onModalTransitionEnd: function(dismissed)
+	{
+		if(dismissed)
+		{
+			var dismissedView = mui.get('#mui-modal-in');
+			var returningView = mui.get('#mui-modal-out');
+			var header = mui.get('header', dismissedView);
+
+			if(header) mui.insertBefore(header, document.body.children[0]);
+			
+			// Re-appear
+			this.appear();
+			this._viewDidAppear();
+			
+			this._showingModalViewController.disappear();
+			this._showingModalViewController._viewDidDisappear();
+			
+			// Remove temporary nodes
+			mui.get('#mui-views').appendChild(this._showingModalViewController.view);
+			mui.removeElement('#mui-modal-in');
+			mui.removeElement('#mui-modal-out');
+			
+			// Reset modal properties
+			this._showingModalViewController = null;
+			this._modalTransition = null;
+		}
+		else
+		{
+			this._showingModalViewController._viewDidAppear();
+			this._viewDidDisappear();
+		}
+	},
+	
+	/**
+	 * This method defines the transition which will occur when this 
+	 * viewController is set to appear on-screen. By default, if the
+	 * viewController belongs to a navigationController, the transition
+	 * will be a "push". To define a different transition, override this
+	 * method in the viewController.
+	 * @method getTransition
+	 * @return {Object} Object literal containing type, direction values
+	 */
+	getTransition: function()
+	{
+		if(this.navigationController instanceof mui.NavigationController) return { type: 'push' };
+		return false;
+	},
+	
+	/**
+	 * Set the root node for the view. If the second argument passed to the
+	 * method is true, then it is assumed the node is already loaded. Otherwise,
+	 * one must use setViewContent to trigger the viewDidLoad callback.
+	 * @method setView
+	 * @param el {String|HTMLElement} Selector string or HTML element for the view
+	 * @param isLoaded {Boolean} Whether or not the HTML element is loaded. Default is false.
+	 */
+	setView: function(el, isLoaded)
+	{
+		this.view = (typeof el === 'string') ? mui.get(el) : el;
+		mui.addClass(this.view, MUI_DOM.viewClassName);
+		if(isLoaded)
+		{
+			var n = mui.createElement('div', { innerHTML: this.view.innerHTML });
+			this.view.innerHTML = '';
+			this._disableReload = true;
+			this.setViewContent(n);
+		}
+		else this.view.setAttribute(MUI_DOM.loadingAttr, 'true');
+		
+		if(this.renderingContext) this.renderingContext.appendChild(this.view);
+	},
+	
+	/**
+	 * Set the content for the view, either in the form of an HTML string, or an
+	 * HTMLElement which will be appended to the view. This method triggers the
+	 * viewDidLoad callback.
+	 * @method setViewContent
+	 * @param content {String|HTMLElement} the HTML String or HTMLElement
+	 */
+	setViewContent: function(content)
+	{
+		var node = mui.createElement('div', { className: MUI_DOM.viewContentClassName });
+		var oldNode;
+		
+		if(!this._contentLoaded)
+		{
+			// node = mui.createElement('div', { className: MUI_DOM.viewContentClassName });
+			this.view.appendChild(node);
+			
+			if(typeof content === 'string') node.innerHTML = content;
+			else node.appendChild(content);
+
+			// Initialize scroll view
+			if(mui.ApplicationController.getInstance().shouldScrollViews)
+			{
+				this.scrollView = new mui.ScrollView( { element: this.view, contentSize: '100%' } );
+			}
+			
+			this._contentLoaded = true
+		}
+		else
+		{
+			oldNode = mui.get('.mui-view-content', this.view);
+			mui.removeElement(oldNode);
+			
+			if(this.scrollView && this.view.children[0]) this.scrollView.getScrollHost().appendChild(node);
+			else this.view.appendChild(node);
+			
+			if(typeof content === 'string') node.innerHTML = content;
+			else node.appendChild(content);			
+		}
+
+		this._viewDidLoad();
+		this.view.removeAttribute(MUI_DOM.loadingAttr);
+	},
+	
+	/**
+	 * Append content for the view, either in the form of an HTML string, or an
+	 * HTMLElement which will be appended to the view. This method DOES NOT trigger
+	 * viewDidLoad callback.
+	 * @method appendViewContent
+	 * @param content {String|HTMLElement} the HTML String or HTMLElement
+	 */
+	appendViewContent: function(content)
+	{
+		if(!this._contentLoaded) return this.setViewContent(content);
+		
+		var viewC = mui.get('.mui-view-content', this.view), t;
+		if(typeof content === 'string') {
+			viewC.innerHTML += content;
+		} else {
+		    viewC.appendChild(content);
+	    }
+
+	},
+	
+	/**
+	 * Prepend content for the view, either in the form of an HTML string, or an
+	 * HTMLElement which will be appended to the view. This method DOES NOT trigger
+	 * viewDidLoad callback.
+	 * @method prependViewContent
+	 * @param content {String|HTMLElement} the HTML String or HTMLElement
+	 */
+	prependViewContent: function(content)
+	{
+		if(!this._contentLoaded) return this.setViewContent(content);
+		
+		var node, viewC = mui.get('.mui-view-content', this.view);
+		if(typeof content === 'string')
+		{
+			node = mui.createElement('div');
+			node.innerHTML = content;
+		}
+		else node = content;
+		
+		if(viewC.firstChild) mui.insertBefore(node, viewC.firstChild);
+		else viewC.appendChild(node);
+	},
+	
+	/**
+	 * Fetch view content using mui.io. This method will trigger
+	 * the viewDidLoad callback upon success
+	 * @method fetchViewContent
+	 * @param url {String} The URL of the view content
+	 * @param callback {Function} Optional callback function invoked upon
+	 *  XHR completion
+	 */
+	fetchViewContent: function(url, callback)
+	{
+		mui.io(url, {
+			callback: {
+				success: function(o) {
+					this.setViewContent(o.responseText);
+					if(callback) callback(true);
+				},
+				failure: function(o) {
+					alert('Unable to load page. Please refresh');
+					this.setViewContent('Unable to load page. Please refresh');
+					if(callback) callback(false);
+				},
+				scope: this
+			}
+		});	
+	},
+	
+	/**
+	 * Utility method for fetching a JSON resource.
+	 * @method fetchJSON
+	 * @param url {String} The url of the resource
+	 * @param callback {Function} The callback function to execute when the resource has loaded
+	 * @param scope {Object} The scope to be applied to the callback function.
+	 */	
+	fetchJSON: function(url, callback, scope) 
+	{
+		mui.io(url, {
+			method: 'get',
+			callback: {
+				success: function(o)  {
+					try {
+						var obj = eval('(' + o.responseText + ')');
+						callback.call(scope || this, obj);
+						
+					} catch(e) {
+						mui.trace(e);
+					}
+				},
+				scope: this
+			}
+		});
+	},
+	
+	/**
+	 * Map an Object to a DOM node. The DOM node is assumed to have an HTML comment
+	 * to avoid fetching of malfrormed resources via <img> or background-image: url()
+	 * @method map
+	 * @param data {Object} The object to map
+	 * @param el {String|HTMLElement} The CSS selector or DOM node to map to
+	 * @param nodeName {String} The tag name of the newly created DOM node
+	 * @param nodeConfig {Object} Object literal of node configuration passed to mui.createElement
+	 */
+	map: function(data, el, nodeName, nodeConfig) 
+	{
+		return mui.map(data, el, nodeName, nodeConfig);
+	},
+	
+	/**
+	 * Set a navigation item to be displayed in the navigation bar
+	 * @method setNavigationItem
+	 * @param section {String} Which section to set the navigation item in
+	 *  Possible values are leftBarItem, titleItem, rightBarItem
+	 * @param item {*} Either an HTMLElement, or a mui control, such as a SearchBox
+	 */ 
+	setNavigationItem: function(section, item)
+	{
+		switch(section)
+		{
+			case 'leftBarItem':
+			case 'title':
+			case 'rightBarItem':
+			case 'backItem':
+				this.navigationItems[section] = item;
+				break;
+			default:
+				throw new Error('NavigationBar: Invalid section name: ' + section + '. Must be one of title, leftBarItem, or rightBarItem');
+		}
+		if(this.navigationController && this.navigationController.navigationBar)
+		{
+		    if(this._showing)
+		    {
+		        this.navigationController.navigationBar.setItems(this.navigationItems, false, false);
+		    }
+		    else
+		    {
+		        this._refreshNavigationItems = true;
+		    }
+		}
+	},
+	
+	/**
+	 * Present a ViewController modally. If animated, the transition is defined
+	 * by the modal view controller's transition property.
+	 * @method presentModalViewController
+	 * @param viewController {mui.ViewController} The ViewController to show
+	 * @param params {Object} (Optional) Any request params to pass to the ViewController
+	 * @param animated {Boolean} (Default true) Whether or not to animate the controller into view
+	 */
+	presentModalViewController: function(viewController, params, animated, modalOpts)
+	{
+		// Define default transition style (Slide from bottom to top)
+		var transition = {
+			type: 'slide',
+			direction: 'bottom-to-top'
+		};
+		var doAnim = true, parentView = this, detailVC;
+		
+		if(animated === false) doAnim = false;
+		
+		modalOpts = modalOpts || {};
+		
+		if ( mui.UA.tablet ) {
+		    modalOpts.type = modalOpts.type || ViewController.MODAL_MASTER;
+		    
+		    if ( this.isDetailViewController() ) {
+		         parentView = this.getMasterViewController();
+		         detailVC   = this;
+		    } else {
+		         detailVC = this.getDetailViewController();
+		    }
+		    
+		    if (detailVC && detailVC.view && modalOpts.type != ViewController.MODAL_MASTER){
+		        detailVC.view.style.display = "none";
+		    }
+		    
+		} else {
+		    modalOpts.type = ViewController.MODAL_FULL;
+		}
+		
+		viewController.modalOpts = modalOpts;
+		
+		// Set the parentViewController and navigationController properties on the modal view controller
+		viewController.parentViewController = parentView;
+
+		// Animate or show
+		mui.ApplicationController.getInstance().showModalViewController(viewController, params, parentView, doAnim);
+	},
+	
+	/**
+	 * Animate a modal viewController into view.
+	 * @method animateModalViewController
+	 * @param viewController {mui.ViewController} The ViewController to aniamte
+	 * @param transition {Object} mui.Transition definition
+	 */
+	animateModalViewController: function(viewController, transition)
+	{
+		var inView = mui.createElement('div', { id: 'mui-modal-in' }),
+		    outView = mui.createElement('div', { id: 'mui-modal-out' }),
+		    outViewWrap = mui.createElement('div', { id: 'mui-views' }),
+		    outViewStyle = outView.style,
+		    header = mui.get('header'),
+		    footer = mui.get('footer');
+	
+		outViewStyle.position = 'absolute';
+		outViewStyle.top = '0';
+		outViewStyle.left = '0';
+		outViewStyle.width = '100%';
+		outViewStyle.zIndex = '1';
+		inView.style.zIndex = '3';
+		inView.style.minHeight = outViewStyle.minHeight = (window.innerHeight)+'px';
+
+		if(header) outView.appendChild(header.cloneNode(true));
+		outViewWrap.appendChild(this.view.cloneNode(true));
+		outView.appendChild(outViewWrap);
+		if(footer) outView.appendChild(footer.cloneNode(true));
+		
+		if(header) inView.appendChild(header);
+		inView.appendChild(viewController.view);
+
+		document.body.appendChild(outView);
+		document.body.appendChild(inView);
+		
+		this.disappear();
+		viewController._viewWillAppear();
+		viewController.appear();
+		
+		transition.onComplete = mui.bind(this._onModalTransitionEnd, this, false);
+		
+		var trans = new mui.Transition(inView, outView, transition);
+		trans.execute();
+	},
+	
+	/**
+	 * Show a modal viewController.
+	 * @method showModalViewController
+	 * @param viewController {mui.ViewController} The ViewController to show
+	 */
+	showModalViewController: function(viewController)
+	{
+		this.disappear();
+		viewController._viewWillAppear();
+		viewController.appear();
+	},
+	
+	/**
+	 * Dismiss the currently showing modal viewController from the view.
+	 * @method dismissModalViewController
+	 */
+	dismissModalViewController: function()
+	{
+	    if ( mui.UA.tablet && this.isMasterViewController() ) {
+	        var detailVC = this.getDetailViewController();
+            if (detailVC && detailVC.view) {
+                detailVC.view.style.removeProperty("display");
+            }
+        }
+        
+		mui.ApplicationController.getInstance().dismissModalViewController(this);
+
+        // detail view's scrollView size is 0, it must be hidden when orientation changed. 
+        // retrieve scrollview size after master view is displayed.
+		if(detailVC && detailVC.scrollView && detailVC.scrollView.size == 0) {
+			detailVC.scrollView.retrieveSize();
+		}		
+	    delete this.modalOpts;
+	},
+	
+	/**
+	 * Reload the contents of the view. This method will be called by the framework
+	 * when this ViewController has been pushed onto a navigation stack, and later
+	 * visited with a different set of request parameters.
+	 * @method reoladView
+	 * @param params {Object} Request parameters
+	 */
+	reloadView: function(params)
+	{
+		if(!this._disableReload)
+		{
+			this.view.setAttribute(MUI_DOM.loadingAttr, 'true');
+			this.loadView(params);
+		}
+	},
+		
+	/**
+	 * Load the view contents.  Override this method
+	 * in implementation
+	 * @method loadView
+	 * @param params {Object} Any request params 
+	 */
+	loadView: function(params)
+	{
+		// Override this.
+	},
+	
+	/**
+	 * Unload the view contents. This just sets the _viewLoaded property to false
+	 * @method unloadView
+	 */
+	unloadView: function()
+	{
+		this._viewLoaded = false;
+	},
+	
+	/**
+	 * View Load callback is fired every time the view is first loaded
+	 * @method viewDidLoad
+	 */
+	viewDidLoad: function()
+	{
+		// Override
+	},
+	
+	/**
+	 * View Appear callback is fired every time the view is pushed
+	 * on-screen
+	 * @method _viewDidAppear
+	 * @private
+	 */
+	_viewDidAppear: function()
+	{
+		if(this.isViewLoaded() && this.scrollView) setTimeout(mui.bind(this.scrollView.flashScrollBars, this.scrollView), scrollViewIdleDelay);
+		if(typeof this.viewDidAppear === 'function') this.viewDidAppear();
+		mui.ApplicationController.getInstance().positionViewController(this);
+	},
+	
+	/**
+	 * View Disappear callback is fired every time the view is taken 
+	 * off-screen
+	 * @method _viewDidDisappear
+	 * @private
+	 */
+	_viewDidDisappear: function()
+	{
+		if(typeof this.viewDidDisappear === 'function') this.viewDidDisappear();
+	},
+	
+	/**
+	 * View Appear callback is fired before every time the view is pushed
+	 * on-screen
+	 * @method _viewWillAppear
+	 * @private
+	 */
+	_viewWillAppear: function()
+	{
+		if(this.scrollView) this.scrollView.hideScrollBars();
+		if(this._refreshNavigationItems) this.navigationController.navigationBar.setItems(this.navigationItems, false, false);
+		if(typeof this.viewWillAppear === 'function') this.viewWillAppear();
+		
+		this._refreshNavigationItems = false;
+	},
+	
+	/**
+	 * View Disappear callback is fired before every time the view is taken 
+	 * off-screen
+	 * 
+	 * @param popping {Boolean} used to determine if the view is being popped
+	 * 
+	 * @method _viewWillDisappear
+	 * @private
+	 */
+	_viewWillDisappear: function( popping )
+	{
+		if(this.scrollView) this.scrollView.hideScrollBars();
+		if(typeof this.viewWillDisappear === 'function') this.viewWillDisappear( popping );
+	},
+	
+	/**
+	 * Make the view's contents visible
+	 * @method appear	
+	 */
+	appear: function()
+	{
+		// Restore contents for current params
+		var key = paramsToString(this.params);
+		if(this._viewContents && this._viewContents[key] && this._viewContents[key].element && this._viewContents[key].element.childElementCount)
+		{
+			if(this.scrollView && this.view.children[0])
+			{
+				this.scrollView.getScrollHost().innerHTML = '';
+				this.scrollView.getScrollHost().appendChild(this._viewContents[key].element);
+				this.scrollView.scrollTo(this._viewContents[key].scrollOffsets.x, this._viewContents[key].scrollOffsets.y, 0, null, true);
+			}
+			else 
+			{
+				this.view.innerHTML = '';
+				this.view.appendChild(this._viewContents[key].element);
+			}
+		}
+	
+		// Notify navigationController
+		if(this.navigationController) this.navigationController.viewControllerWillAppear(this); 
+
+		// Show view node
+		this.view.setAttribute(MUI_DOM.viewShowingAttr, 'true');
+
+        // scrollView size is 0, it must be hidden when orientation changed. 
+        // retrieve scrollview size after view is displayed.
+		if(this.scrollView && this.scrollView.size == 0){
+			this.scrollView.retrieveSize();
+		}
+	
+		// Set showing attribute
+		this._showing = true;
+	},
+	
+	/**
+	 * Hide the view's contents
+	 * @method disappear
+	 */
+	disappear: function()
+	{
+		// Hide view node		
+		this.view.removeAttribute(MUI_DOM.viewShowingAttr);
+		
+		// Set showing attribute
+		this._showing = false;
+		
+		if (this.cacheView) {
+		    var element = mui.get('.'+MUI_DOM.viewContentClassName, this.view);
+		    if (element){
+        		var node = {
+                    element: element
+                };
+        		// Check for scroll offset
+        		if(this.scrollView) node.scrollOffsets = this.scrollView.getScrollOffsets();
+        		
+        		// Store current contents
+        		this._viewContents = this._viewContents || {};
+        		this._viewContents[paramsToString(this.params)] = node;
+		    }
+    	}
+    	
+		// Flush navigationItems
+		this.navigationItems = {};
+	},
+	
+	/**
+	 * The updateLayout methods gives the opportunity to construct the layout of the view.
+	 * Mostly used with split view layouts, you can define a custom layout for master and 
+	 * detail views.
+	 * @method updateLayout
+	 */
+	updateLayout: function()
+	{
+		var width;
+		var height = window.innerHeight; 
+		var isDetail = this.isDetailViewController();
+		var isMaster = this.isMasterViewController();
+		var navbarEl = (this.navigationController && this.navigationController.navigationBar) ? this.navigationController.navigationBar.element : null;
+        
+        var appInfo = mui.ApplicationController.getInstance().appInfo;
+		var isPortrait = height > window.innerWidth;
+        if ((mui.UA.tablet) && appInfo.splitViews && !appInfo.splitViews.hidesMasterViewInPortrait){
+            isPortrait = false;
+        }
+        
+		var navbarHeight = navbarEl ? navbarEl.offsetHeight : 0;
+        var header = mui.get('body > header'), headerHeight = (header ? header.offsetHeight : 0);
+        var footer = mui.get('body > footer'), footerHeight = (footer ? footer.offsetHeight : 0);
+
+		if(isMaster)
+		{
+			width = isPortrait ? 0 : 320+'px';
+			mui.addClass(this.view, 'mui-master');			
+			if(navbarEl) mui.addClass(navbarEl, 'mui-master');
+		}
+		else if(isDetail)
+		{
+			width = isPortrait ? '100%' : (window.innerWidth-320)+'px';
+			mui.addClass(this.view, 'mui-detail');			
+			if(navbarEl) mui.addClass(navbarEl, 'mui-detail');
+		}
+		else width = '100%'
+		
+		// Widths
+		mui.setStyle(this.view, 'width', width);
+		if(navbarEl) navbarEl.style.width = width;
+
+		// Height
+        height = parseInt(window.innerHeight - footerHeight - headerHeight);
+		if(this.view) this.view.style.height = this.view.style.minHeight = height+'px';
+	}
+};
+
+mui.add('ViewController', ViewController);
+	
+})();

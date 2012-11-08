@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+	<head>
+		<title>mui.ScrollView y-axis</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" href="../../mui/assets/reset.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="../../scroll-view/assets/skins/default/scroll-view-skin.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<style type="text/css" media="screen">
+		#main { width: 100%; position: absolute; top: 0px; left: 0; bottom: 0px; right: 0; height: 100%; }
+		#images {
+			white-space: nowrap;
+		}
+		#images li {
+			display: inline-block;
+		}
+		</style>
+		
+		<script src="../../mui/js/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../scroll-view/js/ScrollView.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript" charset="utf-8">		
+		mui.on(window, 'load', function() {
+			document.body.style.minHeight = window.innerHeight+'px';
+			document.body.style.overflow = 'hidden';
+			
+			var scrollView = new mui.ScrollView({
+				element: '#the-element',
+				size: '100%'
+			});
+			
+			var imageScrollView = new mui.ScrollView({
+				element: '#images',
+				axis: 'x',
+				size: '100%',
+				showsHorizontalScrollIndicator: false,
+				pagingEnabled: true,
+				paginator: {
+					pageSelector: '.page'
+				}
+			});
+		});
+		</script>
+	</head>
+	
+	<body>
+		<div id="main">
+			<div id="the-element">
+
+				<div id="images">
+					<ul>
+						<li class="page">
+							<ul>
+								<li><img src="http://farm5.static.flickr.com/4095/4885675031_49dc1eedb4_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4093/4884290289_1257168e8b_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4122/4884728817_649472d25b_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4096/4884685621_28f18f8342_s.jpg" width="75" height="75" alt="" /></li>
+							</ul>
+						</li>
+						<li class="page">
+							<ul>
+								<li><img src="http://farm5.static.flickr.com/4102/4885372368_fd25a5e437_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4135/4884611653_c19955d558_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4096/4884685621_28f18f8342_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4093/4884290289_1257168e8b_s.jpg" width="75" height="75" alt="" /></li>
+							</ul>
+						</li>
+						<li class="page">
+							<ul>
+								<li><img src="http://farm5.static.flickr.com/4120/4885456778_f2febae83f_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4121/4886068097_d81c58e149_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4141/4886194671_8b1fd02f56_s.jpg" width="75" height="75" alt="" /></li>
+								<li><img src="http://farm5.static.flickr.com/4122/4884728817_649472d25b_s.jpg" width="75" height="75" alt="" /></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</body>
+</html>

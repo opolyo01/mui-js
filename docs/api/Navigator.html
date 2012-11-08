@@ -1,0 +1,564 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: navigator  Navigator   (mui Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1275584796.03" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1275584796.03" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1275584796.03"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1275584796.03"></script>
+	<script type="text/javascript" charset="utf-8">
+		window.addEventListener('load', function() {
+			document.getElementById('doc3').style.minHeight = window.innerHeight+'px'
+		}, false);
+	</script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	
+	<div id="hd">
+		<div class="primary">
+			<h1><a href="" title="mui">mui</a></h1>
+
+			<span class="description">Mobile User Interface <strong>v1.0.0</strong></span>
+	
+	       		<form onsubmit="return false">
+	       			<div id="propertysearch">
+					<span class="focus"></span>
+					<input autocomplete="off" id="searchinput" placeholder="Search" />
+	                		<div id="searchresults">
+	                    			&nbsp;
+	                		</div>
+	            		</div>
+	        	</form>
+		</div>
+		<div class="secondary">
+			
+			<div class="nav">
+				<a href="./index.html" title="mui">mui</a>
+	            		<span class="gt"></span> <a href="./module_navigator.html" title="navigator">navigator</a>
+	               		 <span class="gt"></span> Navigator 
+	               		
+			</div>
+
+			<div class="meta">
+		            	<form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+		                	<fieldset>
+		                    	<legend>Filters</legend>
+		                	<span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+		                	<span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+		                	</fieldset>
+		            	</form>
+				<span class="subtitle">1.0.0</span>			
+			</div>
+	
+			<div class="navdec"><b></b><b></b></div>
+		</div>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div id="doc-content" class="yui-b">
+
+                    <h2 class="api-class">
+                        
+
+                        
+                        
+                            Class <b property="yui:name">Navigator</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        The Navigator class provides the ability to map the hash part of the URL
+to a particular view. The view must be a DOM element. If the DOM element 
+has a x-mui-href attribute, that content will be loaded over XHR.
+                    </div>
+
+                        <div class="section constructor details" rel="yui:constructor" resource="#constructor">
+                        <h3 id="constructor">Constructor</h3>
+                        <div class="content">
+                            <div class="detail">
+                                <strong property="yui:name">Navigator</strong>
+                                <code>
+                                    (
+                                    )
+                                </code>
+                                <div class="description">
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div rel="yui:properties" resource="#properties">
+                        <div class="section field details">
+                            <h3 id="properties">Properties</h3>
+                            <div class="content">
+                                    <div class="private" rel="yui:property" resource="#property__hash">
+                                    <h4><a name="property__hash" property="yui:name">_hash</a>
+                                        - <code>private <span property="yui:type">String</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Store the current location (hash)
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:property" resource="#property__history">
+                                    <h4><a name="property__history" property="yui:name">_history</a>
+                                        - <code>private <span property="yui:type">object</span></code>
+                                    </h4>
+                                    <div class="detail">
+                                        <div class="description" property="yui:description">
+                                            Store history urls to detect forward/back button
+                                        </div>
+                                    </div>
+     
+                                        
+
+
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="private" rel="yui:method" resource="#method__checkWindow">
+                                    <h4>
+                                        <a name="method__checkWindow">_checkWindow</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_checkWindow</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Check the window location against the current location
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method__ioFailure">
+                                    <h4>
+                                        <a name="method__ioFailure">_ioFailure</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_ioFailure</strong>
+                                           (
+                                                
+                                                        
+                                                         o
+                                                    
+                                                
+                                                        , 
+                                                         newPage
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            XHR Transaction failure handler.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">o</span>
+                                                        &lt;<span property="yui:type">XMLHttpRequest</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The XHR object</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">newPage</span>
+                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The DOM element for the showing view</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method__ioSuccess">
+                                    <h4>
+                                        <a name="method__ioSuccess">_ioSuccess</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_ioSuccess</strong>
+                                           (
+                                                
+                                                        
+                                                         o
+                                                    
+                                                
+                                                        , 
+                                                         newPage
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            XHR Transaction success handler.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">o</span>
+                                                        &lt;<span property="yui:type">XMLHttpRequest</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The XHR object</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">newPage</span>
+                                                        &lt;<span property="yui:type">HTMLElement</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The DOM element for the showing view</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method__manageHistory">
+                                    <h4>
+                                        <a name="method__manageHistory">_manageHistory</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">_manageHistory</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_mapUrl">
+                                    <h4>
+                                        <a name="method_mapUrl">mapUrl</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Navigator
+                                            <strong property="yui:name">mapUrl</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         callback
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Map a URL path to a callback function
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The url to map from</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">callback</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The function to map the URL to</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Navigator
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The Navigator instance</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_openUrl">
+                                    <h4>
+                                        <a name="method_openUrl">openUrl</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Navigator
+                                            <strong property="yui:name">openUrl</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         quiet
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Open a URL
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  The url to open</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">quiet</span>
+                                                        &lt;<span property="yui:type">Boolean</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  (Optional) If true, then this method only changes the URL hash and does nothing else.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Navigator
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The navigator instance</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_actionsheet.html" title="actionsheet">actionsheet</a></li>
+                                <li class=""><a href="module_ajax.html" title="ajax">ajax</a></li>
+                                <li class=""><a href="module_anim.html" title="anim">anim</a></li>
+                                <li class=""><a href="module_button.html" title="button">button</a></li>
+                                <li class=""><a href="module_datasource.html" title="datasource">datasource</a></li>
+                                <li class=""><a href="module_dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="module_env.html" title="env">env</a></li>
+                                <li class=""><a href="module_event.html" title="event">event</a></li>
+                                <li class=""><a href="module_fx.html" title="fx">fx</a></li>
+                                <li class=""><a href="module_geo.html" title="geo">geo</a></li>
+                                <li class="selected"><a href="module_navigator.html" title="navigator">navigator</a></li>
+                                <li class=""><a href="module_oop.html" title="oop">oop</a></li>
+                                <li class=""><a href="module_pager.html" title="pager">pager</a></li>
+                                <li class=""><a href="module_scroll-view.html" title="scroll-view">scroll-view</a></li>
+                                <li class=""><a href="module_search-box.html" title="search-box">search-box</a></li>
+                                <li class=""><a href="module_storage.html" title="storage">storage</a></li>
+                                <li class=""><a href="module_tab-view.html" title="tab-view">tab-view</a></li>
+                                <li class=""><a href="module_test.html" title="test">test</a></li>
+                                <li class=""><a href="module_transition.html" title="transition">transition</a></li>
+                                <li class=""><a href="module_util.html" title="util">util</a></li>
+                                <li class=""><a href="module_web-app.html" title="web-app">web-app</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="NavigationBar.html" title="NavigationBar">NavigationBar</a></li>
+                                <li class="selected"><a href="Navigator.html" title="Navigator">Navigator</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="NavigationBar.js.html" title="NavigationBar.js">NavigationBar.js</a></li>
+                                <li class=""><a href="Navigator.js.html" title="Navigator.js">Navigator.js</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="propertyList" class="module">
+                        <h4>Properties</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#property__hash" title="_hash">_hash</a></li>
+                                <li class="private"><a href="#property__history" title="_history">_history</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class="private"><a href="#method__checkWindow" title="_checkWindow">_checkWindow</a></li>
+                                <li class=""><a href="#method__ioFailure" title="_ioFailure">_ioFailure</a></li>
+                                <li class=""><a href="#method__ioSuccess" title="_ioSuccess">_ioSuccess</a></li>
+                                <li class="private"><a href="#method__manageHistory" title="_manageHistory">_manageHistory</a></li>
+                                <li class=""><a href="#method_mapUrl" title="mapUrl">mapUrl</a></li>
+                                <li class=""><a href="#method_openUrl" title="openUrl">openUrl</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+		<div>
+        	Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "Navigator.html#method__checkWindow", "access": "private", "host": "Navigator", "type": "method", "name": "_checkWindow"}, {"url": "NavigationBar.html#property_element", "access": "", "host": "NavigationBar", "type": "property", "name": "element"}, {"url": "NavigationBar.html#method_handleEvent", "access": "private", "host": "NavigationBar", "type": "method", "name": "handleEvent"}, {"url": "Navigator.html#property__hash", "access": "private", "host": "Navigator", "type": "property", "name": "_hash"}, {"url": "NavigationBar.html#method_hide", "access": "", "host": "NavigationBar", "type": "method", "name": "hide"}, {"url": "Navigator.html#property__history", "access": "private", "host": "Navigator", "type": "property", "name": "_history"}, {"url": "NavigationBar.html#method_initialize", "access": "", "host": "NavigationBar", "type": "method", "name": "initialize"}, {"url": "Navigator.html#method__ioFailure", "access": "", "host": "Navigator", "type": "method", "name": "_ioFailure"}, {"url": "Navigator.html#method__ioSuccess", "access": "", "host": "Navigator", "type": "method", "name": "_ioSuccess"}, {"url": "NavigationBar.html#property_items", "access": "", "host": "NavigationBar", "type": "property", "name": "items"}, {"url": "NavigationBar.html#property_itemsContainer", "access": "", "host": "NavigationBar", "type": "property", "name": "itemsContainer"}, {"url": "Navigator.html#method__manageHistory", "access": "private", "host": "Navigator", "type": "method", "name": "_manageHistory"}, {"url": "Navigator.html#method_mapUrl", "access": "", "host": "Navigator", "type": "method", "name": "mapUrl"}, {"url": "Navigator.html#method_openUrl", "access": "", "host": "Navigator", "type": "method", "name": "openUrl"}, {"url": "NavigationBar.html#method_setBack", "access": "", "host": "NavigationBar", "type": "method", "name": "setBack"}, {"url": "NavigationBar.html#method_setItems", "access": "", "host": "NavigationBar", "type": "method", "name": "setItems"}, {"url": "NavigationBar.html#method_setItemsWithAnimation", "access": "", "host": "NavigationBar", "type": "method", "name": "setItemsWithAnimation"}, {"url": "NavigationBar.html#method_setLeftBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setLeftBarItem"}, {"url": "NavigationBar.html#method_setRightBarItem", "access": "", "host": "NavigationBar", "type": "method", "name": "setRightBarItem"}, {"url": "NavigationBar.html#method_setTintColor", "access": "", "host": "NavigationBar", "type": "method", "name": "setTintColor"}, {"url": "NavigationBar.html#method_setTitle", "access": "", "host": "NavigationBar", "type": "method", "name": "setTitle"}, {"url": "NavigationBar.html#method_show", "access": "", "host": "NavigationBar", "type": "method", "name": "show"}, {"url": "NavigationBar.html#property_tintColor", "access": "", "host": "NavigationBar", "type": "property", "name": "tintColor"}];
+</script>
+</body>
+</html>
